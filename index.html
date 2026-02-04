@@ -244,45 +244,51 @@
     <section class="hero">
         <div class="container">
             <h1>Don't bid blind. <br>Know the <span>cash flow.</span></h1>
-            <p>Deep-dive due diligence for Chapter 13 portfolios. We provide granular ledger history and real-time plan status, so you can value portfolios based on actual payment performance—not just court filings.</p>
+            <p>Deep-dive due diligence for Chapter 13 portfolios. We provide granular plan payment history and real-time plan status, so you can value portfolios based on actual performance.</p>
             <a href="#pricing" class="btn-outline" style="background: var(--brand-blue); color: white !important; border: none; padding: 1.2rem 2.5rem; font-size: 1.1rem;">Start Portfolio Audit</a>
         </div>
     </section>
 
     <section id="pricing">
         <div class="container">
-            
-            <div class="section-header">
-                <h2>Calculate Your Edge</h2>
-                <p class="subtitle">Conservative data-driven bidding transforms your recovery yields.</p>
-            </div>
 
+            <div class="section-header">
+                <h2>Cash Flow Velocity Calculator</h2>
+                <p class="subtitle">Identify the "Yield Drag" in your current bidding model. See how much capital is tied up in non-performing accounts.</p>
+            </div>
+            
             <div class="calculator-card">
                 <div class="calc-inputs">
                     <div class="calc-input-group">
-                        <label>Monthly Bid Volume ($)</label>
-                        <input type="number" id="bidVolume" value="2000000" oninput="calculateROI()">
+                        <label>Target Monthly Bid Volume ($)</label>
+                        <input type="text" id="bidVolumeDisplay" value="2,000,000" oninput="formatAndCalculate()">
+                        <input type="hidden" id="bidVolume" value="2000000">
                     </div>
+                    
                     <div class="calc-input-group">
-                        <label>Bid Improvement (%)</label>
+                        <label>Non-Performing "Zombie" Rate (%)</label>
                         <input type="number" id="improvementPct" value="3" oninput="calculateROI()">
+                        <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 5px;">
+                            Percentage of accounts that appear active but haven't paid in 90+ days.
+                        </p>
                     </div>
+            
                     <div class="calc-input-group">
-                        <label>Annual Data Tier</label>
-                        <select id="dataCost" onchange="calculateROI()">
-                            <option value="60000">Plan Intelligence ($60k/yr)</option>
-                            <option value="102000" selected>Claim Forensics ($102k/yr)</option>
+                        <label>Annual Intelligence Tier</label>
+                        <select id="dataCost" onchange="calculateROI()" style="width: 100%; background: #1E293B; border: 1px solid #334155; padding: 1rem; border-radius: 12px; color: white; font-size: 1.1rem; font-family: inherit;">
+                            <option value="60000">Plan Intelligence ($60,000/yr)</option>
+                            <option value="102000" selected>Claim Forensics ($102,000/yr)</option>
                         </select>
                     </div>
                 </div>
-
+            
                 <div class="roi-display">
                     <div class="roi-stat">
-                        <h4>Monthly Savings</h4>
+                        <h4>Recoverable Monthly Cash Flow</h4>
                         <div class="val" id="monthlySaved">$60,000</div>
                     </div>
                     <div class="roi-stat">
-                        <h4>Annual Savings</h4>
+                        <h4>Annual Yield Protection</h4>
                         <div class="val" id="annualSaved">$720,000</div>
                     </div>
                     <div class="roi-stat roi-final">
@@ -382,21 +388,47 @@
     </footer>
 
     <script>
-        function calculateROI() {
-            const bidVolume = parseFloat(document.getElementById('bidVolume').value) || 0;
-            const improvement = (parseFloat(document.getElementById('improvementPct').value) || 0) / 100;
-            const annualCost = parseFloat(document.getElementById('dataCost').value);
+        /**
+ * Formats the display input with commas and updates the hidden value for calculation
+ */
+function formatAndCalculate() {
+    const displayInput = document.getElementById('bidVolumeDisplay');
+    // Remove existing commas to get the raw number
+    let rawValue = displayInput.value.replace(/,/g, '');
+    
+    // Validate that it's a number
+    if (!isNaN(rawValue) && rawValue !== "") {
+        // Format for the user to see
+        displayInput.value = parseFloat(rawValue).toLocaleString();
+        // Update hidden field used for math
+        document.getElementById('bidVolume').value = rawValue;
+        calculateROI();
+    }
+}
 
-            const monthlySaved = bidVolume * improvement;
-            const annualSaved = monthlySaved * 12;
-            const roi = annualCost > 0 ? (annualSaved / annualCost) : 0;
+/**
+ * Main calculation logic focused on Cash Flow Velocity
+ */
+function calculateROI() {
+    const bidVolume = parseFloat(document.getElementById('bidVolume').value) || 0;
+    const zombieRate = (parseFloat(document.getElementById('improvementPct').value) || 0) / 100;
+    const annualDataCost = parseFloat(document.getElementById('dataCost').value);
 
-            document.getElementById('monthlySaved').innerText = '$' + monthlySaved.toLocaleString(undefined, {maximumFractionDigits: 0});
-            document.getElementById('annualSaved').innerText = '$' + annualSaved.toLocaleString(undefined, {maximumFractionDigits: 0});
-            document.getElementById('roiTotal').innerText = roi.toFixed(1) + ' : 1';
-        }
-        // Run once on load
-        window.onload = calculateROI;
+    // Math: How much capital is being "dragged" by non-paying zombie accounts
+    const monthlyCashFlowProtected = bidVolume * zombieRate;
+    const annualCashFlowProtected = monthlyCashFlowProtected * 12;
+    
+    // ROI Ratio
+    const roiRatio = annualDataCost > 0 ? (annualCashFlowProtected / annualDataCost) : 0;
+
+    // Update the UI
+    document.getElementById('monthlySaved').innerText = '$' + monthlyCashFlowProtected.toLocaleString(undefined, {maximumFractionDigits: 0});
+    document.getElementById('annualSaved').innerText = '$' + annualCashFlowProtected.toLocaleString(undefined, {maximumFractionDigits: 0});
+    document.getElementById('roiTotal').innerText = roiRatio.toFixed(1) + ' : 1';
+}
+
+// Ensure it runs on page load
+window.onload = calculateROI;
     </script>
 </body>
 </html>
