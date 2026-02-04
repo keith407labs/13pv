@@ -17,6 +17,8 @@
             --white: #FFFFFF;
             --border: #E2E8F0;
             --check-green: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -134,91 +136,346 @@
         .section-header h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 1rem; }
         .subtitle { color: var(--text-muted); font-size: 1.1rem; }
 
-        /* --- IMPROVED CALCULATOR --- */
-        .calculator-card {
-            background: var(--brand-dark);
-            color: white;
-            padding: 4rem;
+        /* --- PRIORITY BURN WATERFALL --- */
+        .waterfall-section {
+            padding: 6rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .waterfall-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 32px;
-            margin-bottom: 8rem;
+            padding: 4rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .waterfall-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .waterfall-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .waterfall-header h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .waterfall-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .waterfall-flow {
+            display: grid;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .waterfall-tier {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            display: grid;
+            grid-template-columns: 80px 1fr 120px;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .waterfall-tier:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateX(8px);
+        }
+
+        .tier-number {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .tier-content h4 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .tier-content p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin: 0;
+        }
+
+        .tier-priority {
+            text-align: right;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            opacity: 0.9;
+        }
+
+        .tier-arrow {
+            text-align: center;
+            font-size: 2rem;
+            opacity: 0.5;
+            margin: -0.5rem 0;
+        }
+
+        /* --- CLAIM ANALYSIS CARDS --- */
+        .claim-analysis-section {
+            padding: 6rem 0;
+            margin-bottom: 4rem;
+        }
+
+        .claim-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .claim-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .claim-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand-blue), #667eea);
+        }
+
+        .claim-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .claim-card-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .claim-card-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .claim-card-id {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--brand-dark);
+            font-family: 'Courier New', monospace;
+        }
+
+        .claim-stat {
+            margin-bottom: 1.25rem;
+        }
+
+        .claim-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .claim-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--brand-dark);
+        }
+
+        .claim-stat-value.positive {
+            color: var(--check-green);
+        }
+
+        .claim-stat-value.warning {
+            color: var(--amber);
+        }
+
+        .claim-stat-value.negative {
+            color: var(--red);
+        }
+
+        .claim-metrics {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
         }
 
-        .calc-input-group label { display: block; font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-        .calc-input-group input, .calc-input-group select { 
-            width: 100%; background: #1E293B; border: 1px solid #334155; 
-            padding: 1rem; border-radius: 12px; color: white; font-size: 1.2rem; 
-            font-family: inherit; font-weight: 700; margin-bottom: 1.5rem;
+        .metric {
+            text-align: center;
         }
 
-        .roi-stat h4 { color: var(--brand-blue); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
-        .roi-stat .val { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 2rem; }
-        .roi-final { background: rgba(79, 110, 247, 0.1); border: 1px solid var(--brand-blue); padding: 1.5rem; border-radius: 20px; }
-        .roi-final .val { color: var(--brand-blue); margin-bottom: 0; }
+        .metric-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .metric-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--brand-dark);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 1rem;
+        }
+
+        .status-badge.active {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-badge.warning {
+            background: #FEF3C7;
+            color: #92400E;
+        }
 
         /* --- PRICING CARDS --- */
         .pricing-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-bottom: 6rem;
-        }
-
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(12px);
-            padding: 3.5rem;
-            border-radius: 32px;
-            border: 1px solid var(--border);
-            position: relative;
-            transition: 0.4s ease;
-        }
-
-        .pricing-card.featured { border: 2px solid var(--brand-blue); background: rgba(255, 255, 255, 0.85); }
-        .badge {
-            position: absolute; top: 1.5rem; right: 1.5rem;
-            background: var(--brand-blue); color: white;
-            padding: 0.5rem 1rem; border-radius: 50px;
-            font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
-        }
-
-        .price { font-size: 4rem; font-weight: 800; margin: 1rem 0; letter-spacing: -2px; }
-        .price span { font-size: 1.1rem; color: var(--text-muted); font-weight: 500; }
-
-        .btn-card {
-            width: 100%; padding: 1.25rem; border-radius: 16px;
-            border: 1px solid var(--brand-dark); background: transparent;
-            font-weight: 700; cursor: pointer; transition: 0.3s;
-            text-align: center; text-decoration: none; display: block;
-        }
-        .btn-card.primary { background: var(--brand-dark); color: white; }
-        .btn-card:hover { background: var(--brand-blue); border-color: var(--brand-blue); color: white; }
-
-        /* --- COMPARISON TABLE --- */
-        .comparison-container {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            border: 1px solid var(--border);
-            overflow: hidden;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
             margin-bottom: 8rem;
         }
 
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 1.2rem 2rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-        th { font-weight: 800; font-size: 1.1rem; }
-        .category-row { background: rgba(79, 110, 247, 0.08); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: var(--brand-blue); letter-spacing: 1px; }
+        .pricing-card {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 32px;
+            padding: 3rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .pricing-card.featured { border-color: var(--brand-blue); border-width: 3px; }
+
+        .badge {
+            position: absolute;
+            top: -12px;
+            right: 2rem;
+            background: var(--brand-blue);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--brand-dark);
+            margin-bottom: 1.5rem;
+        }
+        .price span { font-size: 1.5rem; color: var(--text-muted); font-weight: 600; }
+
+        .btn-card {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: 0.3s ease;
+            border: 2px solid var(--brand-dark);
+        }
+
+        .btn-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+        /* --- COMPARISON TABLE --- */
+        .comparison-container {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            margin-bottom: 4rem;
+        }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 1.25rem 2rem; text-align: left; }
+        th { background: var(--brand-dark); color: white; font-weight: 700; font-size: 0.9rem; }
+        tbody tr { border-bottom: 1px solid var(--border); }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: var(--brand-blue-soft); }
+
+        .category-row {
+            background: linear-gradient(90deg, var(--brand-blue-soft), rgba(239, 246, 255, 0.3)) !important;
+        }
+        .category-row td {
+            font-weight: 800;
+            color: var(--brand-blue);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 1rem 2rem;
+        }
+
         .check { color: var(--check-green); font-weight: bold; font-size: 1.1rem; }
         .cross { color: #CBD5E1; font-weight: bold; }
 
         @media (max-width: 900px) {
             .hero h1 { font-size: 3.2rem; }
-            .calculator-card { grid-template-columns: 1fr; padding: 2rem; }
             .pricing-cards { grid-template-columns: 1fr; }
+            .claim-cards-grid { grid-template-columns: 1fr; }
+            .waterfall-container { padding: 2rem; }
+            .waterfall-tier { grid-template-columns: 1fr; text-align: center; gap: 1rem; }
+            .tier-priority { text-align: center; }
         }
     </style>
 </head>
@@ -235,6 +492,7 @@
             <div class="logo">Portfolio Intelligence Labs</div>
             <div class="nav-links">
                 <a href="#pricing">Pricing</a>
+                <a href="#examples">Examples</a>
                 <a href="#comparison">Data Matrix</a>
                 <a href="#" class="btn-outline">Contact</a>
             </div>
@@ -246,6 +504,216 @@
             <h1>Underwrite Chapter 13 portfolios<br>with <span>payment data.</span></h1>
             <p>Institutional-grade intelligence for debt buyers. See real-time plan payments, identify non-performing accounts, and validate recovery projections before you bid.</p>
             <a href="#pricing" class="btn-outline" style="background: var(--brand-blue); color: white !important; border: none; padding: 1.2rem 2.5rem; font-size: 1.1rem;">Request Portfolio Audit</a>
+        </div>
+    </section>
+
+    <!-- PRESCRIPTIVE CLAIM ANALYSIS -->
+    <section class="claim-analysis-section" id="examples">
+        <div class="container">
+            <div class="section-header">
+                <h2>Prescriptive Claim Intelligence</h2>
+                <p class="subtitle">Real examples scored on payment volatility, velocity, and predictability with valuation guidance</p>
+            </div>
+            
+            <div class="claim-cards-grid">
+                <!-- Card 1: High-Velocity Blue Chip -->
+                <div class="claim-card blue-chip">
+                    <div class="claim-card-header">
+                        <span class="profile-badge blue-chip">High-Velocity Blue Chip</span>
+                        <div class="claim-card-id">ATLN2-2211365-11</div>
+                        <div class="claim-card-creditor">Fast Money Loans • Atlanta District</div>
+                    </div>
+                    
+                    <div class="claim-card-body">
+                        <div class="composite-score">
+                            <div class="composite-score-label">Overall Score</div>
+                            <div class="composite-score-value">86</div>
+                        </div>
+                        
+                        <div class="score-grid">
+                            <div class="score-item">
+                                <div class="score-label">Volatility</div>
+                                <div class="score-value excellent">92</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-label">Velocity</div>
+                                <div class="score-value excellent">85</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-label">Predictable</div>
+                                <div class="score-value excellent">95</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Total Paid</div>
+                                <div class="stat-value">$1,755</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Payments</div>
+                                <div class="stat-value">16</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">6mo Average</div>
+                                <div class="stat-value">$108/mo</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Trend</div>
+                                <div class="stat-value">Stable</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="valuation-section">
+                        <div class="valuation-grid">
+                            <div class="valuation-item">
+                                <div class="valuation-label">Suggested IRR</div>
+                                <div class="valuation-value">10%</div>
+                            </div>
+                            <div class="valuation-item">
+                                <div class="valuation-label">Confidence</div>
+                                <div class="valuation-value">High</div>
+                            </div>
+                        </div>
+                        <div class="outlook-text">
+                            <strong>2026 Outlook:</strong> Stabilized asset with consistent monthly performance. Priority burn clearly satisfied. 100% of projected unsecured percentage likely to recover with zero delay phase. Payments arrive like clockwork around the 1st-2nd of each month.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Lumpy Recovery -->
+                <div class="claim-card lumpy">
+                    <div class="claim-card-header">
+                        <span class="profile-badge lumpy">Lumpy Recovery</span>
+                        <div class="claim-card-id">ALBQ-2310075-23</div>
+                        <div class="claim-card-creditor">Stretch Money • Albuquerque District</div>
+                    </div>
+                    
+                    <div class="claim-card-body">
+                        <div class="composite-score">
+                            <div class="composite-score-label">Overall Score</div>
+                            <div class="composite-score-value">64</div>
+                        </div>
+                        
+                        <div class="score-grid">
+                            <div class="score-item">
+                                <div class="score-label">Volatility</div>
+                                <div class="score-value moderate">48</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-label">Velocity</div>
+                                <div class="score-value good">70</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-label">Predictable</div>
+                                <div class="score-value good">78</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Total Paid</div>
+                                <div class="stat-value">$2,251</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Payments</div>
+                                <div class="stat-value">25</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Median</div>
+                                <div class="stat-value">$88/mo</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Range</div>
+                                <div class="stat-value">$17-$238</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="valuation-section">
+                        <div class="valuation-grid">
+                            <div class="valuation-item">
+                                <div class="valuation-label">Suggested IRR</div>
+                                <div class="valuation-value">15%</div>
+                            </div>
+                            <div class="valuation-item">
+                                <div class="valuation-label">Confidence</div>
+                                <div class="valuation-value">Moderate</div>
+                            </div>
+                        </div>
+                        <div class="outlook-text">
+                            <strong>2026 Outlook:</strong> High variance suggests base-plus-commission income or tax intercepts. Large $200+ payments act as accelerators shortening total term. Calculate NPV using median ($88) rather than average to avoid over-bidding on spike data.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Steady Floor -->
+                <div class="claim-card steady">
+                    <div class="claim-card-header">
+                        <span class="profile-badge steady">Steady Floor</span>
+                        <div class="claim-card-id">AUGT-2310260-23</div>
+                        <div class="claim-card-creditor">Easy Rider Auto • Augusta District</div>
+                    </div>
+                    
+                    <div class="claim-card-body">
+                        <div class="composite-score">
+                            <div class="composite-score-label">Overall Score</div>
+                            <div class="composite-score-value">91</div>
+                        </div>
+                        
+                        <div class="score-grid">
+                            <div class="score-item">
+                                <div class="score-label">Volatility</div>
+                                <div class="score-value excellent">98</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-label">Velocity</div>
+                                <div class="score-value good">70</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-label">Predictable</div>
+                                <div class="score-value excellent">95</div>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-stats">
+                            <div class="stat-item">
+                                <div class="stat-label">Total Paid</div>
+                                <div class="stat-value">$597</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Payments</div>
+                                <div class="stat-value">10</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Fixed Rate</div>
+                                <div class="stat-value">$60/mo</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Variance</div>
+                                <div class="stat-value">±$0</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="valuation-section">
+                        <div class="valuation-grid">
+                            <div class="valuation-item">
+                                <div class="valuation-label">Suggested IRR</div>
+                                <div class="valuation-value">10%</div>
+                            </div>
+                            <div class="valuation-item">
+                                <div class="valuation-label">Confidence</div>
+                                <div class="valuation-value">High</div>
+                            </div>
+                        </div>
+                        <div class="outlook-text">
+                            <strong>2026 Outlook:</strong> "Set it and forget it" claim with statistically identical payments. Debtor's disposable income is stable and trustee administration is streamlined. Easiest to model for NPV. Any deviation from this precision is a major warning sign.
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -285,7 +753,7 @@
                         <li>✓ Pro-rata distribution analysis</li>
                         <li>✓ Priority phone support</li>
                     </ul>
-                    <a href="1https://buy.stripe.com/28E3cu8iAgcA3n8fHzcs800" class="btn-card" style="background: var(--brand-blue); color: white; border: none;">Subscribe Now</a>
+                    <a href="https://buy.stripe.com/28E3cu8iAgcA3n8fHzcs800" class="btn-card" style="background: var(--brand-blue); color: white; border: none;">Subscribe Now</a>
                 </div>
             </div>
 
@@ -307,42 +775,64 @@
                         <tr><td>Monthly Subscription</td><td style="text-align:center; font-weight:700;">$5,000</td><td style="text-align:center; font-weight:700;">$8,500</td></tr>
                         <tr><td>Portfolio Evaluations / Month</td><td style="text-align:center">10</td><td style="text-align:center">10</td></tr>
                         
+                        <tr class="category-row"><td colspan="3">Debtor Information</td></tr>
+                        <tr><td>Debtor & Joint Debtor Names</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Debtor Addresses</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Debtor Aliases & DBA names</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Debtor Last four SSN</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Joint Filing Identification</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        
                         <tr class="category-row"><td colspan="3">Case Status Intelligence</td></tr>
-                        <tr><td>Case status & chapter</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Filing & confirmation dates</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Plan payment amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Plan duration (months)</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Months remaining</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Trustee & district info</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Joint filing indicator</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Case status</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Petition Filed Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Plan Filed Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>First 341 Meeting Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Case Confirmed Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Confirmation Hearing Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Case Closed Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>First Payment Due Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Plan Payment Structure</td></tr>
+                        <tr><td>Debtor Direct Payment Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Debtor Payroll Deduction Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Joint Debtor Direct Payment Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Joint Debtor Payroll Deduction Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Plan Base Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Estimated Months Remaining</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Trustee Information</td></tr>
+                        <tr><td>Trustee name</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Trustee city/district</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Trustee percentage rate</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Trustee paid to date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
 
                         <tr class="category-row"><td colspan="3">Payment Performance Tracking</td></tr>
-                        <tr><td>90-day payment activity</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Non-performing account flagging</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Plan feasibility scoring</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Dismissal/modification history</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Total Paid into Plan</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Total Paid to All Parties</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Total Paid to creditors</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Balance on Hand</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Last Receipt Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Last Receipt Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Last Disbursement Date</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Delinquency Amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
 
-                        <tr class="category-row"><td colspan="3">Creditor Payment Intelligence</td></tr>
-                        <tr><td>Complete payment ledger history</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Individual payment dates & amounts</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Check/transaction numbers</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Creditor disbursement tracking</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Cumulative amount paid to creditor</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Average monthly disbursement rate</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr class="category-row"><td colspan="3">Claim & Distribution Data</td></tr>
+                        <tr><td>Unsecured Percentage</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Unsecured Interest Rate</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Minimum to Unsecured Creditors</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Claim Total Owed</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Claim Amount Outstanding</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
 
-                        <tr class="category-row"><td colspan="3">Claim Verification</td></tr>
-                        <tr><td>Proof of claim filed amount</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Allowed vs. filed claim comparison</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Claim status tracking</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Priority classification</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-
-                        <tr class="category-row"><td colspan="3">Recovery Analytics</td></tr>
-                        <tr><td>Expected recovery projection</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Percentage of claim paid to date</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                        <tr><td>Pro-rata distribution analysis</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr class="category-row"><td colspan="3">Creditor Payment Ledger (Per Claim)</td></tr>
+                        <tr><td>Matched Name of Creditor</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Creditor Payment Received Dates</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Creditor Payment Received Amounts</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Payment Descriptions (Principal Disbursement, Interest, etc.)</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Complete Plan Payment History</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Total Claims Count</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
 
                         <tr class="category-row"><td colspan="3">Delivery & Support</td></tr>
-                        <tr><td>CSV/Excel export</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>CSV Export</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
                         <tr><td>Support Channel</td><td style="text-align:center">Email</td><td style="text-align:center">Priority Phone</td></tr>
                     </tbody>
                 </table>
