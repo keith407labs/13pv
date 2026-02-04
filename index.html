@@ -252,48 +252,24 @@
     <section id="pricing">
         <div class="container">
 
-            <div class="section-header">
-                <h2>Cash Flow Velocity Calculator</h2>
-                <p class="subtitle">Identify the "Yield Drag" in your current bidding model. See how much capital is tied up in non-performing accounts.</p>
-            </div>
-            
-            <div class="calculator-card">
-                <div class="calc-inputs">
-                    <div class="calc-input-group">
-                        <label>Target Monthly Bid Volume ($)</label>
-                        <input type="text" id="bidVolumeDisplay" value="2,000,000" oninput="formatAndCalculate()">
-                        <input type="hidden" id="bidVolume" value="2000000">
+            <div class="value-prop-section">
+                <h2>Stop Buying Dead Paper</h2>
+                <p>Average debt buyers discover 3-8% of "current" accounts in Chapter 13 portfolios 
+                haven't made payments in 90+ days. Our intelligence helps you identify these accounts 
+                before you bid, protecting your capital deployment efficiency.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-number">3-8%</div>
+                        <div class="stat-label">Typical zombie account rate in portfolios</div>
                     </div>
-                    
-                    <div class="calc-input-group">
-                        <label>Non-Performing "Zombie" Rate (%)</label>
-                        <input type="number" id="improvementPct" value="3" oninput="calculateROI()">
-                        <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 5px;">
-                            Percentage of accounts that appear active but haven't paid in 90+ days.
-                        </p>
+                    <div class="stat">
+                        <div class="stat-number">$60K+</div>
+                        <div class="stat-label">Avg. monthly capital saved per $2M deployed</div>
                     </div>
-            
-                    <div class="calc-input-group">
-                        <label>Annual Intelligence Tier</label>
-                        <select id="dataCost" onchange="calculateROI()" style="width: 100%; background: #1E293B; border: 1px solid #334155; padding: 1rem; border-radius: 12px; color: white; font-size: 1.1rem; font-family: inherit;">
-                            <option value="60000">Plan Intelligence ($60,000/yr)</option>
-                            <option value="102000" selected>Claim Forensics ($102,000/yr)</option>
-                        </select>
-                    </div>
-                </div>
-            
-                <div class="roi-display">
-                    <div class="roi-stat">
-                        <h4>Recoverable Monthly Cash Flow</h4>
-                        <div class="val" id="monthlySaved">$60,000</div>
-                    </div>
-                    <div class="roi-stat">
-                        <h4>Annual Yield Protection</h4>
-                        <div class="val" id="annualSaved">$720,000</div>
-                    </div>
-                    <div class="roi-stat roi-final">
-                        <h4>Estimated Annual ROI</h4>
-                        <div class="val" id="roiTotal">7.1 : 1</div>
+                    <div class="stat">
+                        <div class="stat-number">7:1</div>
+                        <div class="stat-label">Typical first-year ROI</div>
                     </div>
                 </div>
             </div>
@@ -353,7 +329,7 @@
                         <tr><td>Feasibility scoring</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
                         <tr><td>Dismissal/modification history</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
 
-                        <tr class="category-row"><td colspan="3">Creditor-Level Data (Ledger)</td></tr>
+                        <tr class="category-row"><td colspan="3">Creditor-Level Data</td></tr>
                         <tr><td>Full ledger history</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
                         <tr><td>Payment dates & amounts</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
                         <tr><td>Check numbers</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
