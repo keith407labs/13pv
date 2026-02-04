@@ -17,6 +17,7 @@
             --white: #FFFFFF;
             --border: #E2E8F0;
             --bg-light: #F8FAFC;
+            --check-green: #10B981;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -69,9 +70,9 @@
         }
         .hero h1 span { color: var(--brand-blue); }
         .hero p {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            max-width: 700px;
+            max-width: 850px;
             margin: 0 auto 3rem;
             font-weight: 400;
         }
@@ -80,12 +81,13 @@
         #pricing { padding: 8rem 0; }
         .section-header { text-align: center; margin-bottom: 5rem; }
         .section-header h2 { font-size: 3.2rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 1rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
         
         .pricing-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
-            margin-bottom: 5rem;
+            margin-bottom: 8rem;
         }
 
         .pricing-card {
@@ -110,62 +112,38 @@
         .price { font-size: 4rem; font-weight: 800; margin: 1rem 0; letter-spacing: -2px; }
         .price span { font-size: 1.1rem; color: var(--text-muted); letter-spacing: 0; font-weight: 500; }
 
-        .features { list-style: none; margin: 2.5rem 0; }
-        .features li {
-            padding: 0.9rem 0;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            color: var(--text-main);
-        }
-        .features li::before {
-            content: "";
-            width: 8px; height: 8px;
-            background: var(--brand-blue);
-            border-radius: 50%;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-
         .btn-card {
             width: 100%; padding: 1.25rem; border-radius: 16px;
             border: 1px solid var(--brand-dark); background: transparent;
             font-weight: 700; cursor: pointer; transition: 0.3s;
+            text-align: center; text-decoration: none; display: block;
         }
         .btn-card.primary { background: var(--brand-dark); color: white; }
         .btn-card:hover { background: var(--brand-blue); border-color: var(--brand-blue); color: white; }
 
-        /* Flexibility Box */
-        .flex-box {
-            background: var(--brand-dark);
-            color: white;
-            padding: 4rem;
+        /* Comparison Table */
+        .comparison-container {
+            background: white;
             border-radius: 32px;
-            display: grid;
-            grid-template-columns: 1fr 2fr;
-            gap: 3rem;
-            align-items: center;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-top: 4rem;
         }
 
-        .flex-box h3 { font-size: 2.2rem; line-height: 1.2; }
-        .flex-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .flex-item strong { color: var(--brand-blue); display: block; margin-bottom: 0.5rem; font-size: 1.1rem; }
-        .flex-item p { font-size: 0.95rem; color: #94A3B8; }
-
-        /* FAQ */
-        .faq { max-width: 800px; margin: 8rem auto 0; }
-        .faq h3 { text-align: center; font-size: 2.2rem; margin-bottom: 3rem; letter-spacing: -1px; }
-        details { background: white; margin-bottom: 1rem; border-radius: 20px; border: 1px solid var(--border); overflow: hidden; }
-        summary { padding: 1.8rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        summary::-webkit-details-marker { display: none; }
-        summary::after { content: "+"; color: var(--brand-blue); font-size: 1.5rem; }
-        details[open] summary::after { content: "−"; }
-        details p { padding: 0 1.8rem 1.8rem; color: var(--text-muted); line-height: 1.7; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1.2rem 2rem; border-bottom: 1px solid var(--border); }
+        
+        .category-row { background: var(--bg-light); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--brand-blue); }
+        .feature-name { font-weight: 600; width: 50%; }
+        .plan-val { width: 25%; text-align: center; font-weight: 500; }
+        
+        .check { color: var(--check-green); font-weight: bold; font-size: 1.2rem; }
+        .cross { color: #CBD5E1; font-weight: bold; }
 
         @media (max-width: 900px) {
             .hero h1 { font-size: 3.2rem; }
-            .flex-box { grid-template-columns: 1fr; }
-            .flex-grid { grid-template-columns: 1fr; }
+            .feature-name { width: 40%; }
+            th, td { padding: 1rem; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -175,7 +153,6 @@
         <div class="container nav-flex">
             <div class="logo">Portfolio Intelligence Labs</div>
             <div class="nav-links">
-                <a href="#features">Features</a>
                 <a href="#pricing">Pricing</a>
                 <a href="#" class="btn-outline">Sign In</a>
             </div>
@@ -185,7 +162,7 @@
     <section class="hero">
         <div class="container">
             <h1>Don't bid blind. <br>Know the <span>cash flow.</span></h1>
-            <p>Moving beyond Proof of Claim amounts. Get real-time ledger verification and disbursement history for Chapter 13 portfolios.</p>
+            <p>Deep-dive due diligence for Chapter 13 portfolios. We provide granular ledger history and real-time plan status, so you can value portfolios based on actual payment performance—not just court filings.</p>
             <a href="#pricing" class="btn-outline" style="background: var(--brand-blue); color: white !important; border: none; padding: 1.2rem 2.5rem; font-size: 1.1rem;">Start Portfolio Audit</a>
         </div>
     </section>
@@ -193,8 +170,8 @@
     <section id="pricing">
         <div class="container">
             <div class="section-header">
-                <h2>Scalable Intelligence</h2>
-                <p class="subtitle">Choose the depth of diligence that matches your acquisition strategy.</p>
+                <h2>Plan Comparison</h2>
+                <p class="subtitle">Detailed data intelligence levels for every stage of your due diligence workflow.</p>
             </div>
             
             <div class="pricing-cards">
@@ -202,70 +179,65 @@
                     <div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem;">Tier 01</div>
                     <div class="price">$5,000<span>/mo</span></div>
                     <div style="font-weight: 800; font-size: 1.4rem; margin-bottom: 0.5rem;">Plan Intelligence</div>
-                    <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem;">Ideal for initial bid decisions</p>
-                    
-                    <ul class="features">
-                        <li>10 Portfolio evaluations</li>
-                        <li>Case feasibility scoring</li>
-                        <li>90-Day payment tracking</li>
-                        <li>Zombie case identification</li>
-                        <li>CSV/Excel exports</li>
-                    </ul>
-                    <button class="btn-card">Select Plan</button>
+                    <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem;">Screening & Bid Decisions</p>
+                    <a href="#" class="btn-card">Get Started</a>
                 </div>
 
                 <div class="pricing-card featured">
-                    <div class="badge">Recommended</div>
+                    <div class="badge">Most Comprehensive</div>
                     <div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem;">Tier 02</div>
                     <div class="price">$8,500<span>/mo</span></div>
                     <div style="font-weight: 800; font-size: 1.4rem; margin-bottom: 0.5rem;">Claim Forensics</div>
-                    <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem;">Deep-dive verification</p>
-                    
-                    <ul class="features">
-                        <li>All Plan Intelligence features</li>
-                        <li>Full ledger history per claim</li>
-                        <li>Disbursement tracking</li>
-                        <li>Recovery projections</li>
-                        <li>Audit-ready documentation</li>
-                    </ul>
-                    <button class="btn-card primary">Select Forensics</button>
+                    <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem;">Final Verification & Recovery</p>
+                    <a href="#" class="btn-card primary">Get Started</a>
                 </div>
             </div>
 
-            <div class="flex-box">
-                <div>
-                    <h3>Need more <br>flexibility?</h3>
-                </div>
-                <div class="flex-grid">
-                    <div class="flex-item">
-                        <strong>Single Upgrades</strong>
-                        <p>$500 for one-off forensics on specific portfolios.</p>
-                    </div>
-                    <div class="flex-item">
-                        <strong>Annual Prepay</strong>
-                        <p>Save 2 months of cost with a yearly commitment.</p>
-                    </div>
-                    <div class="flex-item">
-                        <strong>Enterprise</strong>
-                        <p>15+ portfolios per month? Contact us for volume rates.</p>
-                    </div>
-                </div>
-            </div>
+            <div class="comparison-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="feature-name">Data Points</th>
+                            <th class="plan-val">Plan Intelligence</th>
+                            <th class="plan-val">Claim Forensics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="feature-name">Portfolio Evaluations</td>
+                            <td class="plan-val">10</td>
+                            <td class="plan-val">10</td>
+                        </tr>
+                        <tr class="category-row"><td colspan="3">Case Intelligence</td></tr>
+                        <tr><td>Case status & chapter</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Filing & confirmation dates</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Plan payment amount</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Plan duration & months remaining</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        
+                        <tr class="category-row"><td colspan="3">Performance Tracking</td></tr>
+                        <tr><td>90-day payment activity</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Zombie case flagging</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Feasibility scoring</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        
+                        <tr class="category-row"><td colspan="3">Creditor-Level Data</td></tr>
+                        <tr><td>Full ledger history</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Check numbers & disbursement tracking</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Average monthly disbursement</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        
+                        <tr class="category-row"><td colspan="3">Claim Verification</td></tr>
+                        <tr><td>Proof of Claim (POC) filed amount</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Allowed vs. Filed comparison</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        
+                        <tr class="category-row"><td colspan="3">Projections</td></tr>
+                        <tr><td>Recovery projection (%)</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Pro-rata share analysis</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
 
-            <div class="faq">
-                <h3>Common Questions</h3>
-                <details>
-                    <summary>What if I don't use all 10 slots?</summary>
-                    <p>Unused evaluations don't roll over, but you can cancel anytime with 30 days notice.</p>
-                </details>
-                <details>
-                    <summary>Is there a limit on account volume?</summary>
-                    <p>No. Whether a portfolio has 100 or 10,000 accounts, it counts as one evaluation.</p>
-                </details>
-                <details>
-                    <summary>Can I switch between plans?</summary>
-                    <p>Yes, you can upgrade or downgrade at any time; changes take effect on the next cycle.</p>
-                </details>
+                        <tr class="category-row"><td colspan="3">Exports & Support</td></tr>
+                        <tr><td>CSV/Excel export</td><td class="plan-val check">✓</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Audit-ready documentation</td><td class="plan-val cross">✗</td><td class="plan-val check">✓</td></tr>
+                        <tr><td>Support tier</td><td class="plan-val">Email</td><td class="plan-val">Priority Phone</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
