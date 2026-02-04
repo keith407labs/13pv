@@ -16,7 +16,6 @@
             --text-muted: #64748B;
             --white: #FFFFFF;
             --border: #E2E8F0;
-            --bg-light: #F8FAFC;
             --check-green: #10B981;
         }
         
@@ -26,17 +25,68 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             color: var(--text-main);
             line-height: 1.6;
-            background: var(--bg-light);
+            background-color: #F8FAFC;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        /* --- NEON CHROME BACKGROUND --- */
+        .neon-bg-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+            background: linear-gradient(to bottom, #f8fafc, rgba(219, 234, 254, 0.5), #ffffff);
+        }
 
-        /* Navigation */
+        .neon-glow-1 {
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            height: 40rem;
+            width: 80rem;
+            transform: translate(-50%, -50%);
+            border-radius: 100%;
+            filter: blur(80px);
+            opacity: 0.8;
+            background: radial-gradient(circle at 50% 50%, rgba(59,130,246,.15), rgba(34,211,238,.10), rgba(217,70,239,.05), transparent 60%);
+        }
+
+        .neon-glow-2 {
+            position: absolute;
+            left: 50%;
+            top: 60%;
+            height: 30rem;
+            width: 50rem;
+            transform: translate(-50%, -50%);
+            border-radius: 100%;
+            filter: blur(80px);
+            opacity: 0.6;
+            background: conic-gradient(from 180deg at 50% 50%, rgba(34,211,238,.15), rgba(99,102,241,.10), rgba(34,211,238,.15));
+            animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        .noise-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 0.3; }
+        }
+
+        /* --- LAYOUT --- */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; }
+
         nav {
             position: fixed;
             top: 0; width: 100%;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 1.25rem 0;
@@ -54,12 +104,15 @@
             border: 1.5px solid var(--brand-blue);
             color: var(--brand-blue) !important;
             transition: 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .btn-outline:hover { background: var(--brand-blue); color: white !important; }
 
-        /* Hero */
-        .hero { padding: 12rem 0 6rem; text-align: center; background: white; }
+        /* --- SECTIONS --- */
+        .hero { padding: 12rem 0 6rem; text-align: center; }
         .hero h1 {
             font-size: 4.8rem;
             font-weight: 800;
@@ -70,14 +123,18 @@
         }
         .hero h1 span { color: var(--brand-blue); }
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--text-muted);
             max-width: 850px;
             margin: 0 auto 3rem;
             font-weight: 400;
         }
 
-        /* Calculator Styles */
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 1rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* --- ROI CALCULATOR --- */
         .calculator-card {
             background: var(--brand-dark);
             color: white;
@@ -88,73 +145,97 @@
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
             align-items: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
         }
 
-        .calc-input-group { margin-bottom: 1.5rem; }
-        .calc-input-group label { display: block; font-size: 0.85rem; color: #94A3B8; margin-bottom: 0.5rem; font-weight: 600; }
-        .calc-input-group input { 
+        .calc-input-group label { display: block; font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .calc-input-group input, .calc-input-group select { 
             width: 100%; background: #1E293B; border: 1px solid #334155; 
             padding: 1rem; border-radius: 12px; color: white; font-size: 1.2rem; 
-            font-family: inherit; font-weight: 700;
+            font-family: inherit; font-weight: 700; margin-bottom: 1.5rem;
         }
 
-        .roi-display { text-align: right; }
-        .roi-stat { margin-bottom: 2rem; }
-        .roi-stat h4 { color: var(--brand-blue); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem; }
-        .roi-stat .val { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; }
+        .roi-stat h4 { color: var(--brand-blue); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        .roi-stat .val { font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 2rem; }
         .roi-final { background: rgba(79, 110, 247, 0.1); border: 1px solid var(--brand-blue); padding: 1.5rem; border-radius: 20px; }
-        .roi-final .val { color: var(--brand-blue); }
+        .roi-final .val { color: var(--brand-blue); margin-bottom: 0; }
 
-        /* Pricing & Table Styles */
-        #pricing { padding: 8rem 0; }
-        .section-header { text-align: center; margin-bottom: 5rem; }
-        .section-header h2 { font-size: 3.2rem; font-weight: 800; letter-spacing: -1.5px; margin-bottom: 1rem; }
-        .subtitle { color: var(--text-muted); font-size: 1.1rem; max-width: 650px; margin: 0 auto; }
-        
+        /* --- PRICING CARDS --- */
         .pricing-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2.5rem;
-            margin-bottom: 8rem;
+            margin-bottom: 6rem;
         }
 
         .pricing-card {
-            background: white; padding: 3.5rem; border-radius: 32px;
-            border: 1px solid var(--border); position: relative;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            padding: 3.5rem;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            position: relative;
             transition: 0.4s ease;
         }
-        .pricing-card.featured { border: 2px solid var(--brand-blue); }
+
+        .pricing-card.featured { border: 2px solid var(--brand-blue); background: rgba(255, 255, 255, 0.85); }
         .badge {
             position: absolute; top: 1.5rem; right: 1.5rem;
             background: var(--brand-blue); color: white;
             padding: 0.5rem 1rem; border-radius: 50px;
             font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
         }
+
         .price { font-size: 4rem; font-weight: 800; margin: 1rem 0; letter-spacing: -2px; }
         .price span { font-size: 1.1rem; color: var(--text-muted); font-weight: 500; }
-        
-        .comparison-container {
-            background: white; border-radius: 32px; border: 1px solid var(--border); overflow: hidden;
+
+        .btn-card {
+            width: 100%; padding: 1.25rem; border-radius: 16px;
+            border: 1px solid var(--brand-dark); background: transparent;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+            text-align: center; text-decoration: none; display: block;
         }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 1.2rem 2rem; border-bottom: 1px solid var(--border); }
-        .category-row { background: var(--bg-light); font-weight: 800; font-size: 0.85rem; text-transform: uppercase; color: var(--brand-blue); }
-        .check { color: var(--check-green); font-weight: bold; }
+        .btn-card.primary { background: var(--brand-dark); color: white; }
+        .btn-card:hover { background: var(--brand-blue); border-color: var(--brand-blue); color: white; }
+
+        /* --- COMPARISON TABLE --- */
+        .comparison-container {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 8rem;
+        }
+
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1.2rem 2rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        th { font-weight: 800; font-size: 1.1rem; }
+        .category-row { background: rgba(79, 110, 247, 0.08); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: var(--brand-blue); letter-spacing: 1px; }
+        .check { color: var(--check-green); font-weight: bold; font-size: 1.1rem; }
+        .cross { color: #CBD5E1; font-weight: bold; }
 
         @media (max-width: 900px) {
             .hero h1 { font-size: 3.2rem; }
-            .calculator-card { grid-template-columns: 1fr; padding: 2rem; text-align: left; }
-            .roi-display { text-align: left; }
+            .calculator-card { grid-template-columns: 1fr; padding: 2rem; }
+            .pricing-cards { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+
+    <div class="neon-bg-container">
+        <div class="neon-glow-1"></div>
+        <div class="neon-glow-2"></div>
+        <div class="noise-overlay"></div>
+    </div>
 
     <nav>
         <div class="container nav-flex">
             <div class="logo">Portfolio Intelligence Labs</div>
             <div class="nav-links">
                 <a href="#pricing">Pricing</a>
+                <a href="#comparison">Data Matrix</a>
                 <a href="#" class="btn-outline">Sign In</a>
             </div>
         </div>
@@ -173,36 +254,35 @@
             
             <div class="section-header">
                 <h2>Calculate Your Edge</h2>
-                <p class="subtitle">See how conservative bid improvements transform your bottom line.</p>
+                <p class="subtitle">Conservative data-driven bidding transforms your recovery yields.</p>
             </div>
 
             <div class="calculator-card">
                 <div class="calc-inputs">
                     <div class="calc-input-group">
-                        <label>TYPICAL MONTHLY BID VOLUME ($)</label>
+                        <label>Monthly Bid Volume ($)</label>
                         <input type="number" id="bidVolume" value="2000000" oninput="calculateROI()">
                     </div>
                     <div class="calc-input-group">
-                        <label>ESTIMATED BID IMPROVEMENT (%)</label>
+                        <label>Bid Improvement (%)</label>
                         <input type="number" id="improvementPct" value="3" oninput="calculateROI()">
-                        <p style="font-size: 0.75rem; color: #94A3B8; margin-top: 0.5rem;">Conservative estimate based on better feasibility scoring and zombie case removal.</p>
                     </div>
                     <div class="calc-input-group">
-                        <label>ANNUAL DATA COST ($)</label>
-                        <select id="dataCost" onchange="calculateROI()" style="width: 100%; background: #1E293B; border: 1px solid #334155; padding: 1rem; border-radius: 12px; color: white; font-size: 1.1rem; font-family: inherit;">
-                            <option value="60000">Plan Intelligence ($60,000/yr)</option>
-                            <option value="102000" selected>Claim Forensics ($102,000/yr)</option>
+                        <label>Annual Data Tier</label>
+                        <select id="dataCost" onchange="calculateROI()">
+                            <option value="60000">Plan Intelligence ($60k/yr)</option>
+                            <option value="102000" selected>Claim Forensics ($102k/yr)</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="roi-display">
                     <div class="roi-stat">
-                        <h4>Monthly Capital Saved</h4>
+                        <h4>Monthly Savings</h4>
                         <div class="val" id="monthlySaved">$60,000</div>
                     </div>
                     <div class="roi-stat">
-                        <h4>Annual Capital Saved</h4>
+                        <h4>Annual Savings</h4>
                         <div class="val" id="annualSaved">$720,000</div>
                     </div>
                     <div class="roi-stat roi-final">
@@ -214,58 +294,109 @@
 
             <div class="section-header">
                 <h2>Scalable Intelligence</h2>
-                <p class="subtitle">Choose the intelligence level that matches your workflow.</p>
+                <p class="subtitle">Match your data depth to your acquisition workflow.</p>
             </div>
             
             <div class="pricing-cards">
                 <div class="pricing-card">
-                    <div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem;">Tier 01</div>
                     <div class="price">$5,000<span>/mo</span></div>
-                    <div style="font-weight: 800; font-size: 1.4rem; margin-bottom: 0.5rem;">Plan Intelligence</div>
+                    <div style="font-weight: 800; font-size: 1.5rem; margin-bottom: 0.5rem;">Plan Intelligence</div>
                     <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem;">Screening & Bid Decisions</p>
                     <a href="#" class="btn-card" style="background: var(--brand-dark); color: white;">Get Started</a>
                 </div>
 
                 <div class="pricing-card featured">
-                    <div class="badge">Most Comprehensive</div>
-                    <div style="font-weight: 700; color: var(--text-muted); text-transform: uppercase; font-size: 0.8rem;">Tier 02</div>
+                    <div class="badge">Recommended</div>
                     <div class="price">$8,500<span>/mo</span></div>
-                    <div style="font-weight: 800; font-size: 1.4rem; margin-bottom: 0.5rem;">Claim Forensics</div>
-                    <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem;">Final Verification & Recovery</p>
+                    <div style="font-weight: 800; font-size: 1.5rem; margin-bottom: 0.5rem;">Claim Forensics</div>
+                    <p style="color: var(--brand-blue); font-weight: 600; font-size: 0.9rem; margin-bottom: 2rem;">Verification & Recovery</p>
                     <a href="#" class="btn-card" style="background: var(--brand-blue); color: white; border: none;">Get Started</a>
                 </div>
             </div>
 
+            <div class="section-header" id="comparison">
+                <h2>Data & Feature Matrix</h2>
+                <p class="subtitle">Complete breakdown of intelligence included in each tier.</p>
+            </div>
+
             <div class="comparison-container">
                 <table>
-                    <tr class="category-row"><td colspan="3">Detailed Plan Comparison</td></tr>
-                    <tr><td style="font-weight: 600;">Portfolio Evaluations</td><td style="text-align:center">10</td><td style="text-align:center">10</td></tr>
-                    <tr><td>Full Ledger History</td><td style="text-align:center">✗</td><td style="text-align:center" class="check">✓</td></tr>
-                    <tr><td>Recovery Projections</td><td style="text-align:center">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Feature Set</th>
+                            <th style="text-align:center; width: 25%;">Plan Intelligence</th>
+                            <th style="text-align:center; width: 25%;">Claim Forensics</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Monthly Pricing</td><td style="text-align:center; font-weight:700;">$5,000</td><td style="text-align:center; font-weight:700;">$8,500</td></tr>
+                        <tr><td>Portfolio Evaluations / mo</td><td style="text-align:center">10</td><td style="text-align:center">10</td></tr>
+                        
+                        <tr class="category-row"><td colspan="3">Case Intelligence</td></tr>
+                        <tr><td>Case status & chapter</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Filing & confirmation dates</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Plan payment amount</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Plan duration (months)</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Months remaining</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Trustee & district info</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Joint filing indicator</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Performance Tracking</td></tr>
+                        <tr><td>90-day payment activity</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Zombie case flagging</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Feasibility scoring</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Dismissal/modification history</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Creditor-Level Data (Ledger)</td></tr>
+                        <tr><td>Full ledger history</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Payment dates & amounts</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Check numbers</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Creditor disbursement tracking</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Cumulative amount paid</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Average monthly disbursement</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Claim Verification</td></tr>
+                        <tr><td>POC filed amount</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Allowed vs. filed comparison</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Claim status tracking</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Priority classification</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Projections & Analysis</td></tr>
+                        <tr><td>Recovery projection</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Percentage paid to date</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Pro-rata share analysis</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Exports & Support</td></tr>
+                        <tr><td>CSV/Excel export</td><td style="text-align:center" class="check">✓</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Audit-ready documentation</td><td style="text-align:center" class="cross">✗</td><td style="text-align:center" class="check">✓</td></tr>
+                        <tr><td>Support Tier</td><td style="text-align:center">Email</td><td style="text-align:center">Priority Phone</td></tr>
+                    </tbody>
                 </table>
             </div>
         </div>
     </section>
 
-    <footer style="background: white; border-top: 1px solid var(--border); padding: 4rem 0; text-align: center;">
-        <p style="font-weight: 800; margin-bottom: 1rem;">Portfolio Intelligence Labs</p>
+    <footer style="padding: 6rem 0; text-align: center; border-top: 1px solid var(--border);">
+        <p style="font-weight: 800; margin-bottom: 1rem; color: var(--brand-dark);">Portfolio Intelligence Labs</p>
         <p style="color: var(--text-muted); font-size: 0.85rem;">© 2026 Portfolio Intelligence Labs. All rights reserved.</p>
     </footer>
 
     <script>
         function calculateROI() {
-            const bidVolume = document.getElementById('bidVolume').value;
-            const improvement = document.getElementById('improvementPct').value / 100;
-            const annualCost = document.getElementById('dataCost').value;
+            const bidVolume = parseFloat(document.getElementById('bidVolume').value) || 0;
+            const improvement = (parseFloat(document.getElementById('improvementPct').value) || 0) / 100;
+            const annualCost = parseFloat(document.getElementById('dataCost').value);
 
             const monthlySaved = bidVolume * improvement;
             const annualSaved = monthlySaved * 12;
-            const roi = annualSaved / annualCost;
+            const roi = annualCost > 0 ? (annualSaved / annualCost) : 0;
 
-            document.getElementById('monthlySaved').innerText = '$' + monthlySaved.toLocaleString();
-            document.getElementById('annualSaved').innerText = '$' + annualSaved.toLocaleString();
+            document.getElementById('monthlySaved').innerText = '$' + monthlySaved.toLocaleString(undefined, {maximumFractionDigits: 0});
+            document.getElementById('annualSaved').innerText = '$' + annualSaved.toLocaleString(undefined, {maximumFractionDigits: 0});
             document.getElementById('roiTotal').innerText = roi.toFixed(1) + ' : 1';
         }
+        // Run once on load
+        window.onload = calculateROI;
     </script>
 </body>
 </html>
