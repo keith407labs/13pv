@@ -1,780 +1,938 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio Intelligence Labs | Institutional Grade</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-deep: #030712;
-            --bg-surface: #0f172a;
-            --bg-surface-highlight: #1e293b;
-            --border: #334155;
-            --border-light: #475569;
-            
-            --text-main: #F8FAFC;
-            --text-muted: #94A3B8;
-            --text-dim: #64748B;
-            
-            --brand-blue: #3B82F6;
-            --brand-glow: #60A5FA;
-            --check-green: #10B981;
-            --amber: #F59E0B;
-            --red: #EF4444;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: var(--text-main);
-            line-height: 1.6;
-            background-color: var(--bg-deep);
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Intelligence Labs | Chapter 13 Underwriting</title>
+  <meta name="description" content="Institutional-grade Chapter 13 valuation. Reconcile bid tapes against trustee ledgers." />
 
-        .mono { font-family: 'JetBrains Mono', monospace; }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
-        /* --- DARK NEON CHROME BACKGROUND --- */
-        .neon-bg-container {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-            background: var(--bg-deep);
-        }
+  <style>
+    :root {
+      /* Slightly deeper background for "Finance Terminal" vibe */
+      --bg-deep: #0B1120;
+      --bg-surface: #0f172a;
+      --bg-surface-2: #101b33;
+      --border: #334155;
+      --border-light: #475569;
 
-        /* Subtle Grid Overlay */
-        .grid-overlay {
-            position: absolute;
-            inset: 0;
-            background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
-        }
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
 
-        .neon-glow-1 {
-            position: absolute;
-            left: 20%;
-            top: 20%;
-            height: 50rem;
-            width: 50rem;
-            transform: translate(-50%, -50%);
-            border-radius: 100%;
-            filter: blur(120px);
-            opacity: 0.15;
-            background: radial-gradient(circle, #3B82F6, transparent 70%);
-        }
+      /* Corporate Blue - less "electric", more "trust" */
+      --brand-blue: #2563EB; 
+      --brand-glow: #3B82F6;
+      
+      --check-green: #10B981;
+      --amber: #F59E0B;
+      --red: #EF4444;
+      --violet: #A78BFA;
+    }
 
-        .neon-glow-2 {
-            position: absolute;
-            right: 10%;
-            top: 60%;
-            height: 40rem;
-            width: 40rem;
-            transform: translate(-50%, -50%);
-            border-radius: 100%;
-            filter: blur(100px);
-            opacity: 0.12;
-            background: radial-gradient(circle, #8B5CF6, transparent 70%);
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      background-color: var(--bg-deep);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-        /* --- LAYOUT --- */
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; position: relative; }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .nums { font-variant-numeric: tabular-nums; letter-spacing: -0.5px; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 2rem; position: relative; }
+    .muted { color: var(--text-muted); }
+    .dim { color: var(--text-dim); }
 
-        nav {
-            position: fixed;
-            top: 0; width: 100%;
-            background: rgba(3, 7, 18, 0.8);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: 1.25rem 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: 700; font-size: 1rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-main); }
-        .nav-links { display: flex; gap: 2rem; align-items: center; }
-        .nav-links a { text-decoration: none; color: var(--text-muted); font-weight: 500; font-size: 0.9rem; transition: 0.2s; }
-        .nav-links a:hover { color: var(--text-main); }
+    /* --- NEON CHROME BACKGROUND --- */
+    .neon-bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      background: var(--bg-deep);
+    }
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
+    }
+    .neon-glow-1 {
+      position: absolute;
+      left: 18%;
+      top: 18%;
+      height: 54rem;
+      width: 54rem;
+      transform: translate(-50%, -50%);
+      border-radius: 100%;
+      filter: blur(120px);
+      opacity: 0.12;
+      background: radial-gradient(circle, #3B82F6, transparent 70%);
+    }
+    .neon-glow-2 {
+      position: absolute;
+      right: 10%;
+      top: 62%;
+      height: 46rem;
+      width: 46rem;
+      transform: translate(20%, -50%);
+      border-radius: 100%;
+      filter: blur(110px);
+      opacity: 0.10;
+      background: radial-gradient(circle, #8B5CF6, transparent 70%);
+    }
 
-        .btn-outline {
-            padding: 0.6rem 1.4rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-light);
-            color: var(--text-main) !important;
-            transition: 0.3s ease;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.85rem;
-            background: rgba(255,255,255,0.02);
-        }
+    /* --- NAV --- */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(11, 17, 32, 0.85);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-flex { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+    .logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .logo svg { stroke: var(--brand-glow); width: 22px; height: 22px; }
+    
+    .pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(96,165,250,0.25);
+      background: rgba(59,130,246,0.10);
+      color: var(--brand-glow);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-main); }
 
-        .btn-outline:hover { border-color: var(--brand-blue); background: rgba(59, 130, 246, 0.1); }
+    .btn-outline, .btn-primary {
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      background: rgba(255,255,255,0.02);
+    }
+    .btn-outline:hover {
+      border-color: var(--brand-blue);
+      background: rgba(59, 130, 246, 0.10);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.06);
+    }
+    .btn-primary {
+      background: linear-gradient(to right, var(--brand-blue), #2563EB);
+      color: white;
+      border: 1px solid rgba(59,130,246,0.35);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.25);
+      transform: translateY(-1px);
+    }
 
-        /* --- HERO --- */
-        .hero { padding: 14rem 0 8rem; text-align: center; }
-        .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 700;
-            letter-spacing: -2px;
-            color: var(--text-main);
-            margin-bottom: 1.5rem;
-            line-height: 1.1;
-            background: linear-gradient(to bottom right, #FFFFFF, #94A3B8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero h1 span { 
-            background: linear-gradient(to right, #60A5FA, #A78BFA);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 750px;
-            margin: 0 auto 3rem;
-            font-weight: 300;
-        }
+    /* --- HERO --- */
+    .hero { padding: 11.5rem 0 4.5rem; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 1.25rem;
+      color: var(--text-main);
+    }
+    .hero h1 span {
+      background: linear-gradient(to right, #60A5FA, #A78BFA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 56ch;
+      font-weight: 350;
+      margin-bottom: 2.0rem;
+    }
+    .hero-cta-row {
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .trust-row {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+    .trust-item { display: inline-flex; gap: 0.5rem; align-items: center; }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      box-shadow: 0 0 10px currentColor;
+      background: var(--check-green);
+      color: var(--check-green);
+      opacity: 0.9;
+    }
 
-        .section-header { text-align: center; margin-bottom: 5rem; }
-        .section-header h2 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 1rem; color: var(--text-main); }
-        .subtitle { color: var(--text-muted); font-size: 1.1rem; }
+    /* Hero side card */
+    .hero-card {
+      background: linear-gradient(to bottom, rgba(15, 23, 42, 0.95), rgba(11, 17, 32, 0.90));
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 32px 70px -30px rgba(0,0,0,0.85);
+    }
+    .hero-card-header {
+      padding: 1.1rem 1.25rem;
+      border-bottom: 1px solid rgba(148,163,184,0.14);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+    }
+    .hero-card-title { font-weight: 700; letter-spacing: 0.5px; font-size: 0.9rem; text-transform: uppercase; }
+    .hero-card-body { padding: 1.25rem; }
+    .hero-card-body p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1rem; }
+    .mono-block {
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 8px;
+      background: rgba(3,7,18,0.55);
+      padding: 0.9rem 0.95rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: rgba(248,250,252,0.88);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    .mini-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    .mini {
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 8px;
+      padding: 0.85rem 0.95rem;
+      background: rgba(255,255,255,0.02);
+    }
+    .mini .k { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+    .mini .v { font-size: 1.35rem; font-weight: 700; font-family: 'JetBrains Mono'; margin-top: 0.25rem; letter-spacing: -1px; }
 
-        /* --- REDESIGNED CLAIM CARDS --- */
-        .claim-cards-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
+    /* --- SECTIONS --- */
+    section { padding: 5.5rem 0; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 0.8rem;
+      color: var(--text-main);
+    }
+    .subtitle { color: var(--text-muted); font-size: 1.05rem; max-width: 78ch; margin: 0 auto; }
 
-        .claim-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: 0.25s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(96,165,250,0.35);
+      box-shadow: 0 24px 54px -35px rgba(0,0,0,0.75);
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      margin-bottom: 0.5rem;
+    }
+    .card p { color: var(--text-muted); font-size: 0.95rem; }
 
-        .claim-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--brand-blue);
-            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
-        }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      padding: 0.25rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid rgba(148,163,184,0.18);
+      color: rgba(248,250,252,0.85);
+      background: rgba(255,255,255,0.02);
+    }
+    .tag.blue { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.08); }
+    .tag.green { border-color: rgba(16,185,129,0.35); background: rgba(16,185,129,0.08); }
+    .tag.violet { border-color: rgba(167,139,250,0.35); background: rgba(167,139,250,0.08); }
+    .tag.amber { border-color: rgba(245,158,11,0.35); background: rgba(245,158,11,0.08); }
 
-        /* Top Status Bar */
-        .card-status-bar {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(255,255,255,0.02);
-        }
+    /* --- I/O SPLIT --- */
+    .io-wrap {
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(15,23,42,0.40);
+    }
+    .io-grid { display: grid; grid-template-columns: 1fr 1fr; }
+    .io-col { padding: 2rem; }
+    .io-col + .io-col { border-left: 1px solid rgba(148,163,184,0.14); }
+    .io-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; }
+    .io-title-row h3 { font-size: 1.0rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .io-list { list-style: none; display: grid; gap: 0.85rem; }
+    .io-item {
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 8px;
+      padding: 1.0rem 1.1rem;
+      background: rgba(3,7,18,0.45);
+    }
+    .io-item .top { display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; margin-bottom: 0.35rem; }
+    .io-item .name { font-weight: 700; font-size: 0.95rem; }
+    .io-item .type { font-family: 'JetBrains Mono', monospace; font-size: 0.74rem; color: var(--text-dim); }
+    .io-item .desc { color: var(--text-muted); font-size: 0.9rem; line-height: 1.5; }
+    .io-item .fields {
+      margin-top: 0.65rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
 
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 6px; box-shadow: 0 0 10px currentColor; }
-        .status-text { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-family: 'JetBrains Mono', monospace;}
-        
-        .blue-chip .status-dot { background: var(--check-green); color: var(--check-green); }
-        .blue-chip .status-text { color: var(--check-green); }
-        
-        .lumpy .status-dot { background: var(--amber); color: var(--amber); }
-        .lumpy .status-text { color: var(--amber); }
-        
-        .steady .status-dot { background: var(--brand-blue); color: var(--brand-blue); }
-        .steady .status-text { color: var(--brand-blue); }
+    /* --- SAMPLE OUTPUT --- */
+    .sample-wrap {
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(3,7,18,0.35);
+    }
+    .sample-head {
+      padding: 1.1rem 1.4rem;
+      border-bottom: 1px solid rgba(148,163,184,0.14);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+    }
+    .sample-head strong { letter-spacing: 0.2px; font-size: 0.95rem; }
+    .sample-body { padding: 1.4rem; display: grid; gap: 1.0rem; }
 
-        .card-id { font-size: 0.8rem; color: var(--text-dim); }
+    .kv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
+    .kv {
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 8px;
+      padding: 0.85rem 0.95rem;
+      background: rgba(15,23,42,0.55);
+    }
+    .kv .k { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+    .kv .v { margin-top: 0.25rem; font-size: 1.25rem; font-weight: 700; font-family: 'JetBrains Mono'; }
 
-        /* Main Content */
-        .card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+    .files-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; }
+    .file {
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 8px;
+      padding: 0.95rem 1.0rem;
+      background: rgba(15,23,42,0.55);
+    }
+    .file .fn { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem; color: var(--text-main); }
+    .file .fd { margin-top: 0.35rem; color: var(--text-muted); font-size: 0.85rem; }
+    .file .meta { margin-top: 0.65rem; color: var(--text-dim); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
 
-        .creditor-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: var(--text-main);
-            margin-bottom: 0.5rem;
-        }
+    /* --- PRICING --- */
+    .pricing-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      align-items: stretch;
+    }
+    .pricing-card {
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 12px;
+      padding: 2.0rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-card.featured {
+      border-color: rgba(59,130,246,0.45);
+      background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(16,27,51,0.8));
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.08);
+    }
+    .price {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: -2px;
+      margin-bottom: 0.35rem;
+    }
+    .price span { font-size: 0.9rem; color: var(--text-muted); letter-spacing: 0; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 400;}
+    .pricing-title { font-weight: 800; font-size: 1.15rem; margin-bottom: 0.4rem; letter-spacing: -0.5px; }
+    .pricing-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
 
-        .waterfall-position {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 1.5rem;
-        }
+    .bullets { list-style: none; display: grid; gap: 0.75rem; margin-top: 1rem; }
+    .bullets li { display: flex; gap: 0.75rem; align-items: flex-start; color: var(--text-muted); font-size: 0.9rem; }
+    .tick {
+      width: 18px; height: 18px; border-radius: 4px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.28);
+      color: var(--check-green);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900;
+      flex: 0 0 auto;
+      margin-top: 3px;
+    }
 
-        /* Payment Performance Section */
-        .performance-section {
-            margin-bottom: 1.5rem;
-        }
+    .cta-wide {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.9rem;
+      flex-wrap: wrap;
+    }
 
-        .section-title {
-            font-size: 0.7rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.8rem;
-            font-weight: 600;
-        }
+    /* --- MATRIX --- */
+    .comparison-wrapper {
+        border: 1px solid rgba(148,163,184,0.18);
+        border-radius: 12px;
+        background: rgba(15,23,42,0.75);
+        overflow: hidden;
+    }
+    .table-scroll { overflow-x: auto; width: 100%; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    th {
+      background: rgba(3,7,18,0.5);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 1.2rem 1.5rem;
+      text-align: left;
+    }
+    td {
+      padding: 1.1rem 1.5rem;
+      border-top: 1px solid rgba(148,163,184,0.14);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      vertical-align: top;
+    }
+    .category-row td {
+      background: rgba(255,255,255,0.02);
+      color: var(--brand-glow);
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .check { color: var(--check-green); font-weight: 900; }
 
-        .performance-metrics {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
+    /* --- FOOTER --- */
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(148,163,184,0.14);
+      color: var(--text-dim);
+    }
 
-        .metric {
-            background: var(--bg-deep);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 0.75rem;
-        }
+    /* --- RESPONSIVE --- */
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero h1 { font-size: 3.2rem; }
+      .kv-grid { grid-template-columns: 1fr 1fr; }
+      .files-grid { grid-template-columns: 1fr; }
+      .io-grid { grid-template-columns: 1fr; }
+      .io-col { padding: 1.5rem; }
+      .io-col + .io-col { border-left: none; border-top: 1px solid rgba(148,163,184,0.14); }
+      .grid-3 { grid-template-columns: 1fr; }
+      .pricing-wrap { grid-template-columns: 1fr; }
+      .nav-links a:not(.btn-outline) { display: none; } /* Hide text links on smaller screens */
+    }
 
-        .metric-value {
-            font-size: 1.4rem;
-            font-weight: 700;
-            font-family: 'JetBrains Mono';
-            color: var(--text-main);
-            line-height: 1;
-            margin-bottom: 0.3rem;
-        }
-
-        .metric-label {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background: var(--bg-deep);
-            border-radius: 3px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, var(--brand-blue), var(--brand-glow));
-            transition: width 0.3s ease;
-        }
-
-        .progress-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            margin-top: 0.3rem;
-        }
-
-        /* Forward Projection */
-        .projection-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.8rem;
-        }
-
-        .projection-item {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .projection-value {
-            font-size: 1.1rem;
-            font-weight: 700;
-            font-family: 'JetBrains Mono';
-            color: var(--text-main);
-            margin-bottom: 0.2rem;
-        }
-
-        .projection-label {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* AI Recommendation Box */
-        .ai-recommendation {
-            margin-top: auto;
-            background: rgba(59, 130, 246, 0.05);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            border-radius: 8px;
-            padding: 1rem;
-        }
-
-        .ai-recommendation.strong-buy {
-            background: rgba(16, 185, 129, 0.05);
-            border-color: rgba(16, 185, 129, 0.3);
-        }
-
-        .ai-recommendation.watch {
-            background: rgba(245, 158, 11, 0.05);
-            border-color: rgba(245, 158, 11, 0.3);
-        }
-
-        .rec-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .rec-badge {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0.25rem 0.6rem;
-            border-radius: 3px;
-            font-family: 'JetBrains Mono';
-        }
-
-        .rec-badge.buy {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--check-green);
-        }
-
-        .rec-badge.watch {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--amber);
-        }
-
-        .ai-icon {
-            font-size: 0.65rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .rec-text {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-
-        /* --- PRICING --- */
-        .pricing-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 6rem; }
-        
-        .pricing-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 3rem;
-            position: relative;
-        }
-
-        .pricing-card.featured {
-            background: linear-gradient(to bottom, var(--bg-surface), #151e32);
-            border-color: var(--brand-blue);
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
-        }
-
-        .price { font-size: 3rem; font-weight: 700; color: var(--text-main); font-family: 'JetBrains Mono'; letter-spacing: -2px;}
-        .price span { font-size: 1rem; color: var(--text-muted); letter-spacing: 0; }
-        
-        .price-list li {
-            margin-bottom: 1rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .price-list li strong { color: var(--text-main); }
-
-        .addon-badge {
-            display: inline-block;
-            background: rgba(139, 92, 246, 0.15);
-            color: #A78BFA;
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: 0.5rem;
-        }
-
-        .btn-card {
-            display: block; width: 100%; padding: 1rem; text-align: center; border-radius: 4px;
-            text-decoration: none; font-weight: 600; margin-top: 2rem;
-            font-size: 0.9rem; transition: 0.3s;
-        }
-        
-        .btn-card.primary { background: var(--brand-blue); color: white; }
-        .btn-card.primary:hover { background: #2563EB; box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
-        
-        .btn-card.secondary { background: transparent; border: 1px solid var(--border-light); color: var(--text-main); }
-        .btn-card.secondary:hover { border-color: var(--text-main); }
-
-        /* Table */
-        .comparison-container {
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            background: var(--bg-surface);
-        }
-        
-        table { width: 100%; border-collapse: collapse; }
-        th { background: var(--bg-deep); color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; padding: 1.5rem; text-align: left; }
-        td { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; }
-        
-        .category-row { background: rgba(255,255,255,0.03); }
-        .category-row td { color: var(--text-main); font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: var(--brand-glow); }
-
-        .check { color: var(--check-green); }
-        .cross { color: var(--border-light); opacity: 0.5; }
-
-        @media (max-width: 900px) {
-            .hero h1 { font-size: 3rem; }
-            .pricing-cards, .claim-cards-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+    @media (max-width: 600px) {
+      .hero { padding-top: 8.5rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .container { padding: 0 1.5rem; }
+      .pricing-card { padding: 1.5rem; }
+      .io-col { padding: 1.25rem; }
+    }
+  </style>
 </head>
+
 <body>
+  <div class="neon-bg-container">
+    <div class="grid-overlay"></div>
+    <div class="neon-glow-1"></div>
+    <div class="neon-glow-2"></div>
+  </div>
 
-    <div class="neon-bg-container">
-        <div class="grid-overlay"></div>
-        <div class="neon-glow-1"></div>
-        <div class="neon-glow-2"></div>
+  <nav>
+    <div class="container nav-flex">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 2 2H22"/><path d="M12 2v1"/></svg>
+        Portfolio Intelligence Labs
+        <span class="pill">Chapter 13</span>
+      </div>
+      <div class="nav-links">
+        <a href="#how">Process</a>
+        <a href="#io">Data Structures</a>
+        <a href="#pricing">Pilot</a>
+        <a href="#matrix">Capabilities</a>
+        <a href="#" class="btn-outline">Client Login</a>
+      </div>
     </div>
+  </nav>
 
-    <nav>
-        <div class="container nav-flex">
-            <div class="logo">Portfolio Intelligence Labs</div>
-            <div class="nav-links">
-                <a href="#pricing">Pricing</a>
-                <a href="#examples">Intelligence</a>
-                <a href="#comparison">Data Matrix</a>
-                <a href="#" class="btn-outline">Client Login</a>
-            </div>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="pill" style="display:inline-flex; gap:0.55rem; align-items:center; margin-bottom:1.0rem;">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--brand-glow);box-shadow:0 0 12px rgba(96,165,250,0.7);"></span>
+            Trustee Reconciliation • Waterfall Recovery • Yield Analysis
+          </div>
+
+          <h1>Price Chapter 13 Risk with <span>Trustee-Level Granularity.</span></h1>
+          <p>
+            Stop bidding on static plan data. We reconcile bid tapes against live court and trustee ledgers to model the true yield: actual payment velocity, priority waterfall depletion, and dismissal-adjusted NPV.
+          </p>
+
+          <div class="hero-cta-row">
+            <a href="#pricing" class="btn-primary">Start Pilot Validation ($500)</a>
+            <a href="#" class="btn-outline">Upload Bid Tape</a>
+          </div>
+
+          <div class="trust-row">
+            <span class="trust-item"><span class="dot"></span> Mixed Asset: Secured + Unsecured</span>
+            <span class="trust-item"><span class="dot" style="background:var(--brand-glow);color:var(--brand-glow);"></span> Output-First: SQL-Ready CSVs</span>
+            <span class="trust-item"><span class="dot" style="background:var(--violet);color:var(--violet);"></span> Discrepancy Reporting</span>
+          </div>
         </div>
-    </nav>
 
-    <section class="hero">
-        <div class="container">
-            <h1>Underwrite Chapter 13<br>with <span>precision.</span></h1>
-            <p>Institutional-grade intelligence for debt buyers. Access real-time plan payments, identify non-performing accounts, and validate recovery projections.</p>
-            <a href="#pricing" class="btn-outline" style="background: var(--brand-blue); color: white !important; border: none; padding: 1rem 2rem; font-size: 1rem;">Start Portfolio Audit</a>
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div class="hero-card-title">The 60-Second Deal Screen</div>
+            <div class="pill">Preview</div>
+          </div>
+          <div class="hero-card-body">
+            <p>Risk factors identified before you model:</p>
+            <div class="mono-block">• Trustee Payment Velocity (Decay-Weighted)
+• Priority Waterfall Logic (Secured → Unsecured)
+• Gap Analysis (Payment Interruption Flags)
+• Yield Scenarios (Base vs. Dismissal Shock)
+• Normalized SQL-Ready Ingestion Files</div>
+
+            <div class="mini-row">
+              <div class="mini">
+                <div class="k">Base Case NPV</div>
+                <div class="v nums">$—</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Curve-fitted to recent velocity</div>
+              </div>
+              <div class="mini">
+                <div class="k">Dismissal Shock</div>
+                <div class="v nums">$—</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Sensitivity at 15% hazard</div>
+              </div>
+            </div>
+
+            <div class="tag-row">
+              <span class="tag blue">decay-curve</span>
+              <span class="tag violet">waterfall logic</span>
+              <span class="tag green">risk-adj yield</span>
+              <span class="tag amber">gap analysis</span>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="claim-analysis-section" id="examples">
-        <div class="container">
-            <div class="section-header">
-                <h2>Sample Portfolio Evaluations</h2>
-                <p class="subtitle">Payment performance tracking and AI-powered recovery analysis.</p>
-            </div>
-            
-            <div class="claim-cards-grid">
-                
-                <!-- Card 1: Strong Buy -->
-                <div class="claim-card blue-chip">
-                    <div class="card-status-bar">
-                        <div class="status-indicator">
-                            <span class="status-dot"></span>
-                            <span class="status-text">Active</span>
-                        </div>
-                        <div class="card-id mono">ATLN-2211</div>
-                    </div>
-                    
-                    <div class="card-content">
-                        <div class="creditor-name">Fast Money Loans</div>
-                        <div class="waterfall-position">Priority Secured • Atlanta, GA</div>
-                        
-                        <div class="performance-section">
-                            <div class="section-title">Payment Performance</div>
-                            <div class="performance-metrics">
-                                <div class="metric">
-                                    <div class="metric-value">$1,755</div>
-                                    <div class="metric-label">Total Paid</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">16</div>
-                                    <div class="metric-label">Payments</div>
-                                </div>
-                            </div>
-                            <div class="progress-container">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 68%;"></div>
-                                </div>
-                                <div class="progress-label">68% of plan completed • Apr 2023 - Jan 2025</div>
-                            </div>
-                        </div>
+  <section id="how">
+    <div class="container">
+      <div class="section-header">
+        <h2>From Bid Tape to Alpha</h2>
+        <p class="subtitle">
+          We don't just "clean" data. We uncover the delta between the Confirmed Plan and Actual Trustee Behavior to prevent overbidding.
+        </p>
+      </div>
 
-                        <div class="performance-section">
-                            <div class="section-title">Recovery Projection</div>
-                            <div class="projection-grid">
-                                <div class="projection-item">
-                                    <div class="projection-value">$975</div>
-                                    <div class="projection-label">Est. Remaining</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">8 mo</div>
-                                    <div class="projection-label">To Completion</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">$2,730</div>
-                                    <div class="projection-label">Total Recovery</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">100%</div>
-                                    <div class="projection-label">Recovery Rate</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ai-recommendation strong-buy">
-                            <div class="rec-header">
-                                <span class="rec-badge buy">Strong Buy</span>
-                                <span class="ai-icon">AI Analyst</span>
-                            </div>
-                            <div class="rec-text">Priority debt fully satisfied. Consistent monthly payments with zero delinquency. Full recovery projected within 8 months.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2: Watch -->
-                <div class="claim-card lumpy">
-                    <div class="card-status-bar">
-                        <div class="status-indicator">
-                            <span class="status-dot"></span>
-                            <span class="status-text">Active</span>
-                        </div>
-                        <div class="card-id mono">ALBQ-2310</div>
-                    </div>
-                    
-                    <div class="card-content">
-                        <div class="creditor-name">Stretch Money</div>
-                        <div class="waterfall-position">Unsecured • Albuquerque, NM</div>
-                        
-                        <div class="performance-section">
-                            <div class="section-title">Payment Performance</div>
-                            <div class="performance-metrics">
-                                <div class="metric">
-                                    <div class="metric-value">$2,251</div>
-                                    <div class="metric-label">Total Paid</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">25</div>
-                                    <div class="metric-label">Payments</div>
-                                </div>
-                            </div>
-                            <div class="progress-container">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 45%;"></div>
-                                </div>
-                                <div class="progress-label">45% of plan completed • Oct 2022 - Dec 2024</div>
-                            </div>
-                        </div>
-
-                        <div class="performance-section">
-                            <div class="section-title">Recovery Projection</div>
-                            <div class="projection-grid">
-                                <div class="projection-item">
-                                    <div class="projection-value">$2,890</div>
-                                    <div class="projection-label">Est. Remaining</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">33 mo</div>
-                                    <div class="projection-label">To Completion</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">$5,141</div>
-                                    <div class="projection-label">Total Recovery</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">71%</div>
-                                    <div class="projection-label">Recovery Rate</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ai-recommendation watch">
-                            <div class="rec-header">
-                                <span class="rec-badge watch">Watch</span>
-                                <span class="ai-icon">AI Analyst</span>
-                            </div>
-                            <div class="rec-text">High payment variance ($17-$238) suggests commission-based income. Use median payment for NPV modeling. Monitor for plan modification risk.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3: Buy -->
-                <div class="claim-card steady">
-                    <div class="card-status-bar">
-                        <div class="status-indicator">
-                            <span class="status-dot"></span>
-                            <span class="status-text">Active</span>
-                        </div>
-                        <div class="card-id mono">AUGT-2310</div>
-                    </div>
-                    
-                    <div class="card-content">
-                        <div class="creditor-name">Easy Rider Auto</div>
-                        <div class="waterfall-position">Secured Vehicle • Augusta, GA</div>
-                        
-                        <div class="performance-section">
-                            <div class="section-title">Payment Performance</div>
-                            <div class="performance-metrics">
-                                <div class="metric">
-                                    <div class="metric-value">$597</div>
-                                    <div class="metric-label">Total Paid</div>
-                                </div>
-                                <div class="metric">
-                                    <div class="metric-value">10</div>
-                                    <div class="metric-label">Payments</div>
-                                </div>
-                            </div>
-                            <div class="progress-container">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 28%;"></div>
-                                </div>
-                                <div class="progress-label">28% of plan completed • Mar 2024 - Dec 2024</div>
-                            </div>
-                        </div>
-
-                        <div class="performance-section">
-                            <div class="section-title">Recovery Projection</div>
-                            <div class="projection-grid">
-                                <div class="projection-item">
-                                    <div class="projection-value">$1,560</div>
-                                    <div class="projection-label">Est. Remaining</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">26 mo</div>
-                                    <div class="projection-label">To Completion</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">$2,157</div>
-                                    <div class="projection-label">Total Recovery</div>
-                                </div>
-                                <div class="projection-item">
-                                    <div class="projection-value">100%</div>
-                                    <div class="projection-label">Recovery Rate</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="ai-recommendation strong-buy">
-                            <div class="rec-header">
-                                <span class="rec-badge buy">Buy</span>
-                                <span class="ai-icon">AI Analyst</span>
-                            </div>
-                            <div class="rec-text">Fixed $60 monthly payments with zero variance. Secured position with predictable cashflows. Ideal for NPV modeling and portfolio diversification.</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>1) Reconcile & Match</h3>
+          <p>We match your bid tape to court + trustee records, normalizing claim IDs and identifying "phantom" assets that exist in the plan but not the ledger.</p>
+          <div class="tag-row">
+            <span class="tag">claim normalization</span>
+            <span class="tag">debtor ID match</span>
+          </div>
         </div>
-    </section>
 
-    <section id="pricing">
-        <div class="container">
-            <div class="section-header">
-                <h2>Intelligence Tiers</h2>
-                <p class="subtitle">Select the data depth that matches your underwriting requirements.</p>
-            </div>
-            
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <div class="price">$5,000<span>/mo</span></div>
-                    <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">Plan Intelligence</div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Screening and bid validation</p>
-                    <ul class="price-list" style="list-style: none;">
-                        <li><span class="check">✓</span> <strong>Up to 10 portfolio evaluations/month</strong></li>
-                        <li><span class="check">✓</span> Plan payment schedules & history</li>
-                        <li><span class="check">✓</span> 90-day payment activity tracking</li>
-                        <li><span class="check">✓</span> Non-performing account alerts</li>
-                        <li><span class="check">✓</span> Plan feasibility scoring</li>
-                    </ul>
-                    <a href="#" class="btn-card secondary">Subscribe</a>
-                </div>
-
-                <div class="pricing-card featured">
-                    <div style="position: absolute; top: 1.5rem; right: 1.5rem; color: var(--brand-blue); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Recommended</div>
-                    <div class="price">$8,500<span>/mo</span></div>
-                    <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">Claim Forensics</div>
-                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Deep diligence & recovery projections</p>
-                    <ul class="price-list" style="list-style: none;">
-                        <li><span class="check">✓</span> <strong>Up to 10 portfolio evaluations/month</strong></li>
-                        <li><span class="check">✓</span> Everything in Plan Intelligence</li>
-                        <li><span class="check">✓</span> Complete creditor payment ledgers</li>
-                        <li><span class="check">✓</span> Proof of claim verification</li>
-                        <li><span class="check">✓</span> Recovery rate projections & NPV modeling</li>
-                        <li><span class="check">✓</span> Pro-rata distribution waterfall analysis</li>
-                        <li><span class="check">✓</span> AI Analyst recommendations<span class="addon-badge">Add-on</span></li>
-                    </ul>
-                    <a href="#" class="btn-card primary">Subscribe</a>
-                </div>
-            </div>
-
-            <div class="section-header" id="comparison">
-                <h2>Capabilities Matrix</h2>
-            </div>
-
-            <div class="comparison-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 50%;">Data Field</th>
-                            <th style="text-align:center; width: 25%;">Plan Intelligence</th>
-                            <th style="text-align:center; width: 25%; color: var(--text-main);">Claim Forensics</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="category-row"><td colspan="3">Debtor Information</td></tr>
-                        <tr><td>Debtor Identities & SSN</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Joint Filing Status</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-                        
-                        <tr class="category-row"><td colspan="3">Case Status Intelligence</td></tr>
-                        <tr><td>Case Dates (Petition, Plan, Conf)</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>First Payment Due Date</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Plan Status & Modification History</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-
-                        <tr class="category-row"><td colspan="3">Plan Payment Structure</td></tr>
-                        <tr><td>Direct vs Payroll Deduction</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Plan Base Amount</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Est. Months Remaining</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
-
-                        <tr class="category-row"><td colspan="3">Creditor Payment Ledger (Per Claim)</td></tr>
-                        <tr><td>Matched Name of Creditor</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Creditor Receipt Dates</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Disbursement Descriptions</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Complete Payment History</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-
-                        <tr class="category-row"><td colspan="3">Recovery Projections & Modeling</td></tr>
-                        <tr><td>NPV Calculations</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Scenario Analysis</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Payment Variance Analysis</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                        <tr><td>Waterfall Position Modeling</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="card">
+          <h3>2) Curve-Fit Performance</h3>
+          <p>We reconstruct per-claim disbursement histories and compute time-decay weighted velocity. Recent payment behavior outweighs stale plan text.</p>
+          <div class="tag-row">
+            <span class="tag blue">velocity analysis</span>
+            <span class="tag blue">half-life weighting</span>
+          </div>
         </div>
-    </section>
 
-    <footer style="padding: 4rem 0; text-align: center; border-top: 1px solid var(--border);">
-        <p style="font-weight: 700; margin-bottom: 1rem; color: var(--text-main); letter-spacing: 1px; text-transform: uppercase; font-size: 0.9rem;">Portfolio Intelligence Labs</p>
-        <p style="color: var(--text-dim); font-size: 0.8rem;">© 2026. Institutional Rights Reserved.</p>
-    </footer>
+        <div class="card">
+          <h3>3) Forecast Yield & Allocation</h3>
+          <p>We project cashflows through the priority waterfall (admin → secured → unsecured), applying a survival curve for dismissal risk.</p>
+          <div class="tag-row">
+            <span class="tag green">risk-adjusted NPV</span>
+            <span class="tag violet">waterfall allocation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="io">
+    <div class="container">
+      <div class="section-header">
+        <h2>Inputs & Outputs</h2>
+        <p class="subtitle">
+          Receive audit-ready datasets. You get clean CSVs + valuation tables your quant team can immediately ingest into SQL or Python.
+        </p>
+      </div>
+
+      <div class="io-wrap">
+        <div class="io-grid">
+
+          <div class="io-col">
+            <div class="io-title-row">
+              <h3>Ingestion</h3>
+              <span class="pill">Secure Upload</span>
+            </div>
+
+            <ul class="io-list">
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Bid Tape</div>
+                  <div class="type">CSV / XLSX</div>
+                </div>
+                <div class="desc">Standard seller file. We handle messy column mapping.</div>
+                <div class="fields">Required: CaseNumber • Debtor Name (or ID) • Optional: District</div>
+              </li>
+
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Valuation Config</div>
+                  <div class="type">Parameters</div>
+                </div>
+                <div class="desc">Define your risk tolerance for the run.</div>
+                <div class="fields">Discount rate • Dismissal hazard curve • Decay half-life • Asset scope</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="io-col">
+            <div class="io-title-row">
+              <h3>Deliverables</h3>
+              <span class="pill">Underwriting Package</span>
+            </div>
+
+            <ul class="io-list">
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Trustee Disbursement Ledger</div>
+                  <div class="type mono">ledgers.csv</div>
+                </div>
+                <div class="desc">Line-item reconciliation of all trustee receipts and disbursements.</div>
+                <div class="fields">NDC_Case_ID • NDC_Claim_ID • Date • Amount • TransType • ClassCode</div>
+              </li>
+
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Claims & Waterfall Snapshot</div>
+                  <div class="type mono">claims.csv</div>
+                </div>
+                <div class="desc">Creditor roster with priority position and principal remaining.</div>
+                <div class="fields">ClaimLevel • ClassTypeCode (P/S/U) • PrincipalOwed • StopDisbursementFlag</div>
+              </li>
+
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Valuation Package</div>
+                  <div class="type">Tables (CSV)</div>
+                </div>
+                <div class="desc">Audit-ready cashflow models and sensitivity grids.</div>
+                <div class="fields">Projected cashflows • NPV by case • Portfolio Sensitivity • <strong style="color:var(--brand-glow)">Discrepancy Report</strong></div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="sample">
+    <div class="container">
+      <div class="section-header">
+        <h2>The Output: Auditable Intelligence</h2>
+        <p class="subtitle">
+          No black boxes. You receive the raw data and the calculated models to defend your price to the Investment Committee.
+        </p>
+      </div>
+
+      <div class="sample-wrap">
+        <div class="sample-head">
+          <strong>Portfolio Summary (Example)</strong>
+          <span class="pill">Downloadable Tables</span>
+        </div>
+
+        <div class="sample-body">
+          <div class="kv-grid">
+            <div class="kv">
+              <div class="k">Accounts</div>
+              <div class="v nums">2,000</div>
+              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Pilot Cap</div>
+            </div>
+            <div class="kv">
+              <div class="k">Discount Rate</div>
+              <div class="v nums">18%</div>
+              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Configurable</div>
+            </div>
+            <div class="kv">
+              <div class="k">Dismissal Hazard</div>
+              <div class="v nums">10%</div>
+              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Annualized</div>
+            </div>
+            <div class="kv">
+              <div class="k">Velocity Half-Life</div>
+              <div class="v nums">6 mo</div>
+              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Weighted Decay</div>
+            </div>
+          </div>
+
+          <div class="files-grid">
+            <div class="file">
+              <div class="fn">ledgers.csv</div>
+              <div class="fd">Historical payment series rebuilt from trustee records.</div>
+              <div class="meta">Join keys: NDC_Case_ID • NDC_Claim_ID</div>
+            </div>
+            <div class="file">
+              <div class="fn">claims.csv</div>
+              <div class="fd">Waterfall attributes (Priority/Secured/Unsecured).</div>
+              <div class="meta">Join keys: NDC_Case_ID • NDC_Claim_ID</div>
+            </div>
+            <div class="file">
+              <div class="fn">risk_flags.csv</div>
+              <div class="fd">Exceptions: Stopped disbursements, missing claims, gaps.</div>
+              <div class="meta">Join keys: NDC_Case_ID</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <h2>Engage</h2>
+        <p class="subtitle">
+          Start with a low-friction pilot to validate our data against your internal models.
+        </p>
+      </div>
+
+      <div class="pricing-wrap">
+        <div class="pricing-card featured">
+          <div class="pill" style="position:absolute; top:1.3rem; right:1.3rem;">Zero Friction Pilot</div>
+          <div class="price nums">$500 <span>flat fee</span></div>
+          <div class="pricing-title">Pilot Validation Round</div>
+          <div class="pricing-sub">Validate a live bid tape (up to <strong>2,000 accounts</strong>). Receive full underwriting datasets to audit your internal models.</div>
+
+          <ul class="bullets">
+            <li><span class="tick">✓</span> Full Datasets: <span class="mono">ledgers.csv</span>, <span class="mono">claims.csv</span></li>
+            <li><span class="tick">✓</span> <strong>Seller Discrepancy Report</strong> (Plan vs. Actual)</li>
+            <li><span class="tick">✓</span> Mixed Asset Support (Auto/Mortgage/Unsecured)</li>
+            <li><span class="tick">✓</span> Sensitivity Grid (Discount Rate vs. Dismissal Hazard)</li>
+            <li><span class="tick">✓</span> 48-Hour Turnaround</li>
+          </ul>
+
+          <div class="cta-wide">
+            <a href="#" class="btn-primary">Start Pilot Validation</a>
+            <a href="#" class="btn-outline">Client Login</a>
+          </div>
+        </div>
+
+        <div class="pricing-card">
+          <div class="price nums">$8,500 <span>/mo</span></div>
+          <div class="pricing-title">Enterprise Underwriting</div>
+          <div class="pricing-sub">For funds running regular bid cycles requiring repeatable diligence packages and historical benchmarking.</div>
+
+          <ul class="bullets">
+            <li><span class="tick">✓</span> Unlimited Portfolio Uploads</li>
+            <li><span class="tick">✓</span> Multi-user Access Control</li>
+            <li><span class="tick">✓</span> Configurable Assumptions per Tape</li>
+            <li><span class="tick">✓</span> Priority Exception Reporting</li>
+            <li><span class="tick">✓</span> Dedicated Analyst Support</li>
+          </ul>
+
+          <div class="cta-wide">
+            <a href="#" class="btn-outline">Contact Sales</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="matrix">
+    <div class="container">
+      <div class="section-header">
+        <h2>Capabilities Matrix</h2>
+        <p class="subtitle">
+          We prioritize cashflow reality. We do not depend on unreliable admin fields (e.g., “Estimated Months Remaining”) to drive valuation.
+        </p>
+      </div>
+
+      <div class="comparison-wrapper">
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:50%;">Capability</th>
+                <th style="text-align:center; width:25%;">Included</th>
+                <th style="text-align:left; width:25%;">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="category-row"><td colspan="3">Core Data Outputs</td></tr>
+              <tr>
+                <td>Trustee Disbursement Ledger</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Full history, transaction types, class codes</td>
+              </tr>
+              <tr>
+                <td>Claims & Waterfall Snapshot</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">P/S/U classification</td>
+              </tr>
+              <tr>
+                <td>Case Details Snapshot</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Status + Trustee + Last Activity</td>
+              </tr>
+
+              <tr class="category-row"><td colspan="3">Underwriting & Forecasting</td></tr>
+              <tr>
+                <td>Trustee-Derived Payment Series</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Normalized monthly time series</td>
+              </tr>
+              <tr>
+                <td>Time-Decay Weighting</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Recent behavior drives yield curve</td>
+              </tr>
+              <tr>
+                <td>Priority Waterfall Logic</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Admin → Secured → Unsecured</td>
+              </tr>
+              <tr>
+                <td>Gap Analysis</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Detects "Going Dark" / Broken Promises</td>
+              </tr>
+
+              <tr class="category-row"><td colspan="3">Valuation Outputs</td></tr>
+              <tr>
+                <td>NPV Scenarios</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Discount Rate Configurable</td>
+              </tr>
+              <tr>
+                <td>Dismissal Sensitivity Grid</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Survival-adjusted cashflows</td>
+              </tr>
+              <tr>
+                <td>Seller Discrepancy Flags</td>
+                <td style="text-align:center" class="check">●</td>
+                <td class="dim">Plan vs. Actual variance</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top: 2.5rem;">
+    <div class="container">
+      <div class="card" style="text-align:center; padding:3rem 2rem;">
+        <h3 style="font-size:1.5rem; margin-bottom:1rem;">Ready to validate your next bid?</h3>
+        <p style="max-width:70ch;margin:0 auto 2rem;" class="muted">
+          Upload your bid tape through the secure portal. We’ll return structured CSV outputs and a valuation package
+          designed for institutional diligence.
+        </p>
+        <div class="hero-cta-row" style="justify-content:center; margin-bottom:0;">
+          <a href="#pricing" class="btn-primary">Start Pilot Validation ($500)</a>
+          <a href="#" class="btn-outline">Client Login</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div style="display:flex; justify-content:center; align-items:center; gap:0.6rem; color:var(--text-main); font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text-dim);"><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 2 2H22"/><path d="M12 2v1"/></svg>
+        Portfolio Intelligence Labs
+      </div>
+      <p style="margin-top:0.5rem; font-size:0.8rem;">
+        © 2026. Institutional-grade underwriting outputs for Chapter 13 portfolios.
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
