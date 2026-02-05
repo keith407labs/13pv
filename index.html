@@ -106,7 +106,7 @@
 
         .btn-outline {
             padding: 0.6rem 1.4rem;
-            border-radius: 4px; /* Sharper corners for institutional feel */
+            border-radius: 4px;
             border: 1px solid var(--border-light);
             color: var(--text-main) !important;
             transition: 0.3s ease;
@@ -148,7 +148,7 @@
         .section-header h2 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 1rem; color: var(--text-main); }
         .subtitle { color: var(--text-muted); font-size: 1.1rem; }
 
-        /* --- PREMIUM CARDS (THE FIX) --- */
+        /* --- REDESIGNED CLAIM CARDS --- */
         .claim-cards-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -197,78 +197,179 @@
         .card-id { font-size: 0.8rem; color: var(--text-dim); }
 
         /* Main Content */
-        .card-content { padding: 1.5rem; flex-grow: 1; }
+        .card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
 
         .creditor-name {
             font-size: 0.95rem;
             font-weight: 600;
             color: var(--text-main);
+            margin-bottom: 0.5rem;
+        }
+
+        .waterfall-position {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             margin-bottom: 1.5rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
-        /* Score Dashboard */
-        .score-dashboard {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            padding: 1rem;
-            background: var(--bg-deep);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        /* Payment Performance Section */
+        .performance-section {
+            margin-bottom: 1.5rem;
         }
 
-        .main-score { text-align: center; }
-        .score-ring { 
-            font-size: 2.2rem; 
-            font-weight: 700; 
-            line-height: 1; 
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: -2px;
+        .section-title {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
         }
-        .score-label { font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase; margin-top: 4px; letter-spacing: 0.5px; }
 
-        .mini-scores { display: flex; gap: 0.8rem; }
-        .mini-score-item { text-align: center; }
-        .mini-val { font-size: 0.9rem; font-weight: 700; font-family: 'JetBrains Mono'; margin-bottom: 2px;}
-        .mini-lbl { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase;}
-
-        /* Data Grid */
-        .data-grid {
+        .performance-metrics {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            background: var(--border); /* Creates the border lines */
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            background: var(--bg-deep);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 6px;
+            padding: 0.75rem;
+        }
+
+        .metric-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono';
+            color: var(--text-main);
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-deep);
+            border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 1.5rem;
+            border: 1px solid var(--border);
         }
 
-        .data-cell {
-            background: var(--bg-surface);
-            padding: 0.8rem 1rem;
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--brand-blue), var(--brand-glow));
+            transition: width 0.3s ease;
         }
 
-        .data-cell span { display: block; }
-        .dc-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-dim); margin-bottom: 4px; }
-        .dc-value { font-size: 0.9rem; font-weight: 600; color: var(--text-main); font-family: 'JetBrains Mono'; }
+        .progress-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
 
-        /* Outlook Section */
-        .outlook-box {
+        /* Forward Projection */
+        .projection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+        }
+
+        .projection-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .projection-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono';
+            color: var(--text-main);
+            margin-bottom: 0.2rem;
+        }
+
+        .projection-label {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* AI Recommendation Box */
+        .ai-recommendation {
+            margin-top: auto;
             background: rgba(59, 130, 246, 0.05);
-            border-left: 2px solid var(--brand-blue);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
             padding: 1rem;
-            font-size: 0.8rem;
+        }
+
+        .ai-recommendation.strong-buy {
+            background: rgba(16, 185, 129, 0.05);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .ai-recommendation.watch {
+            background: rgba(245, 158, 11, 0.05);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .rec-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .rec-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono';
+        }
+
+        .rec-badge.buy {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--check-green);
+        }
+
+        .rec-badge.watch {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        .ai-icon {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .rec-text {
+            font-size: 0.85rem;
             color: var(--text-muted);
             line-height: 1.5;
         }
-        .outlook-box strong { color: var(--brand-blue); display: block; margin-bottom: 0.25rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* --- PRICING & MATRIX --- */
+        /* --- PRICING --- */
         .pricing-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-bottom: 6rem; }
         
         .pricing-card {
@@ -297,6 +398,19 @@
             gap: 10px;
         }
         .price-list li strong { color: var(--text-main); }
+
+        .addon-badge {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.15);
+            color: #A78BFA;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 0.5rem;
+        }
 
         .btn-card {
             display: block; width: 100%; padding: 1rem; text-align: center; border-radius: 4px;
@@ -365,185 +479,206 @@
     <section class="claim-analysis-section" id="examples">
         <div class="container">
             <div class="section-header">
-                <h2>Prescriptive Claim Analysis</h2>
-                <p class="subtitle">Quantitative scoring of payment volatility and velocity.</p>
+                <h2>Sample Portfolio Evaluations</h2>
+                <p class="subtitle">Payment performance tracking and AI-powered recovery analysis.</p>
             </div>
             
             <div class="claim-cards-grid">
                 
+                <!-- Card 1: Strong Buy -->
                 <div class="claim-card blue-chip">
                     <div class="card-status-bar">
                         <div class="status-indicator">
                             <span class="status-dot"></span>
-                            <span class="status-text">Blue Chip</span>
+                            <span class="status-text">Active</span>
                         </div>
-                        <div class="card-id mono">ID: ATLN2-2211</div>
+                        <div class="card-id mono">ATLN-2211</div>
                     </div>
                     
                     <div class="card-content">
-                        <div class="creditor-name">Fast Money Loans • Atlanta</div>
+                        <div class="creditor-name">Fast Money Loans</div>
+                        <div class="waterfall-position">Priority Secured • Atlanta, GA</div>
                         
-                        <div class="score-dashboard">
-                            <div class="main-score">
-                                <div class="score-ring" style="color: var(--check-green)">86</div>
-                                <div class="score-label">Composite</div>
+                        <div class="performance-section">
+                            <div class="section-title">Payment Performance</div>
+                            <div class="performance-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">$1,755</div>
+                                    <div class="metric-label">Total Paid</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">16</div>
+                                    <div class="metric-label">Payments</div>
+                                </div>
                             </div>
-                            <div class="mini-scores">
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--text-main)">92</div>
-                                    <div class="mini-lbl">Vol</div>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 68%;"></div>
                                 </div>
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--text-main)">85</div>
-                                    <div class="mini-lbl">Vel</div>
+                                <div class="progress-label">68% of plan completed • Apr 2023 - Jan 2025</div>
+                            </div>
+                        </div>
+
+                        <div class="performance-section">
+                            <div class="section-title">Recovery Projection</div>
+                            <div class="projection-grid">
+                                <div class="projection-item">
+                                    <div class="projection-value">$975</div>
+                                    <div class="projection-label">Est. Remaining</div>
                                 </div>
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--check-green)">95</div>
-                                    <div class="mini-lbl">Pred</div>
+                                <div class="projection-item">
+                                    <div class="projection-value">8 mo</div>
+                                    <div class="projection-label">To Completion</div>
+                                </div>
+                                <div class="projection-item">
+                                    <div class="projection-value">$2,730</div>
+                                    <div class="projection-label">Total Recovery</div>
+                                </div>
+                                <div class="projection-item">
+                                    <div class="projection-value">100%</div>
+                                    <div class="projection-label">Recovery Rate</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="data-grid">
-                            <div class="data-cell">
-                                <span class="dc-label">Total Paid</span>
-                                <span class="dc-value">$1,755</span>
+                        <div class="ai-recommendation strong-buy">
+                            <div class="rec-header">
+                                <span class="rec-badge buy">Strong Buy</span>
+                                <span class="ai-icon">AI Analyst</span>
                             </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Count</span>
-                                <span class="dc-value">16</span>
-                            </div>
-                            <div class="data-cell">
-                                <span class="dc-label">6mo Avg</span>
-                                <span class="dc-value">$108</span>
-                            </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Implied IRR</span>
-                                <span class="dc-value">10.5%</span>
-                            </div>
-                        </div>
-
-                        <div class="outlook-box">
-                            <strong>Analyst Note</strong>
-                            Stabilized asset. Priority burn satisfied. 100% recovery likely with zero delay phase.
+                            <div class="rec-text">Priority debt fully satisfied. Consistent monthly payments with zero delinquency. Full recovery projected within 8 months.</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Card 2: Watch -->
                 <div class="claim-card lumpy">
                     <div class="card-status-bar">
                         <div class="status-indicator">
                             <span class="status-dot"></span>
-                            <span class="status-text">Lumpy Recovery</span>
+                            <span class="status-text">Active</span>
                         </div>
-                        <div class="card-id mono">ID: ALBQ-2310</div>
+                        <div class="card-id mono">ALBQ-2310</div>
                     </div>
                     
                     <div class="card-content">
-                        <div class="creditor-name">Stretch Money • Albuquerque</div>
+                        <div class="creditor-name">Stretch Money</div>
+                        <div class="waterfall-position">Unsecured • Albuquerque, NM</div>
                         
-                        <div class="score-dashboard">
-                            <div class="main-score">
-                                <div class="score-ring" style="color: var(--amber)">64</div>
-                                <div class="score-label">Composite</div>
+                        <div class="performance-section">
+                            <div class="section-title">Payment Performance</div>
+                            <div class="performance-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">$2,251</div>
+                                    <div class="metric-label">Total Paid</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">25</div>
+                                    <div class="metric-label">Payments</div>
+                                </div>
                             </div>
-                            <div class="mini-scores">
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--red)">48</div>
-                                    <div class="mini-lbl">Vol</div>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 45%;"></div>
                                 </div>
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--text-main)">70</div>
-                                    <div class="mini-lbl">Vel</div>
+                                <div class="progress-label">45% of plan completed • Oct 2022 - Dec 2024</div>
+                            </div>
+                        </div>
+
+                        <div class="performance-section">
+                            <div class="section-title">Recovery Projection</div>
+                            <div class="projection-grid">
+                                <div class="projection-item">
+                                    <div class="projection-value">$2,890</div>
+                                    <div class="projection-label">Est. Remaining</div>
                                 </div>
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--amber)">78</div>
-                                    <div class="mini-lbl">Pred</div>
+                                <div class="projection-item">
+                                    <div class="projection-value">33 mo</div>
+                                    <div class="projection-label">To Completion</div>
+                                </div>
+                                <div class="projection-item">
+                                    <div class="projection-value">$5,141</div>
+                                    <div class="projection-label">Total Recovery</div>
+                                </div>
+                                <div class="projection-item">
+                                    <div class="projection-value">71%</div>
+                                    <div class="projection-label">Recovery Rate</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="data-grid">
-                            <div class="data-cell">
-                                <span class="dc-label">Total Paid</span>
-                                <span class="dc-value">$2,251</span>
+                        <div class="ai-recommendation watch">
+                            <div class="rec-header">
+                                <span class="rec-badge watch">Watch</span>
+                                <span class="ai-icon">AI Analyst</span>
                             </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Count</span>
-                                <span class="dc-value">25</span>
-                            </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Median</span>
-                                <span class="dc-value">$88</span>
-                            </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Range</span>
-                                <span class="dc-value">$17-$238</span>
-                            </div>
-                        </div>
-
-                        <div class="outlook-box">
-                            <strong>Analyst Note</strong>
-                            High variance suggests commission income. Use median ($88) for NPV, not average.
+                            <div class="rec-text">High payment variance ($17-$238) suggests commission-based income. Use median payment for NPV modeling. Monitor for plan modification risk.</div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Card 3: Buy -->
                 <div class="claim-card steady">
                     <div class="card-status-bar">
                         <div class="status-indicator">
                             <span class="status-dot"></span>
-                            <span class="status-text">Steady Floor</span>
+                            <span class="status-text">Active</span>
                         </div>
-                        <div class="card-id mono">ID: AUGT-2310</div>
+                        <div class="card-id mono">AUGT-2310</div>
                     </div>
                     
                     <div class="card-content">
-                        <div class="creditor-name">Easy Rider Auto • Augusta</div>
+                        <div class="creditor-name">Easy Rider Auto</div>
+                        <div class="waterfall-position">Secured Vehicle • Augusta, GA</div>
                         
-                        <div class="score-dashboard">
-                            <div class="main-score">
-                                <div class="score-ring" style="color: var(--brand-blue)">91</div>
-                                <div class="score-label">Composite</div>
+                        <div class="performance-section">
+                            <div class="section-title">Payment Performance</div>
+                            <div class="performance-metrics">
+                                <div class="metric">
+                                    <div class="metric-value">$597</div>
+                                    <div class="metric-label">Total Paid</div>
+                                </div>
+                                <div class="metric">
+                                    <div class="metric-value">10</div>
+                                    <div class="metric-label">Payments</div>
+                                </div>
                             </div>
-                            <div class="mini-scores">
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--check-green)">98</div>
-                                    <div class="mini-lbl">Vol</div>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 28%;"></div>
                                 </div>
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--text-main)">70</div>
-                                    <div class="mini-lbl">Vel</div>
+                                <div class="progress-label">28% of plan completed • Mar 2024 - Dec 2024</div>
+                            </div>
+                        </div>
+
+                        <div class="performance-section">
+                            <div class="section-title">Recovery Projection</div>
+                            <div class="projection-grid">
+                                <div class="projection-item">
+                                    <div class="projection-value">$1,560</div>
+                                    <div class="projection-label">Est. Remaining</div>
                                 </div>
-                                <div class="mini-score-item">
-                                    <div class="mini-val" style="color:var(--check-green)">95</div>
-                                    <div class="mini-lbl">Pred</div>
+                                <div class="projection-item">
+                                    <div class="projection-value">26 mo</div>
+                                    <div class="projection-label">To Completion</div>
+                                </div>
+                                <div class="projection-item">
+                                    <div class="projection-value">$2,157</div>
+                                    <div class="projection-label">Total Recovery</div>
+                                </div>
+                                <div class="projection-item">
+                                    <div class="projection-value">100%</div>
+                                    <div class="projection-label">Recovery Rate</div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="data-grid">
-                            <div class="data-cell">
-                                <span class="dc-label">Total Paid</span>
-                                <span class="dc-value">$597</span>
+                        <div class="ai-recommendation strong-buy">
+                            <div class="rec-header">
+                                <span class="rec-badge buy">Buy</span>
+                                <span class="ai-icon">AI Analyst</span>
                             </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Count</span>
-                                <span class="dc-value">10</span>
-                            </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Fixed Rate</span>
-                                <span class="dc-value">$60</span>
-                            </div>
-                            <div class="data-cell">
-                                <span class="dc-label">Variance</span>
-                                <span class="dc-value">±$0</span>
-                            </div>
-                        </div>
-
-                        <div class="outlook-box">
-                            <strong>Analyst Note</strong>
-                            Statistically identical payments. Streamlined administration. Easiest to model.
+                            <div class="rec-text">Fixed $60 monthly payments with zero variance. Secured position with predictable cashflows. Ideal for NPV modeling and portfolio diversification.</div>
                         </div>
                     </div>
                 </div>
@@ -565,11 +700,11 @@
                     <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">Plan Intelligence</div>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Screening and bid validation</p>
                     <ul class="price-list" style="list-style: none;">
-                        <li><span class="check">✓</span> Plan payment amounts</li>
-                        <li><span class="check">✓</span> 90-day activity tracking</li>
-                        <li><span class="check">✓</span> Non-performing identification</li>
-                        <li><span class="check">✓</span> Feasibility scoring</li>
-                        <li><span class="check">✓</span> 10 evaluations/month</li>
+                        <li><span class="check">✓</span> <strong>Up to 10 portfolio evaluations/month</strong></li>
+                        <li><span class="check">✓</span> Plan payment schedules & history</li>
+                        <li><span class="check">✓</span> 90-day payment activity tracking</li>
+                        <li><span class="check">✓</span> Non-performing account alerts</li>
+                        <li><span class="check">✓</span> Plan feasibility scoring</li>
                     </ul>
                     <a href="#" class="btn-card secondary">Subscribe</a>
                 </div>
@@ -580,11 +715,13 @@
                     <div style="font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">Claim Forensics</div>
                     <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 2rem;">Deep diligence & recovery projections</p>
                     <ul class="price-list" style="list-style: none;">
-                        <li><span class="check">✓</span> <strong>Everything in Plan Intelligence</strong></li>
-                        <li><span class="check">✓</span> Complete creditor ledgers</li>
+                        <li><span class="check">✓</span> <strong>Up to 10 portfolio evaluations/month</strong></li>
+                        <li><span class="check">✓</span> Everything in Plan Intelligence</li>
+                        <li><span class="check">✓</span> Complete creditor payment ledgers</li>
                         <li><span class="check">✓</span> Proof of claim verification</li>
-                        <li><span class="check">✓</span> Recovery rate projections</li>
-                        <li><span class="check">✓</span> Pro-rata distribution analysis</li>
+                        <li><span class="check">✓</span> Recovery rate projections & NPV modeling</li>
+                        <li><span class="check">✓</span> Pro-rata distribution waterfall analysis</li>
+                        <li><span class="check">✓</span> AI Analyst recommendations<span class="addon-badge">Add-on</span></li>
                     </ul>
                     <a href="#" class="btn-card primary">Subscribe</a>
                 </div>
@@ -611,6 +748,7 @@
                         <tr class="category-row"><td colspan="3">Case Status Intelligence</td></tr>
                         <tr><td>Case Dates (Petition, Plan, Conf)</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
                         <tr><td>First Payment Due Date</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
+                        <tr><td>Plan Status & Modification History</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
 
                         <tr class="category-row"><td colspan="3">Plan Payment Structure</td></tr>
                         <tr><td>Direct vs Payroll Deduction</td><td style="text-align:center" class="check">●</td><td style="text-align:center" class="check">●</td></tr>
@@ -622,6 +760,12 @@
                         <tr><td>Creditor Receipt Dates</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
                         <tr><td>Disbursement Descriptions</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
                         <tr><td>Complete Payment History</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
+
+                        <tr class="category-row"><td colspan="3">Recovery Projections & Modeling</td></tr>
+                        <tr><td>NPV Calculations</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
+                        <tr><td>Scenario Analysis</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
+                        <tr><td>Payment Variance Analysis</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
+                        <tr><td>Waterfall Position Modeling</td><td style="text-align:center" class="cross">/</td><td style="text-align:center" class="check">●</td></tr>
                     </tbody>
                 </table>
             </div>
