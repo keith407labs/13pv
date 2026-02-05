@@ -12,7 +12,6 @@
 
   <style>
     :root {
-      /* Slightly deeper background for "Finance Terminal" vibe */
       --bg-deep: #0B1120;
       --bg-surface: #0f172a;
       --bg-surface-2: #101b33;
@@ -23,7 +22,6 @@
       --text-muted: #94A3B8;
       --text-dim: #64748B;
 
-      /* Corporate Blue - less "electric", more "trust" */
       --brand-blue: #2563EB; 
       --brand-glow: #3B82F6;
       
@@ -268,6 +266,125 @@
     .mini .k { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
     .mini .v { font-size: 1.35rem; font-weight: 700; font-family: 'JetBrains Mono'; margin-top: 0.25rem; letter-spacing: -1px; }
 
+    /* --- DEAL SCREEN --- */
+    .deal-screen-wrap {
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(3,7,18,0.50);
+    }
+    .deal-screen-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid rgba(148,163,184,0.14);
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .deal-screen-header h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    /* Portfolio Overview Cards */
+    .portfolio-overview {
+      padding: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      background: rgba(15,23,42,0.3);
+      border-bottom: 1px solid rgba(148,163,184,0.14);
+    }
+    .overview-card {
+      border: 1px solid rgba(148,163,184,0.14);
+      border-radius: 8px;
+      padding: 1rem;
+      background: rgba(3,7,18,0.55);
+    }
+    .overview-card .label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.4rem;
+    }
+    .overview-card .value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono';
+      color: var(--text-main);
+      letter-spacing: -1px;
+    }
+    .overview-card .subtext {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+    }
+
+    /* Account Table */
+    .account-table-wrap {
+      overflow-x: auto;
+      padding: 1.5rem;
+    }
+    .account-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      min-width: 900px;
+    }
+    .account-table thead {
+      border-bottom: 2px solid rgba(148,163,184,0.2);
+    }
+    .account-table th {
+      padding: 0.8rem 1rem;
+      text-align: left;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+    .account-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(148,163,184,0.08);
+      color: var(--text-muted);
+    }
+    .account-table tbody tr:hover {
+      background: rgba(59,130,246,0.04);
+    }
+    .account-table .account-id {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--brand-glow);
+      font-weight: 600;
+    }
+    .account-table .status-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .status-badge.active {
+      background: rgba(16,185,129,0.15);
+      color: var(--check-green);
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+    .status-badge.dismissed {
+      background: rgba(239,68,68,0.15);
+      color: var(--red);
+      border: 1px solid rgba(239,68,68,0.3);
+    }
+    .status-badge.completed {
+      background: rgba(59,130,246,0.15);
+      color: var(--brand-glow);
+      border: 1px solid rgba(59,130,246,0.3);
+    }
+
     /* --- SECTIONS --- */
     section { padding: 5.5rem 0; }
     .section-header { text-align: center; margin-bottom: 3.5rem; }
@@ -390,7 +507,7 @@
     /* --- PRICING --- */
     .pricing-wrap {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
       align-items: stretch;
     }
@@ -438,7 +555,7 @@
       flex-wrap: wrap;
     }
 
-    /* --- MATRIX --- */
+    /* --- MATRIX WITH DOTS --- */
     .comparison-wrapper {
         border: 1px solid rgba(148,163,184,0.18);
         border-radius: 12px;
@@ -446,7 +563,7 @@
         overflow: hidden;
     }
     .table-scroll { overflow-x: auto; width: 100%; }
-    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
     th {
       background: rgba(3,7,18,0.5);
       color: var(--text-muted);
@@ -461,7 +578,7 @@
       border-top: 1px solid rgba(148,163,184,0.14);
       color: var(--text-muted);
       font-size: 0.9rem;
-      vertical-align: top;
+      vertical-align: middle;
     }
     .category-row td {
       background: rgba(255,255,255,0.02);
@@ -471,7 +588,26 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    .check { color: var(--check-green); font-weight: 900; }
+    
+    /* Dot indicators */
+    .feature-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .feature-dot.included {
+      background: var(--check-green);
+      color: var(--check-green);
+    }
+    .feature-dot.excluded {
+      background: var(--red);
+      color: var(--red);
+    }
+    .tier-col {
+      text-align: center;
+    }
 
     /* --- FOOTER --- */
     footer {
@@ -492,7 +628,8 @@
       .io-col + .io-col { border-left: none; border-top: 1px solid rgba(148,163,184,0.14); }
       .grid-3 { grid-template-columns: 1fr; }
       .pricing-wrap { grid-template-columns: 1fr; }
-      .nav-links a:not(.btn-outline) { display: none; } /* Hide text links on smaller screens */
+      .portfolio-overview { grid-template-columns: 1fr 1fr; }
+      .nav-links a:not(.btn-outline) { display: none; }
     }
 
     @media (max-width: 600px) {
@@ -501,6 +638,8 @@
       .container { padding: 0 1.5rem; }
       .pricing-card { padding: 1.5rem; }
       .io-col { padding: 1.25rem; }
+      .portfolio-overview { grid-template-columns: 1fr; }
+      .account-table-wrap { padding: 1rem; }
     }
   </style>
 </head>
