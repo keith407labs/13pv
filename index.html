@@ -703,36 +703,38 @@
   </nav>
     
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-grid">
-        
-        <div>
-          <div class="pill" style="display:inline-flex; gap:0.55rem; align-items:center; margin-bottom:1.5rem;">
-            <span style="width:6px;height:6px;border-radius:50%;background:var(--brand-glow);box-shadow:0 0 12px rgba(96,165,250,0.7);"></span>
-            Trustee Reconciliation
-          </div>
-  
-          <h1>Stop Overpaying for <br><span>Chapter 13 Paper.</span></h1>
-          
-          <p style="margin-left: auto; margin-right: auto;">
-            Most bid tapes rely on outdated plan text. We reconcile against <strong>live trustee disbursements</strong> to show you what creditors are actually receiving.
-          </p>
-  
-          <div class="hero-cta-row">
-            <a href="#pricing" class="btn-primary">Start Pilot ($500)</a>
-            <a href="#" class="btn-outline">Upload Tape</a>
-          </div>
-  
-          <div class="trust-row">
-            <span class="trust-item"><span class="dot"></span> SQL-Ready CSVs</span>
-            <span class="trust-item"><span class="dot" style="background:var(--violet);color:var(--violet);"></span> Discrepancy Reports</span>
-          </div>
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      
+      <div>
+        <div class="mono" style="color: var(--brand-glow); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1.5rem; text-transform: uppercase;">
+          Institutional Portfolio Underwriting
         </div>
-  
+
+        <h1>Bridge the Gap Between <br><span>Plan Text and Reality.</span></h1>
+        
+        <p style="margin-left: auto; margin-right: auto; line-height: 1.8;">
+          Verify every account against live trustee ledgers. Receive detailed discrepancy reports and risk-adjusted NPV models in <strong>under 48 hours</strong>—the ultimate second opinion for your internal underwriting.
+        </p>
+
+        <div class="hero-cta-row">
+          <a href="#pricing" class="btn-primary">Start Pilot Validation</a>
+          <a href="#how" class="btn-outline">View Methodology</a>
+        </div>
+
+        <div class="trust-row" style="opacity: 0.7; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; max-width: 500px; margin: 0 auto;">
+          <span class="trust-item">RECONCILED TO NDC</span>
+          <span style="color: var(--border-light);">|</span>
+          <span class="trust-item">AUDIT-READY CSV</span>
+          <span style="color: var(--border-light);">|</span>
+          <span class="trust-item">BIPARTITION SENSITIVITY</span>
+        </div>
       </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
     <!-- Deal Screen Section -->
     <section id="deal-screen" style="padding-top: 3rem;">
@@ -885,46 +887,68 @@
         </div>
       </section>
 
-      <section id="how">
-    <div class="container">
-      <div class="section-header">
-        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Methodology</div>
-        <h2>From Bid Tape to Alpha</h2>
-        <p class="subtitle">
-          Uncover the delta between the confirmed plan and live Trustee disbursements to prevent overbidding.
-        </p>
+      <section id="how" style="border-top: 1px solid rgba(148,163,184,0.1);">
+  <div class="container">
+    <div class="section-header">
+      <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Underwriting Framework</div>
+      <h2>The Three-Stage Reconciliation Engine</h2>
+      <p class="subtitle">
+        We don't just "price" a portfolio—we reconstruct the payment reality of every case to find the delta between plan promises and actual cash flows.
+      </p>
+    </div>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="mono" style="color: var(--brand-glow); font-size: 0.7rem; margin-bottom: 1rem;">[ 01 ]</div>
+        <h3>Disbursement Decay Analysis</h3>
+        <p>We extract full disbursement histories from trustee ledgers. Our model applies a <strong>time-decay weighting</strong> (6-month half-life) to favor recent payment velocity over stale plan text from 24 months ago.</p>
+        <div class="tag-row">
+          <span class="tag blue">Ledger-Sourced</span>
+          <span class="tag blue">Velocity Weighting</span>
+        </div>
       </div>
 
-      <div class="grid-3">
-        <div class="card">
-          <h3>Reconstruct Payment Reality</h3>
-          <p>We pull full disbursement histories from trustee ledgers—not confirmed plans. Every payment, every claim, weighted by recency so you value the current trajectory, not stale plan promises.</p>
-          <div class="tag-row">
-            <span class="tag blue">trustee reconciliation</span>
-            <span class="tag blue">decay weighting</span>
-          </div>
+      <div class="card">
+        <div class="mono" style="color: var(--violet); font-size: 0.7rem; margin-bottom: 1rem;">[ 02 ]</div>
+        <h3>Waterfall Priority Mapping</h3>
+        <p>We project cashflows through the legal priority structure. We calculate exactly when administrative and secured claims are satisfied to determine the <strong>"viability date"</strong> for your unsecured claim.</p>
+        <div class="tag-row">
+          <span class="tag violet">Class-Level Waterfall</span>
+          <span class="tag violet">Viability Projections</span>
         </div>
+      </div>
 
-        <div class="card">
-          <h3>Model the Claim Waterfall</h3>
-          <p>We project future payments through the Chapter 13 priority structure: administrative claims first, then secured, then unsecured. Your claim's position determines its recovery—we show you exactly where it sits.</p>
-          <div class="tag-row">
-            <span class="tag green">priority allocation</span>
-            <span class="tag green">secured vs unsecured</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Deliver Risk-Adjusted NPV</h3>
-          <p>We discount projected cashflows and apply dismissal hazard curves. You get base case NPV plus downside scenarios—so you can set a bid with confidence and defend it to your IC.</p>
-          <div class="tag-row">
-            <span class="tag violet">NPV scenarios</span>
-            <span class="tag violet">dismissal sensitivity</span>
-          </div>
+      <div class="card">
+        <div class="mono" style="color: var(--check-green); font-size: 0.7rem; margin-bottom: 1rem;">[ 03 ]</div>
+        <h3>Hazard-Adjusted NPV</h3>
+        <p>Finally, we apply a <strong>Dismissal Hazard Curve</strong> based on case age and district-specific performance. You receive a risk-adjusted NPV that accounts for the probability of the case going dark.</p>
+        <div class="tag-row">
+          <span class="tag green">Sensitivity Grids</span>
+          <span class="tag green">IC-Ready Reports</span>
         </div>
       </div>
     </div>
-  </section>
+
+    <div style="margin-top: 4rem; background: rgba(3,7,18,0.4); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
+      <div class="grid-3" style="align-items: center;">
+        <div style="grid-column: span 1;">
+          <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Identifying the "Alpha Gap"</h4>
+          <p class="muted" style="font-size: 0.9rem;">By reconciling against the ledger, we identify accounts that are technically "Active" but haven't paid in 90+ days—the silent dismissals that ruin portfolio yields.</p>
+        </div>
+        <div style="grid-column: span 2; background: #030712; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--brand-glow);">
+           <div class="mono" style="font-size: 0.8rem; line-height: 1.8;">
+             <span style="color: var(--text-dim);">// Seller Bid Tape Data</span><br>
+             <span style="color: var(--red);">Plan_Payment: $450.00 | Status: Active</span><br><br>
+             <span style="color: var(--text-dim);">// PVL Ledger Intelligence</span><br>
+             <span style="color: var(--check-green);">Actual_Avg_Disbursement: $112.50</span><br>
+             <span style="color: var(--check-green);">Last_Payment_Date: 2025-11-12 (98 Days Ago)</span><br>
+             <span style="color: var(--amber);">Risk_Factor: "High - Going Dark" | Recovery_Adjusted: -72%</span>
+           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
   <section id="io">
     <div class="container">
@@ -1085,47 +1109,28 @@
     <div class="container">
       <div class="section-header">
         <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Pricing</div>
-        <h2>Services</h2>
+        <h2>Service Tiers</h2>
         <p class="subtitle">
-          Start with a low-friction pilot to validate our data against your internal models.
+          From single-tape validation to full-cycle portfolio backtesting.
         </p>
       </div>
 
       <div class="pricing-wrap">
         <div class="pricing-card featured">
-          <div class="pill" style="position:absolute; top:1.3rem; right:1.3rem;">Zero Friction Pilot</div>
+          <div class="pill" style="position:absolute; top:1.3rem; right:1.3rem;">Sanity Check</div>
           <div class="price nums">$500 <span>flat fee</span></div>
           <div class="pricing-title">Pilot Validation</div>
-          <div class="pricing-sub">Validate a live bid tape (up to <strong>2,000 accounts</strong>). Full underwriting datasets to audit your internal models.</div>
+          <div class="pricing-sub">A low-friction <strong>second opinion</strong>. Validate a live bid tape against trustee reality before you commit capital.</div>
 
           <ul class="bullets">
-            <li><span class="tick">✓</span> Full Datasets: <span class="mono">ledgers.csv</span>, <span class="mono">claims.csv</span></li>
-            <li><span class="tick">✓</span> <strong>Seller Discrepancy Report</strong> (Plan vs. Actual)</li>
-            <li><span class="tick">✓</span> Mixed Asset Support (Auto/Mortgage/Unsecured)</li>
-            <li><span class="tick">✓</span> Valuation Package with NPV scenarios</li>
-            <li><span class="tick">✓</span> 48-Hour Turnaround</li>
+            <li><span class="tick">✓</span> <strong>24-48 Hour Delivery</strong></li>
+            <li><span class="tick">✓</span> Seller Discrepancy Report</li>
+            <li><span class="tick">✓</span> Full Valuation (NPV & Sensitivity)</li>
+            <li><span class="tick">✓</span> Up to 2,000 Accounts</li>
           </ul>
 
           <div class="cta-wide">
-            <a href="#" class="btn-primary">Start Pilot Validation</a>
-          </div>
-        </div>
-
-        <div class="pricing-card">
-          <div class="price nums">$5,000 <span>/mo</span></div>
-          <div class="pricing-title">Data Subscription</div>
-          <div class="pricing-sub">For teams who need raw trustee data and claim rosters but handle valuation modeling internally.</div>
-
-          <ul class="bullets">
-            <li><span class="tick">✓</span> Unlimited Portfolio Uploads</li>
-            <li><span class="tick">✓</span> Trustee Disbursement Ledgers</li>
-            <li><span class="tick">✓</span> Claims & Waterfall Snapshots</li>
-            <li><span class="tick">✓</span> Priority Exception Reporting</li>
-            <li style="color: var(--text-dim); font-style: italic;">Valuation Package not included</li>
-          </ul>
-
-          <div class="cta-wide">
-            <a href="#" class="btn-outline">Contact Sales</a>
+            <a href="#" class="btn-primary" style="width:100%; justify-content:center;">Start Pilot</a>
           </div>
         </div>
 
@@ -1135,15 +1140,32 @@
           <div class="pricing-sub">Full-stack underwriting for funds running regular bid cycles requiring repeatable diligence packages.</div>
 
           <ul class="bullets">
-            <li><span class="tick">✓</span> Everything in Data Subscription</li>
-            <li><span class="tick">✓</span> Full Valuation Package (NPV, Sensitivity)</li>
-            <li><span class="tick">✓</span> Multi-user Access Control</li>
-            <li><span class="tick">✓</span> Configurable Assumptions per Tape</li>
-            <li><span class="tick">✓</span> Dedicated Analyst Support</li>
+            <li><span class="tick">✓</span> Unlimited Portfolio Uploads</li>
+            <li><span class="tick">✓</span> Raw Trustee Disbursement Ledgers</li>
+            <li><span class="tick">✓</span> Priority Waterfall Snapshots</li>
+            <li><span class="tick">✓</span> Configurable Risk Assumptions</li>
           </ul>
 
           <div class="cta-wide">
-            <a href="#" class="btn-outline">Contact Sales</a>
+            <a href="#" class="btn-outline" style="width:100%; justify-content:center;">Contact Sales</a>
+          </div>
+        </div>
+
+        <div class="pricing-card" style="border-color: var(--violet);">
+          <div class="price nums">$12,500 <span>/mo</span></div>
+          <div class="pricing-title">Performance Alpha</div>
+          <div class="pricing-sub">Close the loop. Backtest purchased portfolios using <strong>collected payment data</strong> to refine future bidding.</div>
+
+          <ul class="bullets">
+            <li><span class="tick">✓</span> <strong>Everything in Enterprise</strong></li>
+            <li><span class="tick">✓</span> Actual vs. Projected (AvP) Analysis</li>
+            <li><span class="tick">✓</span> Payment Velocity Backtesting</li>
+            <li><span class="tick">✓</span> Portfolio Yield Attribution</li>
+            <li><span class="tick">✓</span> Quarterly Strategy Review</li>
+          </ul>
+
+          <div class="cta-wide">
+            <a href="#" class="btn-outline" style="width:100%; justify-content:center; border-color: var(--violet); color: var(--violet);">Inquire for Backtesting</a>
           </div>
         </div>
       </div>
@@ -1152,116 +1174,64 @@
 
   <section id="matrix">
     <div class="container">
-      <div class="section-header">
-        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Features</div>
-        <h2>Capabilities Matrix</h2>
-        <p class="subtitle">
-          Clear feature availability across all pricing tiers.
-        </p>
-      </div>
-
       <div class="comparison-wrapper">
         <div class="table-scroll">
           <table>
             <thead>
               <tr>
                 <th style="width:40%;">Capability</th>
-                <th class="tier-col">Pilot<br><span style="font-weight: 400; font-size: 0.65rem;">$500</span></th>
-                <th class="tier-col">Data Sub<br><span style="font-weight: 400; font-size: 0.65rem;">$5K/mo</span></th>
-                <th class="tier-col">Enterprise<br><span style="font-weight: 400; font-size: 0.65rem;">$8.5K/mo</span></th>
+                <th class="tier-col">Pilot</th>
+                <th class="tier-col">Enterprise</th>
+                <th class="tier-col">Performance</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="category-row"><td colspan="4">Core Data Outputs</td></tr>
+              <tr class="category-row"><td colspan="4">Pre-Purchase Underwriting</td></tr>
               <tr>
-                <td>Trustee Disbursement Ledger</td>
+                <td>Trustee Ledger Reconciliation</td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
-                <td>Claims & Waterfall Snapshot</td>
+                <td>Claim Waterfall Positioning</td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Case Details Snapshot</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">Valuation & Forecasting</td></tr>
-              <tr>
-                <td>Trustee-Derived Payment Series</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
                 <td>Time-Decay Weighting Model</td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
+                <td class="tier-col"><span class="feature-dot included"></span></td>
+                <td class="tier-col"><span class="feature-dot included"></span></td>
+              </tr>
+              
+              <tr class="category-row"><td colspan="4">Post-Purchase / Backtesting</td></tr>
+              <tr>
+                <td>Actual vs. Projected Variance</td>
+                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
-                <td>Claim Waterfall Allocation</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
+                <td>Collected Payment Reconciliation</td>
+                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
-                <td>NPV Scenarios (Base + Stressed)</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Dismissal Sensitivity Grid</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">Risk & Exception Analysis</td></tr>
-              <tr>
-                <td>Seller Discrepancy Flags (Plan vs. Actual)</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Gap Analysis (Going Dark Detection)</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">Platform & Support</td></tr>
-              <tr>
-                <td>Portfolio Upload Limit</td>
-                <td class="tier-col" style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">1 tape</td>
-                <td class="tier-col" style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">Unlimited</td>
-                <td class="tier-col" style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">Unlimited</td>
-              </tr>
-              <tr>
-                <td>Multi-user Access</td>
+                <td>Model Calibration (Closing the Loop)</td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
+
+              <tr class="category-row"><td colspan="4">Delivery & Speed</td></tr>
               <tr>
-                <td>Configurable Assumptions (Discount Rate, etc.)</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Dedicated Analyst Support</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
+                <td>Turnaround Time</td>
+                <td class="tier-col">24-48 Hours</td>
+                <td class="tier-col">Instant/API</td>
+                <td class="tier-col">Real-time</td>
               </tr>
             </tbody>
           </table>
@@ -1269,7 +1239,6 @@
       </div>
     </div>
   </section>
-
   <section style="padding-top: 2.5rem;">
     <div class="container">
       <div class="card" style="text-align:center; padding:3rem 2rem;">
