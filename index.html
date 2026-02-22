@@ -6,6 +6,8 @@
   <title>Portfolio Valuation Lab | Chapter 13 Underwriting</title>
   <meta name="description" content="Stop overpaying for Chapter 13 claims. PVL analyzes real trustee payment histories to project exact cashflows and dismissal risks — so you never bid on a dying case." />
 
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233B82F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a10.06 10.06 0 0 0-20 0Z'/><path d='M12 12v8a2 2 0 0 0 2 2H22'/><path d='M12 2v1'/></svg>">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -171,20 +173,20 @@
 
     /* --- HERO --- */
     .hero {
-    min-height: 100vh;          /* Take up 100% of viewport height */
-    display: flex;              /* Use flexbox for alignment */
-    align-items: center;        /* Center vertically */
-    justify-content: center;    /* Center horizontally */
-    padding-top: 60px;          /* Slight offset for your fixed Navbar */
-    text-align: center;         /* Center the text itself */
+    min-height: 100vh;          
+    display: flex;              
+    align-items: center;        
+    justify-content: center;    
+    padding-top: 60px;          
+    text-align: center;         
     }
     .hero-grid {
-    display: block;             /* Disable the old Grid columns */
-    max-width: 800px;           /* Keep reading width comfortable */
-    margin: 0 auto;             /* Center this block in the container */
+    display: block;             
+    max-width: 800px;           
+    margin: 0 auto;             
     }
     .hero h1 {
-    font-size: 3.25rem; /* Reduced from 3.8rem to stop wrapping issues */
+    font-size: 3.25rem; 
     font-weight: 800;
     letter-spacing: -2px;
     line-height: 1.1;
@@ -203,13 +205,12 @@
       font-weight: 350;
       margin-bottom: 2.0rem;
     }
-    /* Center the flex items (buttons/tags) */
     .hero-cta-row {
     display: flex;
     gap: 0.9rem;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;    /* Crucial: Centers buttons horizontally */
+    justify-content: center;    
     margin-bottom: 2rem;
     }
     .trust-row {
@@ -217,7 +218,7 @@
     gap: 1.5rem;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;    /* Crucial: Centers the dot points */
+    justify-content: center;    
     color: var(--text-dim);
     font-size: 0.9rem;
     }
@@ -277,15 +278,15 @@
 
     /* --- DEAL SCREEN --- */
     .deal-screen-wrap {
-    border: 1px solid rgba(255, 255, 255, 0.08); /* Lighter, crisper border */
-    border-top: 1px solid rgba(255, 255, 255, 0.15); /* Highlight on top */
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    border-top: 1px solid rgba(255, 255, 255, 0.15); 
     border-radius: 16px;
     overflow: hidden;
-    background: rgba(15, 23, 42, 0.60); /* More transparency */
-    backdrop-filter: blur(12px);         /* The Glass Effect */
+    background: rgba(15, 23, 42, 0.60); 
+    backdrop-filter: blur(12px);         
     box-shadow: 
         0 0 0 1px rgba(0,0,0,0.2), 
-        0 20px 50px -10px rgba(0, 0, 0, 0.7); /* Deep, expensive shadow */
+        0 20px 50px -10px rgba(0, 0, 0, 0.7); 
     }
     .deal-screen-header {
       padding: 1.2rem 1.5rem;
@@ -303,23 +304,21 @@
       letter-spacing: 0.3px;
     }
 
-    /* Update .comparison-wrapper to handle positioning */
     .comparison-wrapper {
-        position: relative; /* Needed for the shadow overlay */
+        position: relative; 
         border: 1px solid rgba(148,163,184,0.18);
         border-radius: 12px;
         background: rgba(15,23,42,0.75);
         overflow: hidden;
     }
 
-    /* Add this Pseudo-element to create the fade on the right */
     .comparison-wrapper::after {
         content: '';
         position: absolute;
         top: 0; right: 0; bottom: 0;
         width: 40px;
         background: linear-gradient(to right, transparent, rgba(15,23,42,0.9));
-        pointer-events: none; /* Let clicks pass through */
+        pointer-events: none; 
         z-index: 10;
     }
 
@@ -327,7 +326,7 @@
     .portfolio-overview {
       padding: 1.5rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(5, 1fr); /* FORCED IN ONE ROW */
       gap: 1rem;
       background: rgba(15,23,42,0.3);
       border-bottom: 1px solid rgba(148,163,184,0.14);
@@ -339,21 +338,22 @@
       background: rgba(3,7,18,0.55);
     }
     .overview-card .label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       margin-bottom: 0.4rem;
+      white-space: nowrap;
     }
     .overview-card .value {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
       font-family: 'JetBrains Mono';
       color: var(--text-main);
       letter-spacing: -1px;
     }
     .overview-card .subtext {
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       color: var(--text-dim);
       margin-top: 0.3rem;
     }
@@ -472,18 +472,18 @@
 
     .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     .card {
-    background: rgba(15, 23, 42, 0.4); /* Start slightly more transparent */
+    background: rgba(15, 23, 42, 0.4); 
     border: 1px solid rgba(148,163,184,0.1);
     border-radius: 12px;
     padding: 1.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth physics */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
     }
     .card:hover {
     transform: translateY(-4px);
     background: rgba(15, 23, 42, 0.8);
-    border-color: rgba(96,165,250,0.5); /* Brand Blue border on hover */
+    border-color: rgba(96,165,250,0.5); 
     box-shadow: 
-        0 0 0 1px rgba(96,165,250,0.1), /* Inner glow ring */
+        0 0 0 1px rgba(96,165,250,0.1), 
         0 20px 40px -15px rgba(0,0,0,0.7);
     }
     .card h3 {
@@ -581,7 +581,7 @@
     /* --- PRICING --- */
     .pricing-wrap {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr); /* 3 COLUMNS ONLY */
       gap: 1.25rem;
       align-items: stretch;
     }
@@ -732,30 +732,9 @@
       color: var(--text-dim);
     }
 
-    /* --- ROI CALLOUT --- */
-    .roi-callout {
-      margin-top: 2rem;
-      padding: 1.5rem 2rem;
-      border: 1px solid rgba(16,185,129,0.2);
-      border-radius: 10px;
-      background: rgba(16,185,129,0.04);
-      text-align: center;
-    }
-    .roi-callout .roi-stat {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--check-green);
-      margin-bottom: 0.4rem;
-    }
-    .roi-callout .roi-desc {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
     /* --- RESPONSIVE --- */
     @media (max-width: 1200px) {
-      .pricing-wrap { grid-template-columns: repeat(2, 1fr); }
+      .pricing-wrap { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 980px) {
       .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -767,16 +746,24 @@
       .io-col + .io-col { border-left: none; border-top: 1px solid rgba(148,163,184,0.14); }
       .grid-3 { grid-template-columns: 1fr; }
       .pricing-wrap { grid-template-columns: 1fr; }
-      .portfolio-overview { grid-template-columns: 1fr 1fr; }
+      
+      /* Scale down Portfolio Overview on tablets */
+      .portfolio-overview { grid-template-columns: repeat(3, 1fr); }
+      
       .nav-links a:not(.btn-outline) { display: none; }
     }
-
+    @media (max-width: 768px) {
+      /* Further scale down Portfolio Overview */
+      .portfolio-overview { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 600px) {
       .hero { padding-top: 8.5rem; }
       .hero h1 { font-size: 2.5rem; }
       .container { padding: 0 1.5rem; }
       .pricing-card { padding: 1.5rem; }
       .io-col { padding: 1.25rem; }
+      
+      /* Stack Portfolio Overview on phones */
       .portfolio-overview { grid-template-columns: 1fr; }
       .account-table-wrap { padding: 1rem; }
     }
@@ -806,8 +793,7 @@
     </div>
   </nav>
     
-  <!-- Hero Section -->
-<section class="hero">
+  <section class="hero" style="min-height: 85vh;">
   <div class="container">
     <div class="hero-grid">
       
@@ -823,15 +809,22 @@
         </p>
 
         <div class="hero-cta-row">
-          <a href="#pricing" class="btn-primary">Start Pilot Validation</a>
+          <a href="#pilot" class="btn-primary">Start Pilot Validation</a>
           <a href="#how" class="btn-outline">View Methodology</a>
         </div>
     </div>
   </div>
 </section>
 
-    <!-- Deal Screen Section -->
-    <section id="deal-screen" style="padding-top: 3rem;">
+<div style="border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(15,23,42,0.3); padding: 2rem 0;">
+  <div class="container trust-row">
+    <div class="trust-item"><div class="dot"></div> Calibrated on 150,000+ Completed Cases</div>
+    <div class="trust-item"><div class="dot"></div> $2B+ in Face Value Analyzed</div>
+    <div class="trust-item"><div class="dot"></div> 5+ Years of Trustee Disbursement Data</div>
+  </div>
+</div>
+
+    <section id="deal-screen" style="padding-top: 5rem;">
         <div class="container">
           <div class="section-header">
             <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Deal Screen</div>
@@ -849,7 +842,6 @@
               </div>
             </div>
     
-            <!-- Portfolio Overview -->
             <div class="portfolio-overview">
               <div class="overview-card">
                 <div class="label">Total Accounts</div>
@@ -867,18 +859,17 @@
                 <div class="subtext" style="color: var(--check-green);">40.2% recovery rate</div>
               </div>
               <div class="overview-card">
-                <div class="label">Avg. Monthly Payment</div>
+                <div class="label">Avg. Monthly Pay</div>
                 <div class="value nums">$242</div>
                 <div class="subtext">6-month weighted avg</div>
               </div>
               <div class="overview-card" style="border-color: rgba(239,68,68,0.25);">
-                <div class="label">Dismissal Risk Accounts</div>
+                <div class="label">Dismissal Risk</div>
                 <div class="value nums" style="color: var(--red);">387</div>
                 <div class="subtext">16% of portfolio</div>
               </div>
             </div>
     
-            <!-- Account Table: Seller vs. PVL Delta -->
             <div class="account-table-wrap">
               <table class="account-table">
                 <thead>
@@ -1149,7 +1140,6 @@
             </div>
           </div>
 
-          <!-- NEW: Risk Flags Preview -->
           <div style="margin-top: 1.5rem; border: 1px solid rgba(245,158,11,0.25); border-radius: 8px; padding: 1.25rem; background: rgba(245,158,11,0.03);">
             <div style="font-size: 0.8rem; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.7rem;">
               ⚠ What We Catch That Sellers Don't Show You
@@ -1168,38 +1158,15 @@
   <section id="pricing">
     <div class="container">
       <div class="section-header">
-        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Pricing</div>
-        <h2>Per-Valuation ROI That Justifies Itself</h2>
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">SaaS Pricing</div>
+        <h2>Scale When You Are Ready</h2>
         <p class="subtitle">
-          Catching a 2% pricing error on a $5M tape saves $100K — and pays for the service for an entire year. Every tier includes enough volume to cover your next deal end-to-end.
+          Start with a single tape validation, then upgrade to full portfolio management when you are ready to scale your purchasing.
         </p>
       </div>
 
       <div class="pricing-wrap">
 
-        <!-- PILOT -->
-        <div class="pricing-card featured">
-          <div class="pill" style="position:absolute; top:1.2rem; right:1.2rem;">Risk-Free</div>
-          <div class="price nums">$500 <span>/mo</span></div>
-          <div class="pricing-title">Pilot</div>
-          <div class="valuation-count">Full Tape Run / Top 100 Discrepancies</div>
-          <div class="per-val">We score every claim — you see the 100 biggest gaps</div>
-          <span class="service-level a">Standard Valuation</span>
-          <div class="pricing-sub">Send us your next seller tape. We'll run every claim against live trustee data and surface the top 100 accounts where the seller's numbers diverge most from reality. One bad claim caught pays for the pilot ten times over.</div>
-
-          <ul class="bullets">
-            <li><span class="tick">✓</span> <strong>Full Tape Scored in 24-48 Hours</strong></li>
-            <li><span class="tick">✓</span> Top 100 Discrepancy Report</li>
-            <li><span class="tick">✓</span> Completion Odds per Claim</li>
-            <li><span class="tick">✓</span> NPV with Sensitivity Grid</li>
-          </ul>
-
-          <div class="cta-wide">
-            <a href="#" class="btn-primary" style="width:100%; justify-content:center;">Start Pilot — $500/mo</a>
-          </div>
-        </div>
-
-        <!-- DEAL DESK -->
         <div class="pricing-card">
           <div class="price nums">$5,000 <span>/mo</span></div>
           <div class="pricing-title">Deal Desk</div>
@@ -1209,7 +1176,6 @@
           <div class="pricing-sub">Cover 1-2 full tapes per month. See which claims are silently defaulting, where mortgages are eating your recovery, and what the real completion odds are.</div>
 
           <ul class="bullets">
-            <li><span class="tick">✓</span> <strong>Everything in Pilot</strong></li>
             <li><span class="tick">✓</span> Silent Default Detection</li>
             <li><span class="tick">✓</span> Mortgage Priority Impact</li>
             <li><span class="tick">✓</span> Case Stage Context</li>
@@ -1220,13 +1186,12 @@
           </div>
         </div>
 
-        <!-- PORTFOLIO -->
-        <div class="pricing-card" style="border-color: var(--violet);">
+        <div class="pricing-card featured" style="border-color: var(--brand-glow);">
           <div class="price nums">$8,500 <span>/mo</span></div>
           <div class="pricing-title">Portfolio</div>
           <div class="valuation-count">2,500 valuations / month</div>
           <div class="per-val">$3.40 per valuation</div>
-          <span class="service-level c">Portfolio Valuation</span>
+          <span class="service-level c" style="background: rgba(59,130,246,0.12); color: var(--brand-glow); border-color: rgba(59,130,246,0.25);">Portfolio Valuation</span>
           <div class="pricing-sub">Full diligence packages for active buyers. Aggregate risk scores across the portfolio, bid strategy recommendations, and everything your IC needs to approve.</div>
 
           <ul class="bullets">
@@ -1237,11 +1202,10 @@
           </ul>
 
           <div class="cta-wide">
-            <a href="#" class="btn-outline" style="width:100%; justify-content:center; border-color: var(--violet); color: var(--violet);">Contact Sales</a>
+            <a href="#" class="btn-primary" style="width:100%; justify-content:center;">Contact Sales</a>
           </div>
         </div>
 
-        <!-- STRATEGIC -->
         <div class="pricing-card" style="border-color: var(--amber);">
           <div class="price nums">$12,500 <span>/mo</span></div>
           <div class="pricing-title">Strategic</div>
@@ -1255,7 +1219,6 @@
             <li><span class="tick">✓</span> Backtested Comparables</li>
             <li><span class="tick">✓</span> Trustee Disbursement Patterns</li>
             <li><span class="tick">✓</span> IC-Ready Valuation Memos</li>
-            <li><span class="tick">✓</span> Quarterly Strategy Review</li>
           </ul>
 
           <div class="cta-wide">
@@ -1264,18 +1227,12 @@
         </div>
 
       </div>
-
-      <!-- ROI Callout -->
-      <div class="roi-callout">
-        <div class="roi-stat">We run your entire tape for $500. You see the 100 claims where the seller is most wrong.</div>
-        <div class="roi-desc">If we don't find gaps the seller missed, you've risked $500. If we do — and we will — you've just saved multiples of that on the bid.</div>
-      </div>
     </div>
   </section>
 
   <section id="matrix">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header" style="margin-top: 2rem;">
         <h2>What You Get at Each Tier</h2>
         <p class="subtitle">Every tier builds on the one before it. Upgrade when you need deeper analysis.</p>
       </div>
@@ -1284,18 +1241,16 @@
           <table>
             <thead>
               <tr>
-                <th style="width:32%;">Capability</th>
-                <th class="tier-col">Pilot</th>
+                <th style="width:34%;">Capability</th>
                 <th class="tier-col">Deal Desk</th>
-                <th class="tier-col">Portfolio</th>
+                <th class="tier-col" style="color:var(--brand-glow);">Portfolio</th>
                 <th class="tier-col">Strategic</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="category-row"><td colspan="5">Core Underwriting</td></tr>
+              <tr class="category-row"><td colspan="4">Core Underwriting</td></tr>
               <tr>
                 <td>Realistic Completion Odds</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
@@ -1305,11 +1260,9 @@
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
                 <td>NPV with Sensitivity Grid</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
@@ -1319,36 +1272,31 @@
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
 
-              <tr class="category-row"><td colspan="5">Enhanced Analysis</td></tr>
+              <tr class="category-row"><td colspan="4">Enhanced Analysis</td></tr>
               <tr>
                 <td>Silent Default Detection</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
                 <td>Mortgage Priority Impact</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
                 <td>Case Stage Context</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
 
-              <tr class="category-row"><td colspan="5">Portfolio-Level Intelligence</td></tr>
+              <tr class="category-row"><td colspan="4">Portfolio-Level Intelligence</td></tr>
               <tr>
                 <td>Aggregate Portfolio Analysis</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
@@ -1356,22 +1304,19 @@
               <tr>
                 <td>Bid Strategy Recommendations</td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
                 <td>Aggregate Risk Scoring</td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
 
-              <tr class="category-row"><td colspan="5">IC-Ready Advisory</td></tr>
+              <tr class="category-row"><td colspan="4">IC-Ready Advisory</td></tr>
               <tr>
                 <td>Backtested Comparables</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
@@ -1380,37 +1325,26 @@
                 <td>Trustee Payment Pattern Analysis</td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
               <tr>
                 <td>IC-Ready Valuation Memos</td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Quarterly Strategy Review</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
                 <td class="tier-col"><span class="feature-dot included"></span></td>
               </tr>
 
-              <tr class="category-row"><td colspan="5">Delivery</td></tr>
+              <tr class="category-row"><td colspan="4">Delivery</td></tr>
               <tr>
                 <td>Turnaround Time</td>
-                <td class="tier-col">24-48 hrs</td>
                 <td class="tier-col">Same Day</td>
-                <td class="tier-col">Priority</td>
+                <td class="tier-col" style="color:var(--text-main);">Priority</td>
                 <td class="tier-col">Real-time</td>
               </tr>
               <tr>
                 <td>Monthly Valuations</td>
-                <td class="tier-col" style="font-weight:700; color:var(--text-main);">Full Tape (Top 100)</td>
                 <td class="tier-col">750</td>
-                <td class="tier-col">2,500</td>
+                <td class="tier-col" style="color:var(--text-main);">2,500</td>
                 <td class="tier-col">7,500</td>
               </tr>
             </tbody>
@@ -1419,16 +1353,36 @@
       </div>
     </div>
   </section>
-  <section style="padding-top: 2.5rem;">
+
+  <section id="pilot" style="padding: 6rem 0;">
     <div class="container">
-      <div class="card" style="text-align:center; padding:3rem 2rem;">
-        <h3 style="font-size:1.5rem; margin-bottom:1rem;">Find Out What the Seller Isn't Telling You</h3>
-        <p style="max-width:70ch;margin:0 auto 2rem;" class="muted">
-          Send us your next tape. We'll run the whole thing against trustee-verified payment data and hand you the top 100 most dangerous discrepancies. If PVL doesn't change your bid, you've lost $500. If it does, you just saved multiples of that.
+      <div class="card" style="text-align:center; padding:4rem 2rem; background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(16,27,51,0.8)); border-color: rgba(59,130,246,0.45); box-shadow: 0 0 50px rgba(59, 130, 246, 0.12);">
+        <div class="pill" style="display:inline-block; margin-bottom:1.5rem;">Risk-Free Entry</div>
+        
+        <h2 style="font-size: 2.5rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.5rem; color: var(--text-main);">The Pilot Run</h2>
+        
+        <div class="price nums" style="font-size: 2.8rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-main);">
+          $500 <span style="font-size: 1rem; color: var(--text-muted); font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 400; letter-spacing: 0;">/ flat rate</span>
+        </div>
+
+        <p style="max-width:70ch;margin:0 auto 2.5rem; font-size: 1.1rem; line-height: 1.7;" class="muted">
+          Send us your next tape. We'll run the entire portfolio against trustee-verified payment data and hand you the top 100 most dangerous discrepancies. <strong>If PVL doesn't change your bid, you've lost $500. If it does, you just saved multiples of that.</strong>
         </p>
+
+        <div style="display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 3rem;">
+          <div style="display: flex; gap: 0.75rem; align-items: center; color: var(--text-main); font-size: 0.95rem;">
+            <span class="tick" style="margin-top:0;">✓</span> <strong>Full Tape Scored in 24-48 Hrs</strong>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: center; color: var(--text-main); font-size: 0.95rem;">
+            <span class="tick" style="margin-top:0;">✓</span> <strong>Top 100 Discrepancy Report</strong>
+          </div>
+          <div style="display: flex; gap: 0.75rem; align-items: center; color: var(--text-main); font-size: 0.95rem;">
+            <span class="tick" style="margin-top:0;">✓</span> <strong>Completion Odds per Claim</strong>
+          </div>
+        </div>
+
         <div class="hero-cta-row" style="justify-content:center; margin-bottom:0;">
-          <a href="#pricing" class="btn-primary">Start Pilot — $500/mo</a>
-          <a href="#" class="btn-outline">Client Login</a>
+          <a href="#" class="btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1.05rem;">Start Your Pilot</a>
         </div>
       </div>
     </div>
