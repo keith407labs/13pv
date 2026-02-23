@@ -979,25 +979,6 @@
         </div>
       </div>
     </div>
-
-    <div style="margin-top: 4rem; background: rgba(3,7,18,0.4); border: 1px solid var(--border); border-radius: 12px; padding: 2rem;">
-      <div class="grid-3" style="align-items: center;">
-        <div style="grid-column: span 1;">
-          <h4 style="margin-bottom: 0.5rem; font-size: 1.1rem;">Defendable Pricing</h4>
-          <p class="muted" style="font-size: 0.9rem;">Every discrepancy we find is ammunition for your bid. Walk into seller negotiations with audit-ready data showing exactly where their tape overstates value — then justify that lower price to your Investment Committee with the numbers to back it up.</p>
-        </div>
-        <div style="grid-column: span 2; background: #030712; padding: 1.5rem; border-radius: 8px; border-left: 4px solid var(--brand-glow);">
-           <div class="mono" style="font-size: 0.8rem; line-height: 1.8;">
-             <span style="color: var(--text-dim);">// Seller Bid Tape Data</span><br>
-             <span style="color: var(--red);">Plan_Payment: $450.00 | Status: Active</span><br><br>
-             <span style="color: var(--text-dim);">// PVL Ledger Intelligence</span><br>
-             <span style="color: var(--check-green);">Actual_Avg_Disbursement: $112.50</span><br>
-             <span style="color: var(--check-green);">Last_Payment_Date: 2025-11-12 (98 Days Ago)</span><br>
-             <span style="color: var(--amber);">Risk_Factor: "High - Going Dark" | Recovery_Adjusted: -72%</span>
-           </div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -1155,204 +1136,144 @@
     </div>
   </section>
 
-  <section id="pricing">
-    <div class="container">
-      <div class="section-header">
-        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">SaaS Pricing</div>
-        <h2>Scale When You Are Ready</h2>
-        <p class="subtitle">
-          Start with a single tape validation, then upgrade to full portfolio management when you are ready to scale your purchasing.
+  <section id="roi" style="border-top: 1px solid rgba(148,163,184,0.1); background: rgba(15,23,42,0.2);">
+  <div class="container">
+    <div class="section-header">
+      <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">The Economics of Accuracy</div>
+      <h2>The Cost of Being Wrong</h2>
+      <p class="subtitle">A single "ghost claim" can wipe out the margin of ten performing ones. We calculate the mathematical distance between the seller's tape and the trustee's reality.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+      <div>
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Catching the "Margin Killers"</h3>
+        <ul class="bullets" style="gap: 1.2rem;">
+          <li><span class="tick">✓</span> <strong>Ch 13 → 7 Conversions:</strong> We flag cases with "Means Test" failures or bad-faith filings before they exit the payment pool.</li>
+          <li><span class="tick">✓</span> <strong>Erratic Payers:</strong> If a debtor misses 2 of the last 4 payments, your NPV shouldn't be 100%. We apply a volatility decay.</li>
+          <li><span class="tick">✓</span> <strong>Cramdowns & Plan Amendments:</strong> We track motions to amend plans that lower the "pot" for unsecured creditors mid-stream.</li>
+        </ul>
+      </div>
+      <div class="card" style="background: var(--bg-surface-2); border-left: 4px solid var(--brand-glow);">
+        <div class="mono" style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem;">// The ROI Formula</div>
+        <div style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+          $$ \text{ROI} = \frac{\sum (\text{Tape Value} - \text{PVL Adjusted NPV})}{\text{Monthly Subscription}} $$
+        </div>
+        <p class="muted" style="font-size: 0.9rem;">
+          If PVL catches just one **$8,000** "Silent Default" per month, the platform has already paid for itself. Most clients find $50k+ in "ghost value" per tape.
         </p>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="pricing-wrap">
+<section id="pricing">
+  <div class="container">
+    <div class="section-header">
+      <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Volume-Based Pricing</div>
+      <h2>Full Insight at Every Scale</h2>
+      <p class="subtitle">Every tier receives the <strong>Complete Valuation Package</strong>. You only pay for the number of claims you need to underwrite each month.</p>
+    </div>
 
-        <div class="pricing-card">
-          <div class="price nums">$5,000 <span>/mo</span></div>
-          <div class="pricing-title">Deal Desk</div>
-          <div class="valuation-count">750 valuations / month</div>
-          <div class="per-val">$6.67 per valuation</div>
-          <span class="service-level b">Enhanced Valuation</span>
-          <div class="pricing-sub">Cover 1-2 full tapes per month. See which claims are silently defaulting, where mortgages are eating your recovery, and what the real completion odds are.</div>
+    <div class="pricing-wrap">
+      <div class="pricing-card">
+        <div class="pricing-title">Foundation</div>
+        <div class="price nums">$5,000 <span>/mo</span></div>
+        <div class="valuation-count">Up to 750 valuations</div>
+        <div class="per-val">~$6.67 per claim</div>
+        <div class="pricing-sub">Perfect for boutique firms or buyers bidding on 1-2 tapes per month. Includes the full reality-check suite.</div>
+        <ul class="bullets">
+          <li><span class="tick">✓</span> Complete Valuation Package</li>
+          <li><span class="tick">✓</span> Silent Default & Cramdown Alerts</li>
+          <li><span class="tick">✓</span> Standard 24h Turnaround</li>
+        </ul>
+        <div class="cta-wide"><a href="#" class="btn-outline" style="width:100%; justify-content:center;">Get Started</a></div>
+      </div>
 
-          <ul class="bullets">
-            <li><span class="tick">✓</span> Silent Default Detection</li>
-            <li><span class="tick">✓</span> Mortgage Priority Impact</li>
-            <li><span class="tick">✓</span> Case Stage Context</li>
-          </ul>
+      <div class="pricing-card featured" style="border-color: var(--brand-glow);">
+        <div class="pricing-title" style="color: var(--brand-glow);">Velocity</div>
+        <div class="price nums">$10,000 <span>/mo</span></div>
+        <div class="valuation-count">Up to 2,500 valuations</div>
+        <div class="per-val">$4.00 per claim</div>
+        <div class="pricing-sub">For active deal desks. Significant unit-cost savings as you scale your bidding frequency.</div>
+        <ul class="bullets">
+          <li><span class="tick">✓</span> <strong>Everything in Foundation</strong></li>
+          <li><span class="tick">✓</span> Priority Processing Queue</li>
+          <li><span class="tick">✓</span> Multiple User Seats</li>
+        </ul>
+        <div class="cta-wide"><a href="#" class="btn-primary" style="width:100%; justify-content:center;">Scale Up</a></div>
+      </div>
 
-          <div class="cta-wide">
-            <a href="#" class="btn-outline" style="width:100%; justify-content:center;">Contact Sales</a>
-          </div>
-        </div>
-
-        <div class="pricing-card featured" style="border-color: var(--brand-glow);">
-          <div class="price nums">$8,500 <span>/mo</span></div>
-          <div class="pricing-title">Portfolio</div>
-          <div class="valuation-count">2,500 valuations / month</div>
-          <div class="per-val">$3.40 per valuation</div>
-          <span class="service-level c" style="background: rgba(59,130,246,0.12); color: var(--brand-glow); border-color: rgba(59,130,246,0.25);">Portfolio Valuation</span>
-          <div class="pricing-sub">Full diligence packages for active buyers. Aggregate risk scores across the portfolio, bid strategy recommendations, and everything your IC needs to approve.</div>
-
-          <ul class="bullets">
-            <li><span class="tick">✓</span> <strong>Everything in Deal Desk</strong></li>
-            <li><span class="tick">✓</span> Full Portfolio-Level Analysis</li>
-            <li><span class="tick">✓</span> Bid Strategy Recommendations</li>
-            <li><span class="tick">✓</span> Aggregate Risk Scoring</li>
-          </ul>
-
-          <div class="cta-wide">
-            <a href="#" class="btn-primary" style="width:100%; justify-content:center;">Contact Sales</a>
-          </div>
-        </div>
-
-        <div class="pricing-card" style="border-color: var(--amber);">
-          <div class="price nums">$12,500 <span>/mo</span></div>
-          <div class="pricing-title">Strategic</div>
-          <div class="valuation-count">7,500 valuations / month</div>
-          <div class="per-val">$1.67 per valuation</div>
-          <span class="service-level d">Strategic Advisory</span>
-          <div class="pricing-sub">Hands-on partnership. We write the valuation memos, source backtested comparables, and sit alongside your team to defend pricing to the IC.</div>
-
-          <ul class="bullets">
-            <li><span class="tick">✓</span> <strong>Everything in Portfolio</strong></li>
-            <li><span class="tick">✓</span> Backtested Comparables</li>
-            <li><span class="tick">✓</span> Trustee Disbursement Patterns</li>
-            <li><span class="tick">✓</span> IC-Ready Valuation Memos</li>
-          </ul>
-
-          <div class="cta-wide">
-            <a href="#" class="btn-outline" style="width:100%; justify-content:center; border-color: var(--amber); color: var(--amber);">Contact Sales</a>
-          </div>
-        </div>
-
+      <div class="pricing-card" style="border-color: var(--violet); background: rgba(139, 92, 246, 0.05);">
+        <div class="pricing-title" style="color: var(--violet);">Add-On: Backtesting</div>
+        <div class="price nums">+$2,500 <span>/mo</span></div>
+        <div class="valuation-count">Monthly Variance Audit</div>
+        <div class="pricing-sub">We ingest your *actual* collection data and map it against our past projections to prove the model's accuracy to your IC.</div>
+        <ul class="bullets">
+          <li><span class="tick" style="color: var(--violet); border-color: var(--violet);">✓</span> Variance Analysis Reports</li>
+          <li><span class="tick" style="color: var(--violet); border-color: var(--violet);">✓</span> Model Tuning & Calibration</li>
+          <li><span class="tick" style="color: var(--violet); border-color: var(--violet);">✓</span> IC-Ready Performance Memos</li>
+        </ul>
+        <div class="cta-wide"><a href="#" class="btn-outline" style="width:100%; justify-content:center; border-color: var(--violet); color: var(--violet);">Add to Plan</a></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="matrix">
-    <div class="container">
-      <div class="section-header" style="margin-top: 2rem;">
-        <h2>What You Get at Each Tier</h2>
-        <p class="subtitle">Every tier builds on the one before it. Upgrade when you need deeper analysis.</p>
-      </div>
-      <div class="comparison-wrapper">
-        <div class="table-scroll">
-          <table>
-            <thead>
-              <tr>
-                <th style="width:34%;">Capability</th>
-                <th class="tier-col">Deal Desk</th>
-                <th class="tier-col" style="color:var(--brand-glow);">Portfolio</th>
-                <th class="tier-col">Strategic</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="category-row"><td colspan="4">Core Underwriting</td></tr>
-              <tr>
-                <td>Realistic Completion Odds</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Trustee Ledger Reconciliation</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>NPV with Sensitivity Grid</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Seller Discrepancy Report</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">Enhanced Analysis</td></tr>
-              <tr>
-                <td>Silent Default Detection</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Mortgage Priority Impact</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Case Stage Context</td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">Portfolio-Level Intelligence</td></tr>
-              <tr>
-                <td>Aggregate Portfolio Analysis</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Bid Strategy Recommendations</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Aggregate Risk Scoring</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">IC-Ready Advisory</td></tr>
-              <tr>
-                <td>Backtested Comparables</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>Trustee Payment Pattern Analysis</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-              <tr>
-                <td>IC-Ready Valuation Memos</td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot excluded"></span></td>
-                <td class="tier-col"><span class="feature-dot included"></span></td>
-              </tr>
-
-              <tr class="category-row"><td colspan="4">Delivery</td></tr>
-              <tr>
-                <td>Turnaround Time</td>
-                <td class="tier-col">Same Day</td>
-                <td class="tier-col" style="color:var(--text-main);">Priority</td>
-                <td class="tier-col">Real-time</td>
-              </tr>
-              <tr>
-                <td>Monthly Valuations</td>
-                <td class="tier-col">750</td>
-                <td class="tier-col" style="color:var(--text-main);">2,500</td>
-                <td class="tier-col">7,500</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+<section id="matrix">
+  <div class="container">
+    <div class="section-header">
+      <h2>Standard Features vs. Add-Ons</h2>
+    </div>
+    <div class="comparison-wrapper">
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:40%;">Underwriting Capability</th>
+              <th class="tier-col">Foundation</th>
+              <th class="tier-col">Velocity</th>
+              <th class="tier-col">Backtesting Add-On</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="category-row"><td colspan="4">Standard in All Valuations</td></tr>
+            <tr>
+              <td>Trustee Ledger Reconciliation (Real vs. Tape)</td>
+              <td class="tier-col"><span class="feature-dot included"></span></td>
+              <td class="tier-col"><span class="feature-dot included"></span></td>
+              <td class="tier-col">—</td>
+            </tr>
+            <tr>
+              <td>Ch 7 Conversion & Dismissal Probabilities</td>
+              <td class="tier-col"><span class="feature-dot included"></span></td>
+              <td class="tier-col"><span class="feature-dot included"></span></td>
+              <td class="tier-col">—</td>
+            </tr>
+            <tr>
+              <td>Cramdown & Priority Waterfall Analysis</td>
+              <td class="tier-col"><span class="feature-dot included"></span></td>
+              <td class="tier-col"><span class="feature-dot included"></span></td>
+              <td class="tier-col">—</td>
+            </tr>
+            <tr class="category-row"><td colspan="4">Performance & Audit</td></tr>
+            <tr>
+              <td>Actual vs. Projected Variance Reporting</td>
+              <td class="tier-col">—</td>
+              <td class="tier-col">—</td>
+              <td class="tier-col"><span class="feature-dot included" style="background:var(--violet); color:var(--violet);"></span></td>
+            </tr>
+            <tr>
+              <td>Historical Recovery Backtesting</td>
+              <td class="tier-col">—</td>
+              <td class="tier-col">—</td>
+              <td class="tier-col"><span class="feature-dot included" style="background:var(--violet); color:var(--violet);"></span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section id="pilot" style="padding: 6rem 0;">
     <div class="container">
