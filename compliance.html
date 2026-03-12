@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compliance & Security | Portfolio Valuation Lab</title>
+  <meta name="description" content="PVL's compliance and security practices — encryption, access controls, audit trails, and regulatory alignment for handling sensitive Chapter 13 bankruptcy data." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233B82F6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a10.06 10.06 0 0 0-20 0Z'/><path d='M12 12v8a2 2 0 0 0 2 2H22'/><path d='M12 2v1'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-deep: #0B1120;
+      --bg-surface: #0f172a;
+      --bg-surface-2: #101b33;
+      --border: #334155;
+      --border-light: #475569;
+
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-dim: #64748B;
+
+      --brand-blue: #2563EB;
+      --brand-glow: #3B82F6;
+
+      --check-green: #10B981;
+      --amber: #F59E0B;
+      --red: #EF4444;
+      --violet: #A78BFA;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: var(--text-main);
+      line-height: 1.6;
+      background-color: var(--bg-deep);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+    .container { max-width: 1120px; margin: 0 auto; padding: 0 2rem; position: relative; }
+    .muted { color: var(--text-muted); }
+    .dim { color: var(--text-dim); }
+
+    /* --- NEON CHROME BACKGROUND --- */
+    .neon-bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+      background: var(--bg-deep);
+    }
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 52px 52px;
+      mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
+    }
+    .neon-glow-1 {
+      position: absolute;
+      left: 18%;
+      top: 18%;
+      height: 54rem;
+      width: 54rem;
+      transform: translate(-50%, -50%);
+      border-radius: 100%;
+      filter: blur(120px);
+      opacity: 0.12;
+      background: radial-gradient(circle, #3B82F6, transparent 70%);
+    }
+    .neon-glow-2 {
+      position: absolute;
+      right: 10%;
+      top: 62%;
+      height: 46rem;
+      width: 46rem;
+      transform: translate(20%, -50%);
+      border-radius: 100%;
+      filter: blur(110px);
+      opacity: 0.10;
+      background: radial-gradient(circle, #8B5CF6, transparent 70%);
+    }
+
+    /* --- NAV --- */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(11, 17, 32, 0.95);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 1.15rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-flex { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; }
+    .logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+    .logo svg { stroke: var(--brand-glow); width: 22px; height: 22px; }
+
+    .pill {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid rgba(96,165,250,0.25);
+      background: rgba(59,130,246,0.10);
+      color: var(--brand-glow);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-main); }
+    .nav-links a.active { color: var(--text-main); }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-main);
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .btn-outline, .btn-primary {
+      padding: 0.65rem 1.25rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      white-space: nowrap;
+    }
+    .btn-outline {
+      border: 1px solid var(--border-light);
+      color: var(--text-main);
+      background: rgba(255,255,255,0.02);
+    }
+    .btn-outline:hover {
+      border-color: var(--brand-blue);
+      background: rgba(59, 130, 246, 0.10);
+      box-shadow: 0 0 0 4px rgba(59,130,246,0.06);
+    }
+    .btn-primary {
+      background: linear-gradient(to right, var(--brand-blue), #2563EB);
+      color: white;
+      border: 1px solid rgba(59,130,246,0.35);
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 24px rgba(59, 130, 246, 0.25);
+      transform: translateY(-1px);
+    }
+
+    /* --- PAGE HERO --- */
+    .page-hero {
+      padding: 10rem 0 5rem;
+      text-align: center;
+    }
+    .page-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--text-main);
+    }
+    .page-hero h1 span {
+      background: linear-gradient(to right, #60A5FA, #A78BFA);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .page-hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 62ch;
+      margin: 0 auto;
+      font-weight: 350;
+      line-height: 1.8;
+    }
+
+    /* --- SECTIONS --- */
+    section { padding: 5rem 0; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 0.8rem;
+      color: var(--text-main);
+    }
+    .subtitle { color: var(--text-muted); font-size: 1.05rem; max-width: 78ch; margin: 0 auto; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+
+    .card {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(148,163,184,0.1);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      background: rgba(15, 23, 42, 0.8);
+      border-color: rgba(96,165,250,0.5);
+      box-shadow: 0 0 0 1px rgba(96,165,250,0.1), 0 20px 40px -15px rgba(0,0,0,0.7);
+    }
+    .card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      margin-bottom: 0.5rem;
+    }
+    .card p { color: var(--text-muted); font-size: 0.95rem; }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      border: 1px solid rgba(59,130,246,0.25);
+      background: rgba(59,130,246,0.08);
+      color: var(--brand-glow);
+    }
+    .card-icon.green {
+      border-color: rgba(16,185,129,0.25);
+      background: rgba(16,185,129,0.08);
+      color: var(--check-green);
+    }
+    .card-icon.violet {
+      border-color: rgba(167,139,250,0.25);
+      background: rgba(167,139,250,0.08);
+      color: var(--violet);
+    }
+    .card-icon.amber {
+      border-color: rgba(245,158,11,0.25);
+      background: rgba(245,158,11,0.08);
+      color: var(--amber);
+    }
+
+    /* --- DETAIL SECTIONS --- */
+    .detail-block {
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      overflow: hidden;
+      background: rgba(15,23,42,0.40);
+      margin-bottom: 2rem;
+    }
+    .detail-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid rgba(148,163,184,0.14);
+      background: rgba(255,255,255,0.02);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .detail-header h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+    .detail-body {
+      padding: 2rem;
+    }
+    .detail-body p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .detail-body p:last-child { margin-bottom: 0; }
+
+    .checklist {
+      list-style: none;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .checklist li {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .tick {
+      width: 18px; height: 18px; border-radius: 4px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.28);
+      color: var(--check-green);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-weight: 900;
+      flex: 0 0 auto;
+      margin-top: 3px;
+      font-size: 0.75rem;
+    }
+
+    /* --- CTA BANNER --- */
+    .cta-banner {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: linear-gradient(to bottom, rgba(15,23,42,0.8), rgba(16,27,51,0.8));
+      border: 1px solid rgba(59,130,246,0.45);
+      border-radius: 12px;
+      box-shadow: 0 0 50px rgba(59, 130, 246, 0.12);
+    }
+    .cta-banner h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+    }
+    .cta-banner p {
+      color: var(--text-muted);
+      max-width: 60ch;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+      border-top: 1px solid rgba(148,163,184,0.14);
+      color: var(--text-dim);
+    }
+
+    /* --- RESPONSIVE --- */
+    @media (max-width: 980px) {
+      .mobile-menu-btn { display: block; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(11, 17, 32, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+        flex-direction: column;
+        padding: 1.5rem 2rem;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+      .nav-links.active { display: flex; }
+      .grid-3 { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .page-hero { padding-top: 8.5rem; }
+      .page-hero h1 { font-size: 2.25rem; }
+      .container { padding: 0 1.5rem; }
+      .detail-body { padding: 1.5rem; }
+      .detail-header { padding: 1.25rem 1.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="neon-bg-container">
+    <div class="grid-overlay"></div>
+    <div class="neon-glow-1"></div>
+    <div class="neon-glow-2"></div>
+  </div>
+
+  <nav>
+    <div class="container nav-flex">
+      <a href="index.html" class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 2 2H22"/><path d="M12 2v1"/></svg>
+        PVL
+      </a>
+
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <div class="nav-links">
+        <a href="index.html#how">How It Works</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="compliance.html" class="active">Compliance</a>
+        <a href="#" class="btn-outline">Client Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <div class="mono" style="color: var(--brand-glow); font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 1.5rem; text-transform: uppercase;">
+        Compliance & Security
+      </div>
+      <h1>Your Data Is Bankruptcy-Sensitive.<br><span>We Treat It That Way.</span></h1>
+      <p>
+        PVL handles court filings, trustee ledgers, and portfolio tapes containing PII and sensitive financial data. Our security infrastructure is built to meet the standards institutional buyers expect.
+      </p>
+    </div>
+  </section>
+
+  <div style="border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(15,23,42,0.3); padding: 2rem 0;">
+    <div class="container" style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; color: var(--text-dim); font-size: 0.9rem;">
+      <div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--check-green);box-shadow:0 0 10px var(--check-green);"></div>
+        AES-256 Encryption at Rest
+      </div>
+      <div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--check-green);box-shadow:0 0 10px var(--check-green);"></div>
+        TLS 1.3 in Transit
+      </div>
+      <div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--check-green);box-shadow:0 0 10px var(--check-green);"></div>
+        SOC 2 Type II Aligned
+      </div>
+      <div style="display: inline-flex; gap: 0.5rem; align-items: center;">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--check-green);box-shadow:0 0 10px var(--check-green);"></div>
+        Role-Based Access Controls
+      </div>
+    </div>
+  </div>
+
+  <!-- Security Overview Cards -->
+  <section id="overview">
+    <div class="container">
+      <div class="section-header">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Security Posture</div>
+        <h2>Built for Sensitive Financial Data</h2>
+        <p class="subtitle">Every layer of PVL's infrastructure is designed to protect the bankruptcy data, PII, and portfolio analytics that flow through our platform.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <h3>Encryption Everywhere</h3>
+          <p>All data encrypted with AES-256 at rest and TLS 1.3 in transit. Portfolio tapes and trustee ledgers never exist in plaintext outside of active processing.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <h3>Access Controls</h3>
+          <p>Role-based access with least-privilege defaults. Every data request is authenticated, authorized, and logged. No shared credentials, no ambient access.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon violet">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <h3>Full Audit Trail</h3>
+          <p>Every file upload, valuation run, and data export is logged with timestamp, user identity, and action type. Your compliance team can audit any interaction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Handling -->
+  <section id="data-handling" style="border-top: 1px solid rgba(148,163,184,0.1);">
+    <div class="container">
+      <div class="section-header">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Data Handling</div>
+        <h2>How We Protect Your Portfolio Data</h2>
+        <p class="subtitle">From the moment a tape is uploaded to the final deliverable, every step follows strict data handling protocols.</p>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-header">
+          <span class="pill">Ingestion</span>
+          <h3>Secure Upload & Processing</h3>
+        </div>
+        <div class="detail-body">
+          <p>Portfolio tapes are uploaded via encrypted channels and processed in isolated compute environments. Files are validated on receipt, and malformed or unexpected data formats are rejected before processing begins.</p>
+          <ul class="checklist">
+            <li><span class="tick">&#10003;</span> Uploads transmitted over TLS 1.3 with certificate pinning</li>
+            <li><span class="tick">&#10003;</span> Files scanned for malware and format anomalies before ingestion</li>
+            <li><span class="tick">&#10003;</span> Processing occurs in ephemeral, isolated compute containers</li>
+            <li><span class="tick">&#10003;</span> Raw uploads are purged after processing completes (configurable retention)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-header">
+          <span class="pill">Storage</span>
+          <h3>Encryption & Isolation</h3>
+        </div>
+        <div class="detail-body">
+          <p>All stored data — including trustee ledgers, valuation outputs, and client configurations — is encrypted at rest using AES-256. Each client's data is logically isolated with tenant-scoped encryption keys.</p>
+          <ul class="checklist">
+            <li><span class="tick">&#10003;</span> AES-256 encryption at rest with per-tenant key management</li>
+            <li><span class="tick">&#10003;</span> Logical data isolation between client environments</li>
+            <li><span class="tick">&#10003;</span> Automated key rotation on a defined schedule</li>
+            <li><span class="tick">&#10003;</span> Backup data encrypted with the same standards as primary storage</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="detail-block">
+        <div class="detail-header">
+          <span class="pill">Delivery</span>
+          <h3>Secure Output & Retention</h3>
+        </div>
+        <div class="detail-body">
+          <p>Valuation packages are delivered through authenticated, encrypted channels. Clients control their own retention policies, and all data can be permanently purged on request.</p>
+          <ul class="checklist">
+            <li><span class="tick">&#10003;</span> Deliverables accessible only via authenticated sessions</li>
+            <li><span class="tick">&#10003;</span> Configurable data retention periods per client agreement</li>
+            <li><span class="tick">&#10003;</span> Permanent data deletion available on request with confirmation</li>
+            <li><span class="tick">&#10003;</span> Download activity logged in the audit trail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Regulatory Compliance -->
+  <section id="regulatory" style="border-top: 1px solid rgba(148,163,184,0.1); background: rgba(15,23,42,0.2);">
+    <div class="container">
+      <div class="section-header">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Regulatory Alignment</div>
+        <h2>Compliance Standards We Follow</h2>
+        <p class="subtitle">PVL operates at the intersection of bankruptcy data and financial analytics. We align our practices with the frameworks that matter to institutional buyers.</p>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+          </div>
+          <h3>SOC 2 Type II Alignment</h3>
+          <p>Our controls are designed around the SOC 2 Trust Service Criteria — security, availability, and confidentiality. We maintain documentation and evidence ready for auditor review.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+          </div>
+          <h3>GLBA & Financial Privacy</h3>
+          <p>We handle consumer financial data in accordance with Gramm-Leach-Bliley Act safeguard requirements, including administrative, technical, and physical safeguards for nonpublic personal information.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon violet">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <h3>Bankruptcy Data Governance</h3>
+          <p>Court filings and trustee data accessed through authorized channels. We maintain strict controls on PII handling, including debtor names, case numbers, and financial details within Chapter 13 records.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon amber">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+          </div>
+          <h3>Incident Response</h3>
+          <p>Documented incident response plan with defined escalation paths. Clients are notified within 72 hours of any confirmed data incident, with full root-cause analysis and remediation timeline provided.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Infrastructure -->
+  <section id="infrastructure" style="border-top: 1px solid rgba(148,163,184,0.1);">
+    <div class="container">
+      <div class="section-header">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Infrastructure</div>
+        <h2>Platform Security Details</h2>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Network Security</h3>
+          <p>All traffic routed through WAF-protected endpoints. Internal services communicate over private networks with mutual TLS. No public-facing database endpoints.</p>
+        </div>
+
+        <div class="card">
+          <h3>Identity & Authentication</h3>
+          <p>Multi-factor authentication required for all platform access. Session tokens are short-lived and scoped to specific permissions. SSO integration available for enterprise clients.</p>
+        </div>
+
+        <div class="card">
+          <h3>Monitoring & Alerting</h3>
+          <p>Continuous monitoring of access patterns, API usage, and system health. Anomalous activity triggers automated alerts. Security logs retained for a minimum of 12 months.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="padding: 6rem 0;">
+    <div class="container">
+      <div class="cta-banner">
+        <div class="pill" style="display:inline-block; margin-bottom:1.5rem;">Security Review</div>
+        <h2>Need More Detail?</h2>
+        <p>
+          We're happy to share our security documentation, answer vendor assessment questionnaires, or schedule a call with our team to walk through our compliance posture.
+        </p>
+        <div style="display:flex; gap:0.9rem; justify-content:center; flex-wrap:wrap;">
+          <a href="index.html#pilot" class="btn-primary" style="padding: 0.85rem 2rem; font-size: 1rem;">Request Security Review</a>
+          <a href="index.html" class="btn-outline" style="padding: 0.85rem 2rem; font-size: 1rem;">Back to Platform</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div style="display:flex; justify-content:center; align-items:center; gap:0.6rem; color:var(--text-main); font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--text-dim);"><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 2 2H22"/><path d="M12 2v1"/></svg>
+        Portfolio Valuation Lab
+      </div>
+      <p style="margin-top:0.5rem; font-size:0.8rem;">
+        &copy; 2026. Institutional-grade underwriting outputs for Chapter 13 portfolios.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+      });
+    });
+  </script>
+</body>
+</html>
