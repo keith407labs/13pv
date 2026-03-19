@@ -95,7 +95,7 @@
         </div>
         <div class="card" style="text-align: center; padding: 1.25rem;">
           <div style="font-size: 1.5rem; font-weight: 800; color: var(--amber); font-family: 'JetBrains Mono', monospace;">34%</div>
-          <p style="font-size: 0.8rem; margin-top: 0.3rem; color: var(--text-muted);">Repeat filers (prior 8 yrs)</p>
+          <p style="font-size: 0.8rem; margin-top: 0.3rem; color: var(--text-muted);">Repeat filers</p>
         </div>
         <div class="card" style="text-align: center; padding: 1.25rem;">
           <div style="font-size: 1.5rem; font-weight: 800; color: var(--brand-glow); font-family: 'JetBrains Mono', monospace;">76%</div>
@@ -170,7 +170,7 @@
     <div class="container">
       <div class="section-header">
         <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Deal Screen</div>
-        <h2>The Tape Says "Performing." We Show You the Odds.</h2>
+        <h2>Trust the Odds, Not the Tape.</h2>
         <p class="subtitle">
           51% of Ch. 13 dismissals are for non-payment. Sellers still mark those claims as active. We model the actual odds of recovery — and flag the ones where the cash flow has already stopped.
         </p>
@@ -191,10 +191,10 @@
                 <th>Account ID</th>
                 <th>Seller Status</th>
                 <th>PVL Engine Output</th>
-                <th>Seller Est. NPV</th>
+                <th>Claim Amount</th>
                 <th>PVL EV (P50)</th>
                 <th>P90 Floor</th>
-                <th>Discrepancy</th>
+                <th>Last Payment</th>
               </tr>
             </thead>
             <tbody>
@@ -202,55 +202,55 @@
                 <td class="account-id">ATLN-2211324</td>
                 <td><span class="status-badge active">Active — Current</span></td>
                 <td><span class="pvl-badge critical">85% Dismissal Prob.</span></td>
-                <td class="nums">$4,280</td>
+                <td class="nums">$12,400</td>
                 <td class="nums">$1,140</td>
                 <td class="nums" style="color: var(--text-dim);">$420</td>
-                <td><span class="discrepancy negative">−$3,140</span></td>
+                <td class="nums" style="color: var(--red);">Aug 2025</td>
               </tr>
               <tr>
                 <td class="account-id">DALL-219237</td>
                 <td><span class="status-badge active">Active — Performing</span></td>
                 <td><span class="pvl-badge critical">97% Dismissal Prob.</span></td>
-                <td class="nums">$4,920</td>
+                <td class="nums">$8,600</td>
                 <td class="nums">$0</td>
                 <td class="nums" style="color: var(--text-dim);">$0</td>
-                <td><span class="discrepancy negative">−$4,920</span></td>
+                <td class="nums" style="color: var(--red);">Mar 2024</td>
               </tr>
               <tr>
                 <td class="account-id">ALBQ-2310446</td>
                 <td><span class="status-badge active">Active — Current</span></td>
                 <td><span class="pvl-badge at-risk">High Variance Risk</span></td>
-                <td class="nums">$3,580</td>
+                <td class="nums">$6,750</td>
                 <td class="nums">$890</td>
                 <td class="nums" style="color: var(--text-dim);">$310</td>
-                <td><span class="discrepancy negative">−$2,690</span></td>
+                <td class="nums" style="color: var(--amber);">Nov 2025</td>
               </tr>
               <tr>
                 <td class="account-id">HOUS-247452</td>
                 <td><span class="status-badge active">Active — Current</span></td>
                 <td><span class="pvl-badge critical">Tail Risk — Wipeout</span></td>
-                <td class="nums">$2,885</td>
+                <td class="nums">$9,200</td>
                 <td class="nums">$310</td>
                 <td class="nums" style="color: var(--text-dim);">$0</td>
-                <td><span class="discrepancy negative">−$2,575</span></td>
+                <td class="nums" style="color: var(--red);">Jun 2024</td>
               </tr>
               <tr>
                 <td class="account-id">PHOE-1847532</td>
                 <td><span class="status-badge active">Active — Current</span></td>
                 <td><span class="pvl-badge on-track">92% Completion Prob.</span></td>
-                <td class="nums">$2,730</td>
+                <td class="nums">$3,180</td>
                 <td class="nums">$2,920</td>
                 <td class="nums" style="color: var(--text-dim);">$2,610</td>
-                <td><span class="discrepancy positive">+$190</span></td>
+                <td class="nums" style="color: var(--check-green);">Feb 2026</td>
               </tr>
               <tr>
                 <td class="account-id">SEAW-2401965</td>
                 <td><span class="status-badge active">Active — Current</span></td>
                 <td><span class="pvl-badge on-track">88% Completion Prob.</span></td>
-                <td class="nums">$2,140</td>
+                <td class="nums">$4,320</td>
                 <td class="nums">$2,340</td>
                 <td class="nums" style="color: var(--text-dim);">$1,980</td>
-                <td><span class="discrepancy positive">+$200</span></td>
+                <td class="nums" style="color: var(--check-green);">Jan 2026</td>
               </tr>
             </tbody>
           </table>
@@ -376,8 +376,8 @@
                   <div class="name">Valuation Config</div>
                   <div class="type">Parameters</div>
                 </div>
-                <div class="desc">Set your own discount rate and recovery assumptions. We stress-test them and show you what changes.</div>
-                <div class="fields">Discount rate &bull; Custom default curves &bull; Payment decay sensitivity &bull; Target return thresholds</div>
+                <div class="desc">Set your own TVM rate, cost to service, legal fees, and recovery assumptions. We stress-test them and show you what changes.</div>
+                <div class="fields">TVM rate &bull; Cost to service &bull; Legal fees &bull; Custom default curves &bull; Payment decay sensitivity &bull; Target return thresholds</div>
               </li>
             </ul>
           </div>
@@ -394,7 +394,7 @@
                   <div class="type mono">ledgers.csv</div>
                 </div>
                 <div class="desc">What the trustee actually paid out — line by line. The ground truth behind every recovery number.</div>
-                <div class="fields">NDC_Case_ID &bull; NDC_Claim_ID &bull; Date &bull; Amount &bull; TransType &bull; ClassCode</div>
+                <div class="fields">Case_ID &bull; Claim_ID &bull; Date &bull; Amount &bull; TransType &bull; ClassCode</div>
               </li>
               <li class="io-item">
                 <div class="top">
@@ -402,7 +402,7 @@
                   <div class="type mono">claims.csv</div>
                 </div>
                 <div class="desc">See exactly where your claim sits in the priority stack and how much cash is left after senior creditors get paid.</div>
-                <div class="fields">ClaimLevel &bull; ClassTypeCode (P/S/U) &bull; PrincipalOwed &bull; StopDisbursementFlag</div>
+                <div class="fields">ClaimLevel &bull; ClassTypeCode &bull; PrincipalOwed &bull; StopDisbursementFlag</div>
               </li>
               <li class="io-item">
                 <div class="top">
@@ -432,12 +432,22 @@
               <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Sample Portfolio</div>
             </div>
             <div class="kv">
-              <div class="k">Discount Rate</div>
+              <div class="k">TVM Rate</div>
               <div class="v nums" data-count-target="18" data-count-suffix="%">0%</div>
               <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Configurable</div>
             </div>
             <div class="kv">
-              <div class="k">Dismissal Hazard</div>
+              <div class="k">Cost to Service</div>
+              <div class="v nums" data-count-target="8" data-count-suffix="%">0%</div>
+              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
+            </div>
+            <div class="kv">
+              <div class="k">Legal Fee</div>
+              <div class="v nums">$28</div>
+              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
+            </div>
+            <div class="kv">
+              <div class="k">Payout at Risk %</div>
               <div class="v nums" data-count-target="10" data-count-suffix="%">0%</div>
               <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Annualized</div>
             </div>
@@ -452,17 +462,17 @@
             <div class="file">
               <div class="fn">ledgers.csv</div>
               <div class="fd">Actual cash flow from the trustee — month by month, claim by claim.</div>
-              <div class="meta">Join keys: NDC_Case_ID &bull; NDC_Claim_ID</div>
+              <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
             </div>
             <div class="file">
               <div class="fn">claims.csv</div>
               <div class="fd">Where each claim sits in the stack and what's left to recover after senior creditors.</div>
-              <div class="meta">Join keys: NDC_Case_ID &bull; NDC_Claim_ID</div>
+              <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
             </div>
             <div class="file">
               <div class="fn">risk_flags.csv</div>
               <div class="fd">Every red flag: stopped cash flow, missing claims, silent defaults.</div>
-              <div class="meta">Join keys: NDC_Case_ID</div>
+              <div class="meta">Join keys: Case_ID</div>
             </div>
           </div>
 
