@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "brandName": "Portfolio Valuation Lab",
+    "updated": "2026-03-19",
+    "description": "Shared design tokens for web (CSS/Chart.js) and PDF (ReportLab) assets. Terracotta/stone palette with DM Sans + JetBrains Mono."
+  },
+
+  "colors": {
+    "brand": {
+      "primary":   "#C46849",
+      "glow":      "#D4785A",
+      "sand":      "#E8A87C",
+      "sandLight": "#F0C9A8"
+    },
+    "background": {
+      "deep":     "#0C0A09",
+      "surface":  "#1C1917",
+      "surface2": "#292524"
+    },
+    "text": {
+      "main":  "#FAFAF9",
+      "muted": "#A8A29E",
+      "dim":   "#78716C"
+    },
+    "border": {
+      "default": "#44403C",
+      "light":   "#57534E"
+    },
+    "status": {
+      "green": "#10B981",
+      "amber": "#F59E0B",
+      "red":   "#EF4444"
+    },
+    "accent": {
+      "violet": "#E8A87C"
+    },
+    "risk": {
+      "low":      "#10B981",
+      "normal":   "#78716C",
+      "elevated": "#F59E0B",
+      "high":     "#EF4444",
+      "critical": "#EF4444"
+    },
+    "stages": {
+      "filing":             "#E8A87C",
+      "docDrop":            "#D4785A",
+      "preConfirmation":    "#C46849",
+      "confirmationCliff":  "#EF4444",
+      "earlyAttrition":     "#F59E0B",
+      "lifeFriction":       "#A8A29E",
+      "fatigue":            "#78716C",
+      "majorLifeEvents":    "#C46849",
+      "finalStretch":       "#10B981"
+    },
+    "badges": {
+      "active": {
+        "bg":     "rgba(16, 185, 129, 0.15)",
+        "text":   "#10B981",
+        "border": "rgba(16, 185, 129, 0.3)"
+      },
+      "atRisk": {
+        "bg":     "rgba(245, 158, 11, 0.15)",
+        "text":   "#F59E0B",
+        "border": "rgba(245, 158, 11, 0.3)"
+      },
+      "critical": {
+        "bg":     "rgba(239, 68, 68, 0.15)",
+        "text":   "#EF4444",
+        "border": "rgba(239, 68, 68, 0.3)"
+      },
+      "onTrack": {
+        "bg":     "rgba(16, 185, 129, 0.15)",
+        "text":   "#10B981",
+        "border": "rgba(16, 185, 129, 0.3)"
+      }
+    }
+  },
+
+  "typography": {
+    "families": {
+      "primary":    "'DM Sans', sans-serif",
+      "mono":       "'JetBrains Mono', monospace",
+      "pdfPrimary": "Helvetica",
+      "pdfMono":    "Courier"
+    },
+    "sizes": {
+      "xs":  { "rem": "0.7rem",   "pt": 7 },
+      "sm":  { "rem": "0.8rem",   "pt": 8 },
+      "base": { "rem": "0.9rem",  "pt": 9.5 },
+      "md":  { "rem": "0.95rem",  "pt": 10 },
+      "lg":  { "rem": "1.05rem",  "pt": 11 },
+      "xl":  { "rem": "1.15rem",  "pt": 12 },
+      "2xl": { "rem": "1.5rem",   "pt": 14 },
+      "3xl": { "rem": "2.25rem",  "pt": 22 },
+      "4xl": { "rem": "3.25rem",  "pt": 28 }
+    },
+    "weights": {
+      "light":     300,
+      "normal":    400,
+      "medium":    500,
+      "semibold":  600,
+      "bold":      700,
+      "extrabold": 800
+    },
+    "letterSpacing": {
+      "tight":  "-2px",
+      "snug":   "-1px",
+      "normal": "0",
+      "wide":   "0.5px",
+      "wider":  "1px"
+    }
+  },
+
+  "spacing": {
+    "xs":  "0.25rem",
+    "sm":  "0.5rem",
+    "md":  "1rem",
+    "lg":  "1.5rem",
+    "xl":  "2rem",
+    "2xl": "3rem",
+    "3xl": "4rem",
+    "4xl": "5.5rem",
+    "5xl": "8rem",
+    "container": {
+      "maxWidth": "1120px"
+    }
+  },
+
+  "borders": {
+    "radius": {
+      "sm":   "4px",
+      "md":   "8px",
+      "lg":   "12px",
+      "xl":   "16px",
+      "full": "999px"
+    },
+    "colors": {
+      "subtle":  "rgba(168, 162, 158, 0.08)",
+      "default": "rgba(168, 162, 158, 0.14)",
+      "medium":  "rgba(168, 162, 158, 0.18)",
+      "strong":  "rgba(168, 162, 158, 0.2)",
+      "brand":   "rgba(196, 104, 73, 0.25)",
+      "brandStrong": "rgba(196, 104, 73, 0.45)"
+    }
+  },
+
+  "shadows": {
+    "card":       "0 0 0 1px rgba(196, 104, 73, 0.1), 0 20px 40px -15px rgba(0, 0, 0, 0.7)",
+    "cardHover":  "0 0 0 1px rgba(196, 104, 73, 0.1), 0 20px 40px -15px rgba(0, 0, 0, 0.7)",
+    "dealScreen": "0 0 0 1px rgba(0, 0, 0, 0.2), 0 20px 50px -10px rgba(0, 0, 0, 0.7)",
+    "featured":   "0 0 40px rgba(196, 104, 73, 0.08)",
+    "pilot":      "0 0 50px rgba(196, 104, 73, 0.12)"
+  },
+
+  "gradients": {
+    "brandText":     "linear-gradient(to right, #D4785A, #E8A87C)",
+    "buttonPrimary": "linear-gradient(to right, #C46849, #D4785A)",
+    "chartFill":     { "top": "rgba(196, 104, 73, 0.15)", "bottom": "rgba(196, 104, 73, 0.0)" },
+    "chartBar":      { "bottom": "#C46849", "top": "#E8A87C" },
+    "cardFeatured":  "linear-gradient(to bottom, rgba(28, 25, 23, 0.8), rgba(41, 37, 36, 0.8))",
+    "glowPrimary":   "radial-gradient(circle, #C46849, transparent 70%)",
+    "glowSecondary": "radial-gradient(circle, #E8A87C, transparent 70%)"
+  },
+
+  "chart": {
+    "defaults": {
+      "color":       "#A8A29E",
+      "borderColor": "rgba(68, 64, 60, 0.4)",
+      "fontFamily":  "'DM Sans', sans-serif",
+      "tooltip": {
+        "backgroundColor": "rgba(28, 25, 23, 0.95)",
+        "borderColor":     "rgba(196, 104, 73, 0.3)",
+        "borderWidth":     1,
+        "padding":         10,
+        "cornerRadius":    8,
+        "titleFont":       { "family": "'DM Sans', sans-serif", "weight": "600" },
+        "bodyFont":        { "family": "'JetBrains Mono', monospace", "size": 12 }
+      },
+      "interaction": {
+        "mode":      "nearest",
+        "intersect":  false
+      }
+    },
+    "animations": {
+      "survival":    { "duration": 2500, "easing": "easeOutQuart" },
+      "cashflow":    { "duration": 1500, "easing": "easeOutQuart", "staggerDelay": 150 },
+      "mc":          { "duration": 2000, "easing": "easeOutQuart" },
+      "waterfall":   { "duration": 1800, "easing": "easeOutQuart", "staggerDelay": 200 },
+      "riskSignals": { "duration": 1800, "easing": "easeOutQuart", "staggerDelay": 100 }
+    }
+  },
+
+  "pdf": {
+    "page": {
+      "size":    "letter",
+      "margins": { "top": "0.75in", "bottom": "0.6in", "left": "0.7in", "right": "0.7in" }
+    },
+    "styles": {
+      "title":       { "fontName": "Helvetica-Bold",    "fontSize": 22, "leading": 26, "textColor": "#C46849" },
+      "subtitle":    { "fontName": "Helvetica",         "fontSize": 11, "leading": 14, "textColor": "#78716C" },
+      "section":     { "fontName": "Helvetica-Bold",    "fontSize": 14, "leading": 18, "textColor": "#C46849" },
+      "subsection":  { "fontName": "Helvetica-Bold",    "fontSize": 11, "leading": 14, "textColor": "#D4785A" },
+      "body":        { "fontName": "Helvetica",         "fontSize": 9.5, "leading": 13, "textColor": "#333333" },
+      "tableHeader": { "fontName": "Helvetica-Bold",    "fontSize": 8,  "leading": 10, "textColor": "#FFFFFF" },
+      "tableCell":   { "fontName": "Helvetica",         "fontSize": 8,  "leading": 10, "textColor": "#333333" },
+      "bigNumber":   { "fontName": "Helvetica-Bold",    "fontSize": 20, "leading": 24, "textColor": "#C46849" },
+      "footnote":    { "fontName": "Helvetica",         "fontSize": 7,  "leading": 9,  "textColor": "#78716C" }
+    },
+    "table": {
+      "headerBg":    "#C46849",
+      "headerText":  "#FFFFFF",
+      "zebraBg":     "#F5F5F5",
+      "borderColor": "#DDDDDD"
+    },
+    "risk": {
+      "low":      "#10B981",
+      "normal":   "#78716C",
+      "elevated": "#F59E0B",
+      "high":     "#EF4444",
+      "critical": "#EF4444"
+    }
+  },
+
+  "breakpoints": {
+    "xl":  "1200px",
+    "lg":  "1024px",
+    "md":  "980px",
+    "sm":  "768px",
+    "xs":  "600px"
+  }
+}
