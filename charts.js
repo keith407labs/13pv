@@ -7,7 +7,8 @@
 const menuBtn = document.querySelector('.mobile-menu-btn');
 const navLinks = document.querySelector('.nav-links');
 
-menuBtn.addEventListener('click', () => {
+menuBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
   navLinks.classList.toggle('active');
 });
 document.querySelectorAll('.nav-links a').forEach(link => {
@@ -15,6 +16,14 @@ document.querySelectorAll('.nav-links a').forEach(link => {
     navLinks.classList.remove('active');
   });
 });
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('nav')) {
+    navLinks.classList.remove('active');
+  }
+});
+
+// ─── Mobile Helpers ──────────────────────────────
+const isMobile = () => window.innerWidth < 768;
 
 // ─── Chart.js Global Theme ────────────────────
 Chart.defaults.color = '#A8A29E';
@@ -135,6 +144,7 @@ function initSurvivalChart() {
         data: SURVIVAL_DATA.survival,
         borderWidth: 2.5,
         pointRadius: 0,
+        pointHitRadius: 20,
         pointHoverRadius: 5,
         pointHoverBackgroundColor: PALETTE.terracotta,
         tension: 0.3,
@@ -300,7 +310,9 @@ function initMCChart() {
   chartInstances.mc = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['VaR 99%', 'VaR 95%', 'P10', 'P50 (Median)', 'Mean', 'P90'],
+      labels: isMobile()
+        ? ['VaR99', 'VaR95', 'P10', 'P50', 'Mean', 'P90']
+        : ['VaR 99%', 'VaR 95%', 'P10', 'P50 (Median)', 'Mean', 'P90'],
       datasets: [{
         label: 'Portfolio NPV',
         data: [MC_DATA.var99, MC_DATA.var95, p10, p50, MC_DATA.mean, p90],
@@ -363,6 +375,11 @@ function initWaterfallChart() {
 
   const d = PRIORITY_STACK_DATA;
 
+  // Abbreviate labels on mobile
+  const labels = isMobile()
+    ? ['Admin', 'Priority (IRS)', 'Secured', 'Unsecured — You']
+    : d.tiers;
+
   // Colors: senior tiers muted, unsecured highlighted
   const filedColors = [
     'rgba(120, 113, 108, 0.35)',
@@ -386,7 +403,7 @@ function initWaterfallChart() {
   chartInstances.waterfall = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: d.tiers,
+      labels: labels,
       datasets: [
         {
           label: 'Filed Amount',
