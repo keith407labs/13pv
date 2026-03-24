@@ -186,7 +186,7 @@ function initSurvivalChart() {
         y: {
           title: { display: true, text: 'Survival %', color: PALETTE.textDim },
           min: 30,
-          max: 105,
+          max: 100,
           ticks: { callback: (v) => v + '%' },
         },
       },
