@@ -17,6 +17,27 @@
 
   var W, H, dpr;
 
+  // Responsive state (updated on resize)
+  var isMobile, isSmall;
+  var curveParams = {};
+
+  function updateBreakpoints() {
+    var w = window.innerWidth;
+    isMobile = w < 768;
+    isSmall = w < 480;
+
+    curveParams = {
+      height: isSmall ? 0.22 : isMobile ? 0.25 : 0.30,
+      sigmaFrac: isSmall ? 0.20 : isMobile ? 0.18 : 0.16,
+      pulseWidth: isSmall ? 0.22 : isMobile ? 0.16 : 0.08,
+      pulseAlpha: isSmall ? 0.55 : isMobile ? 0.50 : 0.35,
+      baseStrokeAlpha: isMobile ? 0.35 : 0.25,
+      bandAlpha3: isSmall ? 0.10 : isMobile ? 0.08 : 0.04,
+      bandAlpha2: isSmall ? 0.16 : isMobile ? 0.14 : 0.08,
+      bandAlpha1: isSmall ? 0.24 : isMobile ? 0.22 : 0.14
+    };
+  }
+
   function resize() {
     var rect = hero.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -27,6 +48,8 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    updateBreakpoints();
     buildSprites();
   }
 
@@ -36,14 +59,14 @@
     resizeTimer = setTimeout(function () {
       var prevW = W;
       resize();
-      if (finished) {
-        // Only reposition particles if width actually changed
-        // (mobile scroll just changes height via browser chrome)
-        if (Math.abs(W - prevW) > 1) {
-          computeTargets();
+      // Recalculate if width changed significantly (ignores mobile scrollbars)
+      if (Math.abs(W - prevW) > 1) {
+        computeTargets();
+        // If finished, snap to the new layout immediately.
+        // If not finished, let particles fly to the new targets naturally.
+        if (finished) {
           snapToTargets();
         }
-        draw();
       }
     }, 200);
   });
@@ -51,19 +74,15 @@
   // --- Config ---
   var COLORS = ['#F28C50', '#FFB878', '#E06A38', '#FFD0A0'];
   var COLOR_WEIGHTS = [0.4, 0.25, 0.25, 0.1];
-  var isMobile = window.innerWidth < 768;
-  var isSmall = window.innerWidth < 480;
-  var POOL_SIZE = isSmall ? 600 : isMobile ? 900 : 1800;
+  // Pool size is fixed so we don't have to push/splice arrays on resize
+  var POOL_SIZE = window.innerWidth < 480 ? 600 : window.innerWidth < 768 ? 900 : 1800;
   var MAX_ALPHA = 0.28;
   var SPRITE_SIZE = 2;
 
-  // Gaussian curve — tuned per breakpoint
-  var CURVE_HEIGHT = isSmall ? 0.22 : isMobile ? 0.25 : 0.30;
-  var CURVE_SIGMA_FRAC = isSmall ? 0.20 : isMobile ? 0.18 : 0.16;
   var CURVE_SIGMA_MAX = 200; // px cap — keeps bell shape on wide screens
 
   function getSigma() {
-    return Math.min(CURVE_SIGMA_FRAC * W, CURVE_SIGMA_MAX);
+    return Math.min(curveParams.sigmaFrac * W, CURVE_SIGMA_MAX);
   }
 
   // Baseline pinned to bottom of viewport (not bottom of hero)
@@ -77,10 +96,6 @@
   var CHAOS_DURATION = 1500;
   var SETTLE_DURATION = 4000;
   var TOTAL_DURATION = CHAOS_DURATION + SETTLE_DURATION;
-
-  // Initial velocity scaled to screen size
-  var INIT_SPEED_MIN = isSmall ? 0.8 : isMobile ? 1.0 : 1.5;
-  var INIT_SPEED_MAX = isSmall ? 1.8 : isMobile ? 2.0 : 2.5;
 
   function pickColor() {
     var r = Math.random(), cum = 0;
@@ -100,7 +115,6 @@
       var off = document.createElement('canvas');
       off.width = s; off.height = s;
       var c = off.getContext('2d');
-      // Crisp solid circle — no gradient at this size
       c.beginPath();
       c.arc(s / 2, s / 2, r, 0, Math.PI * 2);
       c.fillStyle = color;
@@ -142,7 +156,7 @@
   function computeTargets() {
     var baseY = getBaseY();
     var sigma = getSigma();
-    var peak = CURVE_HEIGHT * H;
+    var peak = curveParams.height * H;
     var needSeeds = targetSeeds.length === 0;
 
     for (var i = 0; i < POOL_SIZE; i++) {
@@ -169,6 +183,9 @@
   }
 
   function initParticles() {
+    var INIT_SPEED_MIN = isSmall ? 0.8 : isMobile ? 1.0 : 1.5;
+    var INIT_SPEED_MAX = isSmall ? 1.8 : isMobile ? 2.0 : 2.5;
+
     for (var i = 0; i < POOL_SIZE; i++) {
       var p = pool[i];
       p.x = Math.random() * W;
@@ -201,14 +218,6 @@
   var finished = false;
   var pulseTime = 0;
   var PULSE_SPEED = 0.0004; // cycles per ms (~2.5s per sweep)
-  var PULSE_WIDTH = isSmall ? 0.22 : isMobile ? 0.16 : 0.08;
-  var PULSE_ALPHA = isSmall ? 0.55 : isMobile ? 0.50 : 0.35;
-  var BASE_STROKE_ALPHA = isMobile ? 0.35 : 0.25;
-
-  // Band shading alphas — boosted on mobile for visibility
-  var BAND_ALPHA_3S = isSmall ? 0.10 : isMobile ? 0.08 : 0.04;
-  var BAND_ALPHA_2S = isSmall ? 0.16 : isMobile ? 0.14 : 0.08;
-  var BAND_ALPHA_1S = isSmall ? 0.24 : isMobile ? 0.22 : 0.14;
 
   function update(dt) {
     elapsed += dt;
@@ -253,7 +262,7 @@
 
   // Draw a filled region under the curve between x1 and x2
   function drawBand(baseY, sigma, peak, x1, x2, alpha, curveFade) {
-    var stepsPerBand = 60;
+    var stepsPerBand = 40;
     ctx.beginPath();
     ctx.moveTo(x1, baseY);
     for (var i = 0; i <= stepsPerBand; i++) {
@@ -273,58 +282,49 @@
 
     var baseY = getBaseY();
     var sigma = getSigma();
-    var peak = CURVE_HEIGHT * H;
+    var peak = curveParams.height * H;
 
     var settleT = Math.max(0, (elapsed - CHAOS_DURATION * 0.5) / SETTLE_DURATION);
     settleT = Math.min(1, settleT);
     var curveFade = settleT * settleT;
 
     // --- Standard deviation shaded bands (drawn first, behind everything) ---
-    // ±3σ band (outermost, lightest)
-    var x3L = W / 2 - 3 * sigma, x3R = W / 2 + 3 * sigma;
-    var x2L = W / 2 - 2 * sigma, x2R = W / 2 + 2 * sigma;
-    var x1L = W / 2 - sigma,     x1R = W / 2 + sigma;
-
-    // Clamp to canvas
-    x3L = Math.max(0, x3L); x3R = Math.min(W, x3R);
-    x2L = Math.max(0, x2L); x2R = Math.min(W, x2R);
+    var x3L = Math.max(0, W / 2 - 3 * sigma), x3R = Math.min(W, W / 2 + 3 * sigma);
+    var x2L = Math.max(0, W / 2 - 2 * sigma), x2R = Math.min(W, W / 2 + 2 * sigma);
+    var x1L = W / 2 - sigma, x1R = W / 2 + sigma;
 
     // ±2σ slivers
-    drawBand(baseY, sigma, peak, x2L, x1L, BAND_ALPHA_2S, curveFade);
-    drawBand(baseY, sigma, peak, x1R, x2R, BAND_ALPHA_2S, curveFade);
+    drawBand(baseY, sigma, peak, x2L, x1L, curveParams.bandAlpha2, curveFade);
+    drawBand(baseY, sigma, peak, x1R, x2R, curveParams.bandAlpha2, curveFade);
     // ±1σ center band (most prominent)
-    drawBand(baseY, sigma, peak, x1L, x1R, BAND_ALPHA_1S, curveFade);
+    drawBand(baseY, sigma, peak, x1L, x1R, curveParams.bandAlpha1, curveFade);
 
     // --- Bell curve stroke with rolling pulse ---
-    var steps = 120;
+    var steps = 100;
 
     // Base stroke
     ctx.beginPath();
     for (var i = 0; i <= steps; i++) {
       var x = (i / steps) * W;
-      var g = gaussianVal(x, W / 2, sigma);
-      var y = baseY - g * peak;
+      var y = baseY - gaussianVal(x, W / 2, sigma) * peak;
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(215,213,208,' + (BASE_STROKE_ALPHA * curveFade).toFixed(3) + ')';
+    ctx.strokeStyle = 'rgba(215,213,208,' + (curveParams.baseStrokeAlpha * curveFade).toFixed(3) + ')';
     ctx.lineWidth = isMobile ? 2 : 1.5;
     ctx.stroke();
 
     // Pulse glow on top (only after settling)
     if (finished || curveFade > 0.9) {
-      // Pulse position: ping-pongs left to right across the curve
-      // Map to x range of ±3σ
-      var pulseCenter = Math.sin(pulseTime * Math.PI * 2) * 0.5 + 0.5; // 0→1
+      var pulseCenter = Math.sin(pulseTime * Math.PI * 2) * 0.5 + 0.5;
       var pulseCenterX = x3L + pulseCenter * (x3R - x3L);
+      var pulseW = curveParams.pulseWidth * W;
+      var segSteps = 60;
 
-      var pulseW = PULSE_WIDTH * W;
-      var segSteps = 80;
       for (var seg = 0; seg < segSteps; seg++) {
         var sx1 = (seg / segSteps) * W;
         var sx2 = ((seg + 1) / segSteps) * W;
         var smid = (sx1 + sx2) / 2;
 
-        // Gaussian falloff from pulse center
         var dist = (smid - pulseCenterX) / pulseW;
         var intensity = Math.exp(-0.5 * dist * dist);
         if (intensity < 0.01) continue;
@@ -335,7 +335,7 @@
         ctx.beginPath();
         ctx.moveTo(sx1, baseY - gx1 * peak);
         ctx.lineTo(sx2, baseY - gx2 * peak);
-        ctx.strokeStyle = 'rgba(215,213,208,' + (intensity * PULSE_ALPHA * curveFade).toFixed(3) + ')';
+        ctx.strokeStyle = 'rgba(215,213,208,' + (intensity * curveParams.pulseAlpha * curveFade).toFixed(3) + ')';
         ctx.lineWidth = isMobile ? 3.5 : 2.5;
         ctx.stroke();
       }
@@ -362,7 +362,6 @@
       if (sl.x < 0 || sl.x > W) continue;
       var curveAtX = baseY - gaussianVal(sl.x, W / 2, sigma) * peak;
 
-      // Vertical dashed line from baseline to curve
       ctx.beginPath();
       ctx.moveTo(sl.x, baseY);
       ctx.lineTo(sl.x, curveAtX);
@@ -372,7 +371,6 @@
       ctx.stroke();
       ctx.setLineDash([]);
 
-      // Label below baseline (skip on very small screens)
       if (!isSmall) {
         ctx.globalAlpha = 0.35 * curveFade;
         ctx.font = '600 ' + (isMobile ? '9' : '10') + 'px "JetBrains Mono", monospace';
@@ -393,7 +391,6 @@
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // μ label
     if (!isSmall) {
       ctx.globalAlpha = 0.4 * curveFade;
       ctx.font = '600 ' + (isMobile ? '9' : '10') + 'px "JetBrains Mono", monospace';
