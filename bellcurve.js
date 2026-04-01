@@ -127,7 +127,12 @@
       gx = Math.max(0, Math.min(W, gx));
       var g = gaussianVal(gx, W / 2, sigma);
       var curveTop = baseY - g * peak;
-      var gy = curveTop + Math.random() * (baseY - curveTop);
+      // Inset from the curve stroke so no particle touches the outer line
+      var margin = 6;
+      var innerTop = curveTop + margin;
+      var innerBottom = baseY - margin;
+      if (innerTop >= innerBottom) innerTop = innerBottom - 1;
+      var gy = innerTop + Math.random() * (innerBottom - innerTop);
       p.tx = gx;
       p.ty = gy;
     }
