@@ -172,6 +172,7 @@ nav {
 
 /* --- HERO --- */
 .hero {
+  position: relative;
   min-height: 85vh;
   display: flex;
   align-items: center;
