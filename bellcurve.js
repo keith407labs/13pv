@@ -59,7 +59,13 @@
 
   // Gaussian curve — tuned per breakpoint
   var CURVE_HEIGHT = isSmall ? 0.22 : isMobile ? 0.25 : 0.30;
-  var CURVE_SIGMA = isSmall ? 0.20 : isMobile ? 0.18 : 0.16;
+  var CURVE_SIGMA_FRAC = isSmall ? 0.20 : isMobile ? 0.18 : 0.16;
+  var CURVE_SIGMA_MAX = 200; // px cap — keeps bell shape on wide screens
+
+  function getSigma() {
+    return Math.min(CURVE_SIGMA_FRAC * W, CURVE_SIGMA_MAX);
+  }
+
   // Baseline pinned to bottom of viewport (not bottom of hero)
   function getBaseY() {
     var rect = hero.getBoundingClientRect();
@@ -135,7 +141,7 @@
 
   function computeTargets() {
     var baseY = getBaseY();
-    var sigma = CURVE_SIGMA * W;
+    var sigma = getSigma();
     var peak = CURVE_HEIGHT * H;
     var needSeeds = targetSeeds.length === 0;
 
@@ -266,7 +272,7 @@
     ctx.clearRect(0, 0, W, H);
 
     var baseY = getBaseY();
-    var sigma = CURVE_SIGMA * W;
+    var sigma = getSigma();
     var peak = CURVE_HEIGHT * H;
 
     var settleT = Math.max(0, (elapsed - CHAOS_DURATION * 0.5) / SETTLE_DURATION);
@@ -283,9 +289,6 @@
     x3L = Math.max(0, x3L); x3R = Math.min(W, x3R);
     x2L = Math.max(0, x2L); x2R = Math.min(W, x2R);
 
-    // ±3σ outer slivers
-    if (x3L < x2L) drawBand(baseY, sigma, peak, x3L, x2L, BAND_ALPHA_3S, curveFade);
-    if (x2R < x3R) drawBand(baseY, sigma, peak, x2R, x3R, BAND_ALPHA_3S, curveFade);
     // ±2σ slivers
     drawBand(baseY, sigma, peak, x2L, x1L, BAND_ALPHA_2S, curveFade);
     drawBand(baseY, sigma, peak, x1R, x2R, BAND_ALPHA_2S, curveFade);
@@ -351,9 +354,7 @@
       { x: x1L, label: '-1\u03C3' },
       { x: x1R, label: '+1\u03C3' },
       { x: x2L, label: '-2\u03C3' },
-      { x: x2R, label: '+2\u03C3' },
-      { x: x3L, label: '-3\u03C3' },
-      { x: x3R, label: '+3\u03C3' }
+      { x: x2R, label: '+2\u03C3' }
     ];
 
     for (var s = 0; s < sigmaLines.length; s++) {
