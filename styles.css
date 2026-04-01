@@ -56,6 +56,7 @@ body {
     linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
   background-size: 52px 52px;
+  background-position: center center;
   mask-image: linear-gradient(to bottom, black 45%, transparent 100%);
 }
 .neon-glow-1 {
