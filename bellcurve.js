@@ -164,6 +164,9 @@
   var lastTime = 0;
   var running = true;
   var finished = false;
+  var pulseTime = 0;
+  var PULSE_SPEED = 0.0004; // cycles per ms (~2.5s per sweep)
+  var PULSE_WIDTH = 0.08;   // fraction of curve width for the glow
 
   function update(dt) {
     elapsed += dt;
@@ -253,8 +256,10 @@
     // ±1σ center band (most prominent)
     drawBand(baseY, sigma, peak, x1L, x1R, 0.14, curveFade);
 
-    // --- Bell curve stroke ---
+    // --- Bell curve stroke with rolling pulse ---
     var steps = 120;
+
+    // Base stroke
     ctx.beginPath();
     for (var i = 0; i <= steps; i++) {
       var x = (i / steps) * W;
@@ -265,6 +270,37 @@
     ctx.strokeStyle = 'rgba(215,213,208,' + (0.25 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1.5;
     ctx.stroke();
+
+    // Pulse glow on top (only after settling)
+    if (finished || curveFade > 0.9) {
+      // Pulse position: ping-pongs left to right across the curve
+      // Map to x range of ±3σ
+      var pulseCenter = Math.sin(pulseTime * Math.PI * 2) * 0.5 + 0.5; // 0→1
+      var pulseCenterX = x3L + pulseCenter * (x3R - x3L);
+
+      var pulseW = PULSE_WIDTH * W;
+      var segSteps = 80;
+      for (var seg = 0; seg < segSteps; seg++) {
+        var sx1 = (seg / segSteps) * W;
+        var sx2 = ((seg + 1) / segSteps) * W;
+        var smid = (sx1 + sx2) / 2;
+
+        // Gaussian falloff from pulse center
+        var dist = (smid - pulseCenterX) / pulseW;
+        var intensity = Math.exp(-0.5 * dist * dist);
+        if (intensity < 0.01) continue;
+
+        var gx1 = gaussianVal(sx1, W / 2, sigma);
+        var gx2 = gaussianVal(sx2, W / 2, sigma);
+
+        ctx.beginPath();
+        ctx.moveTo(sx1, baseY - gx1 * peak);
+        ctx.lineTo(sx2, baseY - gx2 * peak);
+        ctx.strokeStyle = 'rgba(215,213,208,' + (intensity * 0.35 * curveFade).toFixed(3) + ')';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+      }
+    }
 
     // --- Baseline ---
     ctx.beginPath();
@@ -352,10 +388,14 @@
     lastTime = timestamp;
     if (dt > 100) dt = 16.667;
 
-    update(dt);
-    draw();
+    if (!finished) {
+      update(dt);
+    }
 
-    if (finished) return;
+    // Keep incrementing pulse time always
+    pulseTime += dt * PULSE_SPEED;
+
+    draw();
     rafId = requestAnimationFrame(frame);
   }
 
