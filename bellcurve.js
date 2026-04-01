@@ -219,7 +219,7 @@
     }
     ctx.lineTo(x2, baseY);
     ctx.closePath();
-    ctx.fillStyle = 'rgba(212,120,90,' + (alpha * curveFade).toFixed(4) + ')';
+    ctx.fillStyle = 'rgba(215,213,208,' + (alpha * curveFade).toFixed(4) + ')';
     ctx.fill();
   }
 
@@ -245,13 +245,13 @@
     x2L = Math.max(0, x2L); x2R = Math.min(W, x2R);
 
     // ±3σ outer slivers
-    if (x3L < x2L) drawBand(baseY, sigma, peak, x3L, x2L, 0.02, curveFade);
-    if (x2R < x3R) drawBand(baseY, sigma, peak, x2R, x3R, 0.02, curveFade);
+    if (x3L < x2L) drawBand(baseY, sigma, peak, x3L, x2L, 0.04, curveFade);
+    if (x2R < x3R) drawBand(baseY, sigma, peak, x2R, x3R, 0.04, curveFade);
     // ±2σ slivers
-    drawBand(baseY, sigma, peak, x2L, x1L, 0.04, curveFade);
-    drawBand(baseY, sigma, peak, x1R, x2R, 0.04, curveFade);
+    drawBand(baseY, sigma, peak, x2L, x1L, 0.08, curveFade);
+    drawBand(baseY, sigma, peak, x1R, x2R, 0.08, curveFade);
     // ±1σ center band (most prominent)
-    drawBand(baseY, sigma, peak, x1L, x1R, 0.07, curveFade);
+    drawBand(baseY, sigma, peak, x1L, x1R, 0.14, curveFade);
 
     // --- Bell curve stroke ---
     var steps = 120;
@@ -262,7 +262,7 @@
       var y = baseY - g * peak;
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(212,120,90,' + (0.20 * curveFade).toFixed(3) + ')';
+    ctx.strokeStyle = 'rgba(215,213,208,' + (0.25 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
@@ -270,7 +270,7 @@
     ctx.beginPath();
     ctx.moveTo(x3L, baseY);
     ctx.lineTo(x3R, baseY);
-    ctx.strokeStyle = 'rgba(212,120,90,' + (0.10 * curveFade).toFixed(3) + ')';
+    ctx.strokeStyle = 'rgba(215,213,208,' + (0.12 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1;
     ctx.stroke();
 
@@ -293,7 +293,7 @@
       ctx.beginPath();
       ctx.moveTo(sl.x, baseY);
       ctx.lineTo(sl.x, curveAtX);
-      ctx.strokeStyle = 'rgba(212,120,90,' + (0.08 * curveFade).toFixed(3) + ')';
+      ctx.strokeStyle = 'rgba(215,213,208,' + (0.10 * curveFade).toFixed(3) + ')';
       ctx.lineWidth = 1;
       ctx.setLineDash([3, 4]);
       ctx.stroke();
@@ -303,7 +303,7 @@
       if (!isSmall) {
         ctx.globalAlpha = 0.35 * curveFade;
         ctx.font = '600 ' + (isMobile ? '9' : '10') + 'px "JetBrains Mono", monospace';
-        ctx.fillStyle = '#D4785A';
+        ctx.fillStyle = '#D7D5D0';
         ctx.textAlign = 'center';
         ctx.fillText(sl.label, sl.x, baseY - 6);
         ctx.globalAlpha = 1;
@@ -314,7 +314,7 @@
     ctx.beginPath();
     ctx.moveTo(W / 2, baseY);
     ctx.lineTo(W / 2, baseY - peak - 8);
-    ctx.strokeStyle = 'rgba(212,120,90,' + (0.10 * curveFade).toFixed(3) + ')';
+    ctx.strokeStyle = 'rgba(215,213,208,' + (0.12 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1;
     ctx.setLineDash([3, 4]);
     ctx.stroke();
@@ -324,7 +324,7 @@
     if (!isSmall) {
       ctx.globalAlpha = 0.4 * curveFade;
       ctx.font = '600 ' + (isMobile ? '9' : '10') + 'px "JetBrains Mono", monospace';
-      ctx.fillStyle = '#D4785A';
+      ctx.fillStyle = '#D7D5D0';
       ctx.textAlign = 'center';
       ctx.fillText('\u03BC', W / 2, baseY - 6);
       ctx.globalAlpha = 1;
