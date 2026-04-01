@@ -1,25 +1,24 @@
 /* ============================================
    Bell Curve Particle Animation — Hero Background
-   Galton board-inspired: particles drift randomly,
-   stack into histogram columns, with a smooth
-   Gaussian curve overlay.
+   "Snow globe" effect: particles start scattered
+   and swirling, then settle into a Gaussian curve
+   with standard deviation bands. Runs once.
    ============================================ */
 (function () {
   'use strict';
 
-  const hero = document.querySelector('.hero');
+  var hero = document.querySelector('.hero');
   if (!hero) return;
 
-  // --- Canvas setup ---
-  const canvas = document.createElement('canvas');
+  var canvas = document.createElement('canvas');
   canvas.style.cssText = 'position:absolute;inset:0;z-index:0;pointer-events:none;';
   hero.prepend(canvas);
-  const ctx = canvas.getContext('2d');
+  var ctx = canvas.getContext('2d');
 
-  let W, H, dpr;
+  var W, H, dpr;
 
   function resize() {
-    const rect = hero.getBoundingClientRect();
+    var rect = hero.getBoundingClientRect();
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = rect.width;
     H = rect.height;
@@ -28,302 +27,315 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    // Rebuild sprites on resize (dpr may change)
     buildSprites();
   }
 
-  let resizeTimer;
+  var resizeTimer;
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 200);
+    resizeTimer = setTimeout(function () {
+      resize();
+      if (finished) { computeTargets(); snapToTargets(); draw(); }
+    }, 200);
   });
 
   // --- Config ---
-  const COLORS = ['#D4785A', '#E8A87C', '#C46849', '#F0C9A8'];
-  const COLOR_WEIGHTS = [0.4, 0.25, 0.25, 0.1];
-  const isMobile = window.innerWidth < 768;
-  const POOL_SIZE = isMobile ? 900 : 1800;
-  const BASE_SPAWN_RATE = isMobile ? 3.5 : 7.0;
-  const DRIFT_STRENGTH = 0.15;
-  const FRICTION = 0.99;
-  const MAX_ALPHA = 0.28;
-  const FADE_RATE = 0.0005;
-  const BIN_COUNT = 80;
-  const PARTICLE_R = 0.75; // particle radius for stacking — tight packing
+  var COLORS = ['#D4785A', '#E8A87C', '#C46849', '#F0C9A8'];
+  var COLOR_WEIGHTS = [0.4, 0.25, 0.25, 0.1];
+  var isMobile = window.innerWidth < 768;
+  var isSmall = window.innerWidth < 480;
+  var POOL_SIZE = isSmall ? 600 : isMobile ? 900 : 1800;
+  var MAX_ALPHA = 0.28;
+  var SPRITE_SIZE = 2;
 
-  // Gaussian curve config
-  const CURVE_HEIGHT = 0.28;  // peak height as fraction of canvas
-  const CURVE_SIGMA = 0.16;   // std dev as fraction of canvas width
-  const CURVE_FLOOR = 0.88;   // y position of curve baseline (fraction from top)
+  // Gaussian curve — tuned per breakpoint
+  var CURVE_HEIGHT = isSmall ? 0.22 : isMobile ? 0.25 : 0.30;
+  var CURVE_SIGMA = isSmall ? 0.20 : isMobile ? 0.18 : 0.16;
+  var CURVE_FLOOR = 1.0;
 
-  // --- Weighted color picker ---
+  // Snow globe timing
+  var CHAOS_DURATION = 1500;
+  var SETTLE_DURATION = 4000;
+  var TOTAL_DURATION = CHAOS_DURATION + SETTLE_DURATION;
+
+  // Initial velocity scaled to screen size
+  var INIT_SPEED_MIN = isSmall ? 0.8 : isMobile ? 1.0 : 1.5;
+  var INIT_SPEED_MAX = isSmall ? 1.8 : isMobile ? 2.0 : 2.5;
+
   function pickColor() {
-    let r = Math.random(), cum = 0;
-    for (let i = 0; i < COLORS.length; i++) {
+    var r = Math.random(), cum = 0;
+    for (var i = 0; i < COLORS.length; i++) {
       cum += COLOR_WEIGHTS[i];
       if (r < cum) return COLORS[i];
     }
     return COLORS[0];
   }
 
-  // --- Pre-render ball sprite (solid circle with 3D highlight) ---
-  const SPRITE_SIZE = 2;
+  // --- Sprites ---
   var sprites = [];
   function buildSprites() {
     sprites = COLORS.map(function (color) {
-      const r = Math.round(SPRITE_SIZE * dpr);
-      const s = r * 2 + 2; // canvas size with 1px padding
-      const off = document.createElement('canvas');
-      off.width = s;
-      off.height = s;
-      const c = off.getContext('2d');
-      const cx = s / 2, cy = s / 2;
-
-      // Parse color to RGB for darkening
-      var hex = color.replace('#', '');
-      var cr = parseInt(hex.substring(0, 2), 16);
-      var cg = parseInt(hex.substring(2, 4), 16);
-      var cb = parseInt(hex.substring(4, 6), 16);
-
-      // Base circle with radial gradient: highlight top-left, darken at edge
-      var grad = c.createRadialGradient(
-        cx - r * 0.25, cy - r * 0.25, r * 0.1,  // highlight offset
-        cx, cy, r
-      );
-      // Bright highlight
-      var light = 'rgba(' + Math.min(255, cr + 60) + ',' + Math.min(255, cg + 50) + ',' + Math.min(255, cb + 40) + ',1)';
-      // Base color
-      var base = 'rgba(' + cr + ',' + cg + ',' + cb + ',1)';
-      // Dark edge
-      var dark = 'rgba(' + Math.round(cr * 0.6) + ',' + Math.round(cg * 0.6) + ',' + Math.round(cb * 0.6) + ',1)';
-
-      grad.addColorStop(0, light);
-      grad.addColorStop(0.5, base);
-      grad.addColorStop(1, dark);
-
+      var r = Math.round(SPRITE_SIZE * dpr);
+      var s = r * 2 + 2;
+      var off = document.createElement('canvas');
+      off.width = s; off.height = s;
+      var c = off.getContext('2d');
+      // Crisp solid circle — no gradient at this size
       c.beginPath();
-      c.arc(cx, cy, r, 0, Math.PI * 2);
-      c.fillStyle = grad;
+      c.arc(s / 2, s / 2, r, 0, Math.PI * 2);
+      c.fillStyle = color;
       c.fill();
-
       return off;
     });
   }
 
   function spriteFor(color) {
-    const idx = COLORS.indexOf(color);
+    var idx = COLORS.indexOf(color);
     return sprites[idx >= 0 ? idx : 0];
   }
 
-  // --- Gaussian function ---
-  function gaussian(x, mu, sigma) {
+  // --- Gaussian helpers ---
+  function gaussianVal(x, mu, sigma) {
     var d = (x - mu) / sigma;
     return Math.exp(-0.5 * d * d);
   }
 
-  // Returns the y-coordinate of the bell curve at horizontal position x
-  function curveY(x, breathWidth) {
-    var sigma = CURVE_SIGMA * W * breathWidth;
-    var peak = CURVE_HEIGHT * H;
-    var baseY = CURVE_FLOOR * H;
-    var g = gaussian(x, W / 2, sigma);
-    return baseY - g * peak;
+  function randGaussian() {
+    var u1 = Math.random(), u2 = Math.random();
+    return Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
   }
 
   // --- Particle pool ---
   var pool = [];
-  for (let i = 0; i < POOL_SIZE; i++) {
+  for (var i = 0; i < POOL_SIZE; i++) {
     pool.push({
-      phase: 'dead', x: 0, y: 0, vx: 0, vy: 0,
-      alpha: 0, color: '', sprite: null, size: 0,
-      stackY: 0 // target y when stacking
+      x: 0, y: 0, vx: 0, vy: 0,
+      tx: 0, ty: 0,
+      alpha: 0, targetAlpha: 0,
+      color: '', sprite: null, size: 0
     });
   }
 
-  // --- Per-bin stack heights (tracks how many particles stacked per column) ---
-  var binStacks = new Float64Array(BIN_COUNT);
+  function computeTargets() {
+    var baseY = CURVE_FLOOR * H;
+    var sigma = CURVE_SIGMA * W;
+    var peak = CURVE_HEIGHT * H;
 
-  function spawnParticle(p) {
-    p.phase = 'falling';
-    p.x = W / 2 + (Math.random() - 0.5) * W * 0.05;
-    p.y = -3;
-    p.vx = 0;
-    p.vy = 0.12 + Math.random() * 0.18; // slow mist drift
-    p.alpha = MAX_ALPHA * (0.4 + Math.random() * 0.6);
-    p.color = pickColor();
-    p.sprite = spriteFor(p.color);
-    p.size = SPRITE_SIZE * (0.6 + Math.random() * 0.8); // tiny dots
-    p.stackY = 0;
+    for (var i = 0; i < POOL_SIZE; i++) {
+      var p = pool[i];
+      var gx = randGaussian() * sigma + W / 2;
+      gx = Math.max(0, Math.min(W, gx));
+      var g = gaussianVal(gx, W / 2, sigma);
+      var curveTop = baseY - g * peak;
+      var gy = curveTop + Math.random() * (baseY - curveTop);
+      p.tx = gx;
+      p.ty = gy;
+    }
   }
 
-  // --- Breathing oscillators (incommensurate) ---
-  const breathSpeeds = [0.0003, 0.00023, 0.000187];
-  let breathTime = 0;
+  function initParticles() {
+    for (var i = 0; i < POOL_SIZE; i++) {
+      var p = pool[i];
+      p.x = Math.random() * W;
+      p.y = Math.random() * H;
+      var angle = Math.random() * Math.PI * 2;
+      var speed = INIT_SPEED_MIN + Math.random() * (INIT_SPEED_MAX - INIT_SPEED_MIN);
+      p.vx = Math.cos(angle) * speed;
+      p.vy = Math.sin(angle) * speed;
+      p.color = pickColor();
+      p.sprite = spriteFor(p.color);
+      p.size = SPRITE_SIZE * (0.6 + Math.random() * 0.8);
+      p.targetAlpha = MAX_ALPHA * (0.4 + Math.random() * 0.6);
+      p.alpha = p.targetAlpha;
+    }
+  }
 
-  function breathWidth() {
-    return 1 + 0.12 * Math.sin(breathTime * breathSpeeds[0] * Math.PI * 2);
-  }
-  function breathSpawn() {
-    return 1 + 0.10 * Math.sin(breathTime * breathSpeeds[1] * Math.PI * 2);
-  }
-  function breathGlow() {
-    return 1 + 0.08 * Math.sin(breathTime * breathSpeeds[2] * Math.PI * 2);
+  function snapToTargets() {
+    for (var i = 0; i < POOL_SIZE; i++) {
+      pool[i].x = pool[i].tx;
+      pool[i].y = pool[i].ty;
+      pool[i].vx = 0;
+      pool[i].vy = 0;
+    }
   }
 
   // --- Animation state ---
-  let spawnAccum = 0;
-  let totalSpawned = 0;
-  let lastTime = 0;
-  let running = true;
-  let finished = false;
+  var elapsed = 0;
+  var lastTime = 0;
+  var running = true;
+  var finished = false;
 
   function update(dt) {
-    breathTime += dt;
+    elapsed += dt;
+    var dtF = dt / 16.667;
 
-    const bw = breathWidth();
-    const currentSpawn = BASE_SPAWN_RATE * breathSpawn();
-    const currentDrift = DRIFT_STRENGTH * bw;
-    const dtFactor = dt / 16.667;
+    var settleT = Math.max(0, (elapsed - CHAOS_DURATION) / SETTLE_DURATION);
+    settleT = Math.min(1, settleT);
+    settleT = settleT * settleT * (3 - 2 * settleT);
 
-    // Spawn — stop once the entire pool has been emitted
-    if (totalSpawned < POOL_SIZE) {
-      spawnAccum += currentSpawn * dtFactor;
-      while (spawnAccum >= 1 && totalSpawned < POOL_SIZE) {
-        spawnAccum -= 1;
-        spawnParticle(pool[totalSpawned]);
-        totalSpawned++;
-      }
-    }
+    var springK = 0.0002 + settleT * 0.008;
+    var friction = 0.997 - settleT * 0.06;
 
-    var baseY = CURVE_FLOOR * H;
-    var anyFalling = false;
-
-    // Update particles
-    for (let i = 0; i < POOL_SIZE; i++) {
+    for (var i = 0; i < POOL_SIZE; i++) {
       var p = pool[i];
-      if (p.phase === 'dead' || p.phase === 'settled') continue;
+      var dx = p.tx - p.x;
+      var dy = p.ty - p.y;
+      p.vx += dx * springK * dtF;
+      p.vy += dy * springK * dtF;
 
-      if (p.phase === 'falling') {
-        anyFalling = true;
-        // Random walk (Galton board)
-        p.vx += (Math.random() - 0.5) * 2 * currentDrift * dtFactor;
-        p.vx *= FRICTION;
-        p.vy += 0.008 * dtFactor; // very gentle gravity
-        p.x += p.vx * dtFactor;
-        p.y += p.vy * dtFactor;
-
-        // Stack inside the curve: particles land at baseline and pile upward
-        var bin = Math.floor(((p.x / W) - 0.5 / BIN_COUNT) * BIN_COUNT);
-        bin = Math.max(0, Math.min(BIN_COUNT - 1, bin));
-        var stackOffset = binStacks[bin] * PARTICLE_R * 1.8;
-        // Land at baseline, stack upward, but don't go above the curve line
-        var cy = curveY(p.x, bw);
-        var landingY = baseY - stackOffset;
-        if (landingY < cy) landingY = cy; // clamp: don't overflow above curve
-
-        if (p.y >= landingY) {
-          p.phase = 'settled';
-          p.y = landingY;
-          p.vx = 0;
-          p.vy = 0;
-          binStacks[bin] += 1;
-        }
+      if (settleT < 0.8) {
+        var swirlStrength = 0.03 * (1 - settleT);
+        p.vx += dy * swirlStrength * 0.01 * dtF;
+        p.vy -= dx * swirlStrength * 0.01 * dtF;
       }
 
-      // Kill particles that drift offscreen
-      if (p.x < -50 || p.x > W + 50 || p.y > H + 20) {
-        p.phase = 'dead';
-      }
+      p.vx *= friction;
+      p.vy *= friction;
+      p.x += p.vx * dtF;
+      p.y += p.vy * dtF;
+
+      if (p.x < -20) { p.x = -20; p.vx = Math.abs(p.vx) * 0.5; }
+      if (p.x > W + 20) { p.x = W + 20; p.vx = -Math.abs(p.vx) * 0.5; }
+      if (p.y < -20) { p.y = -20; p.vy = Math.abs(p.vy) * 0.5; }
+      if (p.y > H + 20) { p.y = H + 20; p.vy = -Math.abs(p.vy) * 0.5; }
     }
 
-    // All spawned and none still falling — animation is done
-    if (totalSpawned >= POOL_SIZE && !anyFalling) {
+    if (elapsed >= TOTAL_DURATION) {
+      snapToTargets();
       finished = true;
     }
+  }
+
+  // Draw a filled region under the curve between x1 and x2
+  function drawBand(baseY, sigma, peak, x1, x2, alpha, curveFade) {
+    var stepsPerBand = 60;
+    ctx.beginPath();
+    ctx.moveTo(x1, baseY);
+    for (var i = 0; i <= stepsPerBand; i++) {
+      var x = x1 + (i / stepsPerBand) * (x2 - x1);
+      var g = gaussianVal(x, W / 2, sigma);
+      var y = baseY - g * peak;
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(x2, baseY);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(212,120,90,' + (alpha * curveFade).toFixed(4) + ')';
+    ctx.fill();
   }
 
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    var bw = breathWidth();
-    var bg = breathGlow();
     var baseY = CURVE_FLOOR * H;
-    var sigma = CURVE_SIGMA * W * bw;
+    var sigma = CURVE_SIGMA * W;
     var peak = CURVE_HEIGHT * H;
 
-    // --- Draw filled bell curve area ---
+    var settleT = Math.max(0, (elapsed - CHAOS_DURATION * 0.5) / SETTLE_DURATION);
+    settleT = Math.min(1, settleT);
+    var curveFade = settleT * settleT;
+
+    // --- Standard deviation shaded bands (drawn first, behind everything) ---
+    // ±3σ band (outermost, lightest)
+    var x3L = W / 2 - 3 * sigma, x3R = W / 2 + 3 * sigma;
+    var x2L = W / 2 - 2 * sigma, x2R = W / 2 + 2 * sigma;
+    var x1L = W / 2 - sigma,     x1R = W / 2 + sigma;
+
+    // Clamp to canvas
+    x3L = Math.max(0, x3L); x3R = Math.min(W, x3R);
+    x2L = Math.max(0, x2L); x2R = Math.min(W, x2R);
+
+    // ±3σ outer slivers
+    if (x3L < x2L) drawBand(baseY, sigma, peak, x3L, x2L, 0.02, curveFade);
+    if (x2R < x3R) drawBand(baseY, sigma, peak, x2R, x3R, 0.02, curveFade);
+    // ±2σ slivers
+    drawBand(baseY, sigma, peak, x2L, x1L, 0.04, curveFade);
+    drawBand(baseY, sigma, peak, x1R, x2R, 0.04, curveFade);
+    // ±1σ center band (most prominent)
+    drawBand(baseY, sigma, peak, x1L, x1R, 0.07, curveFade);
+
+    // --- Bell curve stroke ---
     var steps = 120;
     ctx.beginPath();
-    ctx.moveTo(0, baseY);
-    for (let i = 0; i <= steps; i++) {
+    for (var i = 0; i <= steps; i++) {
       var x = (i / steps) * W;
-      var g = gaussian(x, W / 2, sigma);
+      var g = gaussianVal(x, W / 2, sigma);
       var y = baseY - g * peak;
-      if (i === 0) ctx.lineTo(x, y);
-      else ctx.lineTo(x, y);
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
-    ctx.lineTo(W, baseY);
-    ctx.closePath();
-
-    // Gradient fill
-    var fillGrad = ctx.createLinearGradient(0, baseY - peak, 0, baseY);
-    var fillAlpha = 0.07 * bg;
-    fillGrad.addColorStop(0, 'rgba(212,120,90,' + (fillAlpha * 1.2).toFixed(3) + ')');
-    fillGrad.addColorStop(0.5, 'rgba(212,120,90,' + fillAlpha.toFixed(3) + ')');
-    fillGrad.addColorStop(1, 'rgba(212,120,90,' + (fillAlpha * 0.4).toFixed(3) + ')');
-    ctx.fillStyle = fillGrad;
-    ctx.fill();
-
-    // --- Draw bell curve stroke (the classic line) ---
-    ctx.beginPath();
-    for (let i = 0; i <= steps; i++) {
-      var x = (i / steps) * W;
-      var g = gaussian(x, W / 2, sigma);
-      var y = baseY - g * peak;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    }
-    ctx.strokeStyle = 'rgba(212,120,90,' + (0.18 * bg).toFixed(3) + ')';
+    ctx.strokeStyle = 'rgba(212,120,90,' + (0.20 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // --- Draw baseline ---
+    // --- Baseline ---
     ctx.beginPath();
-    ctx.moveTo(W * 0.08, baseY);
-    ctx.lineTo(W * 0.92, baseY);
-    ctx.strokeStyle = 'rgba(212,120,90,0.08)';
+    ctx.moveTo(x3L, baseY);
+    ctx.lineTo(x3R, baseY);
+    ctx.strokeStyle = 'rgba(212,120,90,' + (0.10 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    // --- Draw std deviation markers ---
-    for (let s = -2; s <= 2; s++) {
-      if (s === 0) continue;
-      var mx = W / 2 + s * sigma;
-      if (mx < 0 || mx > W) continue;
+    // --- σ vertical lines and labels ---
+    var sigmaLines = [
+      { x: x1L, label: '-1\u03C3' },
+      { x: x1R, label: '+1\u03C3' },
+      { x: x2L, label: '-2\u03C3' },
+      { x: x2R, label: '+2\u03C3' },
+      { x: x3L, label: '-3\u03C3' },
+      { x: x3R, label: '+3\u03C3' }
+    ];
+
+    for (var s = 0; s < sigmaLines.length; s++) {
+      var sl = sigmaLines[s];
+      if (sl.x < 0 || sl.x > W) continue;
+      var curveAtX = baseY - gaussianVal(sl.x, W / 2, sigma) * peak;
+
+      // Vertical dashed line from baseline to curve
       ctx.beginPath();
-      ctx.moveTo(mx, baseY);
-      ctx.lineTo(mx, baseY + 4);
-      ctx.strokeStyle = 'rgba(212,120,90,0.06)';
+      ctx.moveTo(sl.x, baseY);
+      ctx.lineTo(sl.x, curveAtX);
+      ctx.strokeStyle = 'rgba(212,120,90,' + (0.08 * curveFade).toFixed(3) + ')';
       ctx.lineWidth = 1;
+      ctx.setLineDash([3, 4]);
       ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Label below baseline (skip on very small screens)
+      if (!isSmall) {
+        ctx.globalAlpha = 0.35 * curveFade;
+        ctx.font = '600 ' + (isMobile ? '9' : '10') + 'px "JetBrains Mono", monospace';
+        ctx.fillStyle = '#D4785A';
+        ctx.textAlign = 'center';
+        ctx.fillText(sl.label, sl.x, baseY - 6);
+        ctx.globalAlpha = 1;
+      }
     }
 
-    // --- Draw a subtle vertical center line (mean) ---
+    // --- Dashed mean line (μ) ---
     ctx.beginPath();
-    ctx.moveTo(W / 2, baseY - peak - 8);
-    ctx.lineTo(W / 2, baseY + 4);
-    ctx.strokeStyle = 'rgba(212,120,90,0.05)';
+    ctx.moveTo(W / 2, baseY);
+    ctx.lineTo(W / 2, baseY - peak - 8);
+    ctx.strokeStyle = 'rgba(212,120,90,' + (0.10 * curveFade).toFixed(3) + ')';
     ctx.lineWidth = 1;
     ctx.setLineDash([3, 4]);
     ctx.stroke();
     ctx.setLineDash([]);
 
-    // --- Draw particles (solid balls) ---
-    for (let i = 0; i < POOL_SIZE; i++) {
+    // μ label
+    if (!isSmall) {
+      ctx.globalAlpha = 0.4 * curveFade;
+      ctx.font = '600 ' + (isMobile ? '9' : '10') + 'px "JetBrains Mono", monospace';
+      ctx.fillStyle = '#D4785A';
+      ctx.textAlign = 'center';
+      ctx.fillText('\u03BC', W / 2, baseY - 6);
+      ctx.globalAlpha = 1;
+    }
+
+    // --- Particles ---
+    for (var i = 0; i < POOL_SIZE; i++) {
       var p = pool[i];
-      if (p.phase === 'dead' || p.alpha <= 0) continue;
+      if (p.alpha <= 0) continue;
       ctx.globalAlpha = p.alpha;
-      var d = p.size * 2; // diameter in CSS px
+      var d = p.size * 2;
       ctx.drawImage(p.sprite, p.x - d / 2, p.y - d / 2, d, d);
     }
     ctx.globalAlpha = 1;
@@ -338,23 +350,20 @@
     if (!lastTime) lastTime = timestamp;
     var dt = timestamp - lastTime;
     lastTime = timestamp;
-
-    // Cap delta to avoid spiral after tab switch
     if (dt > 100) dt = 16.667;
 
     update(dt);
     draw();
 
-    // Stop the loop once all particles have settled
     if (finished) return;
-
     rafId = requestAnimationFrame(frame);
   }
 
   resize();
+  computeTargets();
+  initParticles();
   var rafId = requestAnimationFrame(frame);
 
-  // --- Pause when hero scrolls out of view (only while animating) ---
   if ('IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
       if (finished) return;
@@ -364,14 +373,9 @@
     observer.observe(hero);
   }
 
-  // --- Pause when tab is hidden ---
   document.addEventListener('visibilitychange', function () {
     if (finished) return;
-    if (document.hidden) {
-      running = false;
-    } else {
-      running = true;
-      lastTime = 0;
-    }
+    if (document.hidden) { running = false; }
+    else { running = true; lastTime = 0; }
   });
 })();
