@@ -34,8 +34,17 @@
   window.addEventListener('resize', function () {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
+      var prevW = W;
       resize();
-      if (finished) { computeTargets(); snapToTargets(); draw(); }
+      if (finished) {
+        // Only reposition particles if width actually changed
+        // (mobile scroll just changes height via browser chrome)
+        if (Math.abs(W - prevW) > 1) {
+          computeTargets();
+          snapToTargets();
+        }
+        draw();
+      }
     }, 200);
   });
 
@@ -116,23 +125,33 @@
     });
   }
 
+  // Store random seeds so resize reuses the same distribution
+  var targetSeeds = [];
+
   function computeTargets() {
     var baseY = CURVE_FLOOR * H;
     var sigma = CURVE_SIGMA * W;
     var peak = CURVE_HEIGHT * H;
+    var needSeeds = targetSeeds.length === 0;
 
     for (var i = 0; i < POOL_SIZE; i++) {
       var p = pool[i];
-      var gx = randGaussian() * sigma + W / 2;
+      var seed;
+      if (needSeeds) {
+        seed = { zx: randGaussian(), fy: Math.random() };
+        targetSeeds.push(seed);
+      } else {
+        seed = targetSeeds[i];
+      }
+      var gx = seed.zx * sigma + W / 2;
       gx = Math.max(0, Math.min(W, gx));
       var g = gaussianVal(gx, W / 2, sigma);
       var curveTop = baseY - g * peak;
-      // Inset from the curve stroke so no particle touches the outer line
       var margin = 6;
       var innerTop = curveTop + margin;
       var innerBottom = baseY - margin;
       if (innerTop >= innerBottom) innerTop = innerBottom - 1;
-      var gy = innerTop + Math.random() * (innerBottom - innerTop);
+      var gy = innerTop + seed.fy * (innerBottom - innerTop);
       p.tx = gx;
       p.ty = gy;
     }
@@ -171,7 +190,14 @@
   var finished = false;
   var pulseTime = 0;
   var PULSE_SPEED = 0.0004; // cycles per ms (~2.5s per sweep)
-  var PULSE_WIDTH = 0.08;   // fraction of curve width for the glow
+  var PULSE_WIDTH = isSmall ? 0.22 : isMobile ? 0.16 : 0.08;
+  var PULSE_ALPHA = isSmall ? 0.55 : isMobile ? 0.50 : 0.35;
+  var BASE_STROKE_ALPHA = isMobile ? 0.35 : 0.25;
+
+  // Band shading alphas — boosted on mobile for visibility
+  var BAND_ALPHA_3S = isSmall ? 0.10 : isMobile ? 0.08 : 0.04;
+  var BAND_ALPHA_2S = isSmall ? 0.16 : isMobile ? 0.14 : 0.08;
+  var BAND_ALPHA_1S = isSmall ? 0.24 : isMobile ? 0.22 : 0.14;
 
   function update(dt) {
     elapsed += dt;
@@ -253,13 +279,13 @@
     x2L = Math.max(0, x2L); x2R = Math.min(W, x2R);
 
     // ±3σ outer slivers
-    if (x3L < x2L) drawBand(baseY, sigma, peak, x3L, x2L, 0.04, curveFade);
-    if (x2R < x3R) drawBand(baseY, sigma, peak, x2R, x3R, 0.04, curveFade);
+    if (x3L < x2L) drawBand(baseY, sigma, peak, x3L, x2L, BAND_ALPHA_3S, curveFade);
+    if (x2R < x3R) drawBand(baseY, sigma, peak, x2R, x3R, BAND_ALPHA_3S, curveFade);
     // ±2σ slivers
-    drawBand(baseY, sigma, peak, x2L, x1L, 0.08, curveFade);
-    drawBand(baseY, sigma, peak, x1R, x2R, 0.08, curveFade);
+    drawBand(baseY, sigma, peak, x2L, x1L, BAND_ALPHA_2S, curveFade);
+    drawBand(baseY, sigma, peak, x1R, x2R, BAND_ALPHA_2S, curveFade);
     // ±1σ center band (most prominent)
-    drawBand(baseY, sigma, peak, x1L, x1R, 0.14, curveFade);
+    drawBand(baseY, sigma, peak, x1L, x1R, BAND_ALPHA_1S, curveFade);
 
     // --- Bell curve stroke with rolling pulse ---
     var steps = 120;
@@ -272,8 +298,8 @@
       var y = baseY - g * peak;
       if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = 'rgba(215,213,208,' + (0.25 * curveFade).toFixed(3) + ')';
-    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = 'rgba(215,213,208,' + (BASE_STROKE_ALPHA * curveFade).toFixed(3) + ')';
+    ctx.lineWidth = isMobile ? 2 : 1.5;
     ctx.stroke();
 
     // Pulse glow on top (only after settling)
@@ -301,8 +327,8 @@
         ctx.beginPath();
         ctx.moveTo(sx1, baseY - gx1 * peak);
         ctx.lineTo(sx2, baseY - gx2 * peak);
-        ctx.strokeStyle = 'rgba(215,213,208,' + (intensity * 0.35 * curveFade).toFixed(3) + ')';
-        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = 'rgba(215,213,208,' + (intensity * PULSE_ALPHA * curveFade).toFixed(3) + ')';
+        ctx.lineWidth = isMobile ? 3.5 : 2.5;
         ctx.stroke();
       }
     }
@@ -411,7 +437,6 @@
 
   if ('IntersectionObserver' in window) {
     var observer = new IntersectionObserver(function (entries) {
-      if (finished) return;
       running = entries[0].isIntersecting;
       if (running) lastTime = 0;
     }, { threshold: 0.05 });
@@ -419,7 +444,6 @@
   }
 
   document.addEventListener('visibilitychange', function () {
-    if (finished) return;
     if (document.hidden) { running = false; }
     else { running = true; lastTime = 0; }
   });
