@@ -49,7 +49,7 @@
   });
 
   // --- Config ---
-  var COLORS = ['#D4785A', '#E8A87C', '#C46849', '#F0C9A8'];
+  var COLORS = ['#F28C50', '#FFB878', '#E06A38', '#FFD0A0'];
   var COLOR_WEIGHTS = [0.4, 0.25, 0.25, 0.1];
   var isMobile = window.innerWidth < 768;
   var isSmall = window.innerWidth < 480;
@@ -60,7 +60,12 @@
   // Gaussian curve — tuned per breakpoint
   var CURVE_HEIGHT = isSmall ? 0.22 : isMobile ? 0.25 : 0.30;
   var CURVE_SIGMA = isSmall ? 0.20 : isMobile ? 0.18 : 0.16;
-  var CURVE_FLOOR = 1.0;
+  // Baseline pinned to bottom of viewport (not bottom of hero)
+  function getBaseY() {
+    var rect = hero.getBoundingClientRect();
+    var viewportBottom = window.innerHeight - rect.top;
+    return Math.min(H, Math.max(100, viewportBottom));
+  }
 
   // Snow globe timing
   var CHAOS_DURATION = 1500;
@@ -129,7 +134,7 @@
   var targetSeeds = [];
 
   function computeTargets() {
-    var baseY = CURVE_FLOOR * H;
+    var baseY = getBaseY();
     var sigma = CURVE_SIGMA * W;
     var peak = CURVE_HEIGHT * H;
     var needSeeds = targetSeeds.length === 0;
@@ -260,7 +265,7 @@
   function draw() {
     ctx.clearRect(0, 0, W, H);
 
-    var baseY = CURVE_FLOOR * H;
+    var baseY = getBaseY();
     var sigma = CURVE_SIGMA * W;
     var peak = CURVE_HEIGHT * H;
 
