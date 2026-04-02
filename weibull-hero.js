@@ -127,7 +127,7 @@
   var COLOR_WEIGHTS = [0.4, 0.25, 0.25, 0.1];
   // Pool size is fixed so we don't have to push/splice arrays on resize
   var POOL_SIZE = window.innerWidth < 480 ? 600 : window.innerWidth < 768 ? 900 : 1800;
-  var MAX_ALPHA = 0.28;
+  var MAX_ALPHA = 0.45;
   var SPRITE_SIZE = 2;
 
   // Baseline pinned to bottom of viewport (not bottom of hero)
