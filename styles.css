@@ -227,8 +227,8 @@ nav {
 .dot {
   width: 6px; height: 6px; border-radius: 50%;
   box-shadow: 0 0 10px currentColor;
-  background: var(--check-green);
-  color: var(--check-green);
+  background: var(--brand-glow);
+  color: var(--brand-glow);
   opacity: 0.9;
 }
 
