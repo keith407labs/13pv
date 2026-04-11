@@ -498,6 +498,54 @@ section { padding: 5.5rem 0; }
 .file .fd { margin-top: 0.35rem; color: var(--text-muted); font-size: 0.85rem; }
 .file .meta { margin-top: 0.65rem; color: var(--text-dim); font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; }
 
+/* Sample IC Memo PDFs */
+.memo-head {
+  margin-top: 0.4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.memo-head strong { letter-spacing: 0.2px; font-size: 0.95rem; color: var(--text-main); }
+.memos-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+.memo-file {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+.memo-file:hover {
+  border-color: rgba(196,104,73,0.5);
+  background: rgba(196,104,73,0.06);
+  transform: translateY(-1px);
+}
+.memo-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+.memo-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(196,104,73,0.12);
+  border: 1px solid rgba(196,104,73,0.32);
+  color: var(--brand-glow);
+}
+.memo-cta {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--brand-glow);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.memo-file:hover .memo-cta span { transform: translateX(2px); display: inline-block; }
+
 
 .bullets { list-style: none; display: grid; gap: 0.75rem; margin-top: 1rem; }
 .bullets li { display: flex; gap: 0.75rem; align-items: flex-start; color: var(--text-muted); font-size: 0.9rem; }
@@ -813,6 +861,7 @@ footer {
   .section-header { margin-bottom: 2.5rem; }
   .kv-grid { grid-template-columns: 1fr 1fr; }
   .files-grid { grid-template-columns: 1fr; }
+  .memos-grid { grid-template-columns: 1fr; }
   .io-grid { grid-template-columns: 1fr; }
   .io-col { padding: 1.5rem; }
   .io-col + .io-col { border-left: none; border-top: 1px solid rgba(168,162,158,0.14); }
