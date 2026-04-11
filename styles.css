@@ -129,6 +129,8 @@ nav {
   transition: 0.2s;
 }
 .nav-links a:hover { color: var(--text-main); }
+.nav-links a.btn-primary,
+.nav-links a.btn-primary:hover { color: white; }
 
 .mobile-menu-btn {
   display: none;
