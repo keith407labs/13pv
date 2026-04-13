@@ -320,102 +320,99 @@
                 <div class="fields">P50/P90 cashflows &bull; EV by case &bull; Tail risk flags &bull; <strong style="color:var(--brand-glow)">Variance Report</strong></div>
               </li>
             </ul>
+
+            <!-- Example Portfolio Summary (embedded in Deliverables) -->
+            <div class="io-section-divider">
+              <strong>Example Portfolio Summary</strong>
+              <span class="pill">Downloadable Tables</span>
+            </div>
+
+            <div class="kv-grid io-kv-grid stagger-children">
+              <div class="kv">
+                <div class="k">Accounts</div>
+                <div class="v nums" data-count-target="2000">0</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Sample Portfolio</div>
+              </div>
+              <div class="kv">
+                <div class="k">TVM Rate</div>
+                <div class="v nums" data-count-target="18" data-count-suffix="%">0%</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Configurable</div>
+              </div>
+              <div class="kv">
+                <div class="k">Cost to Service</div>
+                <div class="v nums" data-count-target="8" data-count-suffix="%">0%</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
+              </div>
+              <div class="kv">
+                <div class="k">Legal Fee</div>
+                <div class="v nums">$28</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
+              </div>
+              <div class="kv">
+                <div class="k">Payout at Risk %</div>
+                <div class="v nums" data-count-target="10" data-count-suffix="%">0%</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Annualized</div>
+              </div>
+              <div class="kv">
+                <div class="k">Payment Decay</div>
+                <div class="v nums">6 mo</div>
+                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Weighted Avg</div>
+              </div>
+            </div>
+
+            <div class="files-grid io-files-grid stagger-children">
+              <div class="file">
+                <div class="fn">ledgers.csv</div>
+                <div class="fd">Actual cash flow from the trustee — month by month, claim by claim.</div>
+                <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
+              </div>
+              <div class="file">
+                <div class="fn">claims.csv</div>
+                <div class="fd">Where each claim sits in the stack and what's left to recover after senior creditors.</div>
+                <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
+              </div>
+              <div class="file">
+                <div class="fn">risk_flags.csv</div>
+                <div class="fd">Every red flag: stopped cash flow, missing claims, silent defaults.</div>
+                <div class="meta">Join keys: Case_ID</div>
+              </div>
+            </div>
+
+            <div class="memo-head">
+              <strong>Sample IC Memos</strong>
+              <span class="pill">Downloadable PDFs</span>
+            </div>
+            <div class="memos-grid io-memos-grid stagger-children">
+              <a class="file memo-file" href="valuation_memo.pdf?v=3" target="_blank" rel="noopener">
+                <div class="memo-top">
+                  <div class="fn">valuation_memo.pdf</div>
+                  <span class="memo-badge">PDF</span>
+                </div>
+                <div class="fd">Full valuation write-up: recovery odds, P50/P90 cash flow, and tail risk flags — IC-ready.</div>
+                <div class="memo-cta">View Memo <span aria-hidden="true">→</span></div>
+              </a>
+              <a class="file memo-file" href="economic_memo.pdf?v=2" target="_blank" rel="noopener" download="PVL Economic Memo.pdf">
+                <div class="memo-top">
+                  <div class="fn">economic_memo.pdf</div>
+                  <span class="memo-badge">PDF</span>
+                </div>
+                <div class="fd">Macro &amp; district-level economic overlay — the assumptions behind the recovery model.</div>
+                <div class="memo-cta">View Memo <span aria-hidden="true">→</span></div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Example Portfolio Summary -->
-      <div class="sample-wrap" style="margin-top: 3rem;">
-        <div class="sample-head">
-          <strong>Example Portfolio Summary</strong>
-          <span class="pill">Downloadable Tables</span>
+      <!-- Sample Engine Findings (standalone callout) -->
+      <div style="margin-top: 2rem; border: 1px solid rgba(245,158,11,0.25); border-radius: 8px; padding: 1.25rem; background: rgba(245,158,11,0.03);">
+        <div style="font-size: 0.8rem; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.7rem;">
+          Sample Engine Findings
         </div>
-
-        <div class="sample-body">
-          <div class="kv-grid stagger-children">
-            <div class="kv">
-              <div class="k">Accounts</div>
-              <div class="v nums" data-count-target="2000">0</div>
-              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Sample Portfolio</div>
-            </div>
-            <div class="kv">
-              <div class="k">TVM Rate</div>
-              <div class="v nums" data-count-target="18" data-count-suffix="%">0%</div>
-              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Configurable</div>
-            </div>
-            <div class="kv">
-              <div class="k">Cost to Service</div>
-              <div class="v nums" data-count-target="8" data-count-suffix="%">0%</div>
-              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
-            </div>
-            <div class="kv">
-              <div class="k">Legal Fee</div>
-              <div class="v nums">$28</div>
-              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
-            </div>
-            <div class="kv">
-              <div class="k">Payout at Risk %</div>
-              <div class="v nums" data-count-target="10" data-count-suffix="%">0%</div>
-              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Annualized</div>
-            </div>
-            <div class="kv">
-              <div class="k">Payment Decay</div>
-              <div class="v nums">6 mo</div>
-              <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Weighted Avg</div>
-            </div>
-          </div>
-
-          <div class="files-grid stagger-children">
-            <div class="file">
-              <div class="fn">ledgers.csv</div>
-              <div class="fd">Actual cash flow from the trustee — month by month, claim by claim.</div>
-              <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
-            </div>
-            <div class="file">
-              <div class="fn">claims.csv</div>
-              <div class="fd">Where each claim sits in the stack and what's left to recover after senior creditors.</div>
-              <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
-            </div>
-            <div class="file">
-              <div class="fn">risk_flags.csv</div>
-              <div class="fd">Every red flag: stopped cash flow, missing claims, silent defaults.</div>
-              <div class="meta">Join keys: Case_ID</div>
-            </div>
-          </div>
-
-          <div class="memo-head">
-            <strong>Sample IC Memos</strong>
-            <span class="pill">Downloadable PDFs</span>
-          </div>
-          <div class="memos-grid stagger-children">
-            <a class="file memo-file" href="valuation_memo.pdf?v=3" target="_blank" rel="noopener">
-              <div class="memo-top">
-                <div class="fn">valuation_memo.pdf</div>
-                <span class="memo-badge">PDF</span>
-              </div>
-              <div class="fd">Full valuation write-up: recovery odds, P50/P90 cash flow, and tail risk flags — IC-ready.</div>
-              <div class="memo-cta">View Memo <span aria-hidden="true">→</span></div>
-            </a>
-            <a class="file memo-file" href="economic_memo.pdf?v=2" target="_blank" rel="noopener" download="PVL Economic Memo.pdf">
-              <div class="memo-top">
-                <div class="fn">economic_memo.pdf</div>
-                <span class="memo-badge">PDF</span>
-              </div>
-              <div class="fd">Macro &amp; district-level economic overlay — the assumptions behind the recovery model.</div>
-              <div class="memo-cta">View Memo <span aria-hidden="true">→</span></div>
-            </a>
-          </div>
-
-          <div style="margin-top: 1.5rem; border: 1px solid rgba(245,158,11,0.25); border-radius: 8px; padding: 1.25rem; background: rgba(245,158,11,0.03);">
-            <div style="font-size: 0.8rem; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.7rem;">
-              Sample Engine Findings
-            </div>
-            <div class="mono" style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;">
-              &bull; Case 24-12345: Plan shows $285/mo, trustee ledger avg $142/mo (6mo)<br>
-              &bull; Case 24-54321: Unsecured claim listed @ $8,400 — no disbursements in 14 months<br>
-              &bull; Case 24-99999: Secured claim paid in full, unsecured recovery now viable
-            </div>
-          </div>
+        <div class="mono" style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;">
+          &bull; Case 24-12345: Plan shows $285/mo, trustee ledger avg $142/mo (6mo)<br>
+          &bull; Case 24-54321: Unsecured claim listed @ $8,400 — no disbursements in 14 months<br>
+          &bull; Case 24-99999: Secured claim paid in full, unsecured recovery now viable
         </div>
       </div>
     </div>

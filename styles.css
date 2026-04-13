@@ -461,25 +461,23 @@ section { padding: 5.5rem 0; }
   color: var(--text-dim);
 }
 
-/* --- SAMPLE OUTPUT --- */
-.sample-wrap {
-  border: 1px solid rgba(168,162,158,0.18);
-  border-radius: 16px;
-  overflow: hidden;
-  background: rgba(12,10,9,0.35);
-}
-.sample-head {
-  padding: 1.1rem 1.4rem;
-  border-bottom: 1px solid rgba(168,162,158,0.14);
+/* --- SECTION DIVIDER (inside Deliverables card) --- */
+.io-section-divider {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255,255,255,0.02);
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(168,162,158,0.14);
 }
-.sample-head strong { letter-spacing: 0.2px; font-size: 0.95rem; }
-.sample-body { padding: 1.4rem; display: grid; gap: 1.0rem; }
+.io-section-divider strong { letter-spacing: 0.2px; font-size: 0.9rem; }
 
 .kv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
+/* Narrower grid inside Deliverables card */
+.io-kv-grid { grid-template-columns: repeat(3, 1fr); margin-top: 1rem; }
+.io-files-grid { grid-template-columns: 1fr; margin-top: 1rem; }
+.io-col .memo-head { margin-top: 1.25rem; }
+.io-memos-grid { margin-top: 0.5rem; }
 .kv {
   border: 1px solid rgba(168,162,158,0.14);
   border-radius: 8px;
@@ -885,8 +883,11 @@ footer {
   section { padding: 4rem 0; }
   .section-header { margin-bottom: 2.5rem; }
   .kv-grid { grid-template-columns: 1fr 1fr; }
+  .io-kv-grid { grid-template-columns: 1fr 1fr; }
   .files-grid { grid-template-columns: 1fr; }
+  .io-files-grid { grid-template-columns: 1fr; }
   .memos-grid { grid-template-columns: 1fr; }
+  .io-memos-grid { grid-template-columns: 1fr; }
   .io-grid { grid-template-columns: 1fr; }
   .io-col { padding: 1.5rem; }
   .io-col + .io-col { border-left: none; border-top: 1px solid rgba(168,162,158,0.14); }
@@ -946,6 +947,7 @@ footer {
 
   .hero-stats { flex-direction: column; gap: 1rem; }
   .kv-grid { grid-template-columns: 1fr; }
+  .io-kv-grid { grid-template-columns: 1fr; }
   .grid-5 { grid-template-columns: 1fr; }
 
   .trust-row { flex-direction: column; gap: 0.6rem; font-size: 0.78rem; }
