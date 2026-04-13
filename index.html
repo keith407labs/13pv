@@ -321,84 +321,38 @@
               </li>
             </ul>
 
-            <!-- Example Portfolio Summary (embedded in Deliverables) -->
+            <!-- Output Files -->
             <div class="io-section-divider">
-              <strong>Example Portfolio Summary</strong>
-              <span class="pill">Downloadable Tables</span>
+              <strong>Sample Output</strong>
+              <span class="pill">22 Files</span>
             </div>
 
-            <div class="kv-grid io-kv-grid stagger-children">
-              <div class="kv">
-                <div class="k">Accounts</div>
-                <div class="v nums" data-count-target="2000">0</div>
-                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Sample Portfolio</div>
+            <div class="output-tree mono" style="margin-top: 1rem; font-size: 0.78rem; line-height: 1.85; color: var(--text-muted);">
+              <div style="color: var(--brand-glow); font-weight: 700;">valuation_out/</div>
+              <div style="padding-left: 1.2rem;">
+                <span style="color: var(--brand-glow);">monte_carlo/</span><br>
+                synthesis_report.csv<br>
+                outside_plan_claims.csv<br>
+                npv_summary.csv<br>
+                cashflows_by_claim_monthly.csv<br>
+                portfolio_sensitivity.csv<br>
+                data_quality_flags.csv<br>
+                survival_profiles.csv<br>
+                national_survival_curve.csv<br>
+                national_survival_curve_36mo.csv<br>
+                waterfall_audit.csv<br>
+                docket_profiles.csv<br>
+                funding_schedules.csv<br>
+                macro_profiles.csv<br>
+                <span class="output-pdf">economic_memo.pdf</span><br>
+                <span class="output-pdf">plan_steps_memo.pdf</span><br>
+                data_dictionary.csv<br>
+                claim_cashflow_6mo.csv<br>
+                portfolio_cashflow_6mo.csv<br>
+                npv_by_claim.csv<br>
+                portfolio_summary.csv<br>
+                <span class="output-pdf">data_dictionary_enhanced.pdf</span>
               </div>
-              <div class="kv">
-                <div class="k">TVM Rate</div>
-                <div class="v nums" data-count-target="18" data-count-suffix="%">0%</div>
-                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Configurable</div>
-              </div>
-              <div class="kv">
-                <div class="k">Cost to Service</div>
-                <div class="v nums" data-count-target="8" data-count-suffix="%">0%</div>
-                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
-              </div>
-              <div class="kv">
-                <div class="k">Legal Fee</div>
-                <div class="v nums">$28</div>
-                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Per Claim</div>
-              </div>
-              <div class="kv">
-                <div class="k">Payout at Risk %</div>
-                <div class="v nums" data-count-target="10" data-count-suffix="%">0%</div>
-                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Annualized</div>
-              </div>
-              <div class="kv">
-                <div class="k">Payment Decay</div>
-                <div class="v nums">6 mo</div>
-                <div class="dim" style="font-size:0.75rem;margin-top:0.35rem;">Weighted Avg</div>
-              </div>
-            </div>
-
-            <div class="files-grid io-files-grid stagger-children">
-              <div class="file">
-                <div class="fn">ledgers.csv</div>
-                <div class="fd">Actual cash flow from the trustee — month by month, claim by claim.</div>
-                <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
-              </div>
-              <div class="file">
-                <div class="fn">claims.csv</div>
-                <div class="fd">Where each claim sits in the stack and what's left to recover after senior creditors.</div>
-                <div class="meta">Join keys: Case_ID &bull; Claim_ID</div>
-              </div>
-              <div class="file">
-                <div class="fn">risk_flags.csv</div>
-                <div class="fd">Every red flag: stopped cash flow, missing claims, silent defaults.</div>
-                <div class="meta">Join keys: Case_ID</div>
-              </div>
-            </div>
-
-            <div class="memo-head">
-              <strong>Sample IC Memos</strong>
-              <span class="pill">Downloadable PDFs</span>
-            </div>
-            <div class="memos-grid io-memos-grid stagger-children">
-              <a class="file memo-file" href="valuation_memo.pdf?v=3" target="_blank" rel="noopener">
-                <div class="memo-top">
-                  <div class="fn">valuation_memo.pdf</div>
-                  <span class="memo-badge">PDF</span>
-                </div>
-                <div class="fd">Full valuation write-up: recovery odds, P50/P90 cash flow, and tail risk flags — IC-ready.</div>
-                <div class="memo-cta">View Memo <span aria-hidden="true">→</span></div>
-              </a>
-              <a class="file memo-file" href="economic_memo.pdf?v=2" target="_blank" rel="noopener" download="PVL Economic Memo.pdf">
-                <div class="memo-top">
-                  <div class="fn">economic_memo.pdf</div>
-                  <span class="memo-badge">PDF</span>
-                </div>
-                <div class="fd">Macro &amp; district-level economic overlay — the assumptions behind the recovery model.</div>
-                <div class="memo-cta">View Memo <span aria-hidden="true">→</span></div>
-              </a>
             </div>
           </div>
         </div>
