@@ -475,6 +475,58 @@ section { padding: 5.5rem 0; }
 /* Output file tree */
 .output-pdf { color: var(--brand-glow); font-weight: 600; }
 
+/* Memo download cards */
+.memo-cards { display: grid; gap: 0.75rem; margin-top: 0.25rem; }
+.memo-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid rgba(196,104,73,0.3);
+  border-radius: 10px;
+  background: rgba(196,104,73,0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+}
+.memo-card:hover {
+  border-color: rgba(196,104,73,0.55);
+  background: rgba(196,104,73,0.10);
+  transform: translateY(-1px);
+}
+.memo-card-icon {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(196,104,73,0.15);
+  border: 1px solid rgba(196,104,73,0.35);
+  color: var(--brand-glow);
+}
+.memo-card-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+.memo-card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+  line-height: 1.4;
+}
+.memo-card-action {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-glow);
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+.memo-card:hover .memo-card-action span { display: inline-block; transform: translateX(2px); }
+
 .kv-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
 .kv {
   border: 1px solid rgba(168,162,158,0.14);
@@ -885,6 +937,8 @@ footer {
   .memos-grid { grid-template-columns: 1fr; }
   .io-grid { grid-template-columns: 1fr; }
   .io-col { padding: 1.5rem; }
+  .memo-card { grid-template-columns: auto 1fr; }
+  .memo-card-action { grid-column: 1 / -1; }
   .io-col + .io-col { border-left: none; border-top: 1px solid rgba(168,162,158,0.14); }
 
   .grid-3 { grid-template-columns: 1fr; }

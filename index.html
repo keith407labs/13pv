@@ -294,36 +294,29 @@
               <h3>Deliverables</h3>
               <span class="pill">Underwriting Package</span>
             </div>
-            <ul class="io-list">
-              <li class="io-item">
-                <div class="top">
-                  <div class="name">Trustee Disbursement Ledger</div>
-                  <div class="type mono">ledgers.csv</div>
+            <!-- Sample Memos -->
+            <div class="memo-cards">
+              <a class="memo-card" href="valuation_memo.pdf?v=3" target="_blank" rel="noopener">
+                <div class="memo-card-icon">PDF</div>
+                <div class="memo-card-body">
+                  <div class="memo-card-title">Valuation Memo</div>
+                  <div class="memo-card-desc">Recovery odds, P50/P90 cash flow, tail risk flags — IC-ready.</div>
                 </div>
-                <div class="desc">What the trustee actually paid out — line by line. The ground truth behind every recovery number.</div>
-                <div class="fields">Case_ID &bull; Claim_ID &bull; Date &bull; Amount &bull; TransType &bull; ClassCode</div>
-              </li>
-              <li class="io-item">
-                <div class="top">
-                  <div class="name">Claims &amp; Waterfall Snapshot</div>
-                  <div class="type mono">claims.csv</div>
+                <div class="memo-card-action">View &amp; Download <span aria-hidden="true">→</span></div>
+              </a>
+              <a class="memo-card" href="economic_memo.pdf?v=2" target="_blank" rel="noopener">
+                <div class="memo-card-icon">PDF</div>
+                <div class="memo-card-body">
+                  <div class="memo-card-title">Economic Memo</div>
+                  <div class="memo-card-desc">Macro &amp; district-level economic overlay — the assumptions behind the model.</div>
                 </div>
-                <div class="desc">See exactly where your claim sits in the priority stack and how much cash is left after senior creditors get paid.</div>
-                <div class="fields">ClaimLevel &bull; ClassTypeCode &bull; PrincipalOwed &bull; StopDisbursementFlag</div>
-              </li>
-              <li class="io-item">
-                <div class="top">
-                  <div class="name">Valuation Package</div>
-                  <div class="type">Tables (CSV)</div>
-                </div>
-                <div class="desc">The numbers you hand to your IC. Recovery odds per claim, projected cash flow, tail risk flags, and the full variance analysis.</div>
-                <div class="fields">P50/P90 cashflows &bull; EV by case &bull; Tail risk flags &bull; <strong style="color:var(--brand-glow)">Variance Report</strong></div>
-              </li>
-            </ul>
+                <div class="memo-card-action">View &amp; Download <span aria-hidden="true">→</span></div>
+              </a>
+            </div>
 
             <!-- Output Files -->
             <div class="io-section-divider">
-              <strong>Sample Output</strong>
+              <strong>Full Output</strong>
               <span class="pill">22 Files</span>
             </div>
 
@@ -355,18 +348,6 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- Sample Engine Findings (standalone callout) -->
-      <div style="margin-top: 2rem; border: 1px solid rgba(245,158,11,0.25); border-radius: 8px; padding: 1.25rem; background: rgba(245,158,11,0.03);">
-        <div style="font-size: 0.8rem; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.7rem;">
-          Sample Engine Findings
-        </div>
-        <div class="mono" style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.7;">
-          &bull; Case 24-12345: Plan shows $285/mo, trustee ledger avg $142/mo (6mo)<br>
-          &bull; Case 24-54321: Unsecured claim listed @ $8,400 — no disbursements in 14 months<br>
-          &bull; Case 24-99999: Secured claim paid in full, unsecured recovery now viable
         </div>
       </div>
     </div>
