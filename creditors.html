@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PVL for Creditors &amp; Servicers | Turn Your NDC Export Into a Watch List</title>
+  <meta name="description" content="NDC tells you what happened. PVL tells you what it's worth, what you'll collect, and which cases need attention — a weekly watch list, reserve-ready recovery forecasts, and hold-vs-sell valuations for Chapter 13 creditors and servicers." />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C46849' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M22 12a10.06 10.06 0 0 0-20 0Z'/><path d='M12 12v8a2 2 0 0 0 2 2H22'/><path d='M12 2v1'/></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="neon-bg-container">
+    <div class="grid-overlay"></div>
+    <div class="neon-glow-1"></div>
+    <div class="neon-glow-2"></div>
+  </div>
+
+  <!-- ═══════════ NAV ═══════════ -->
+  <nav>
+    <div class="container nav-flex">
+      <div class="logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 2 2H22"/><path d="M12 2v1"/></svg>
+        PVL
+      </div>
+
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <div class="nav-links">
+        <a href="#ndc">The NDC Gap</a>
+        <a href="#watchlist">Watch List</a>
+        <a href="#reserving">Reserving</a>
+        <a href="#selling">Selling</a>
+        <a href="#io">Deliverables</a>
+        <a href="#pricing">Pricing</a>
+        <a href="index.html">For Buyers</a>
+        <a href="https://portal.13pv.com" class="btn-primary btn-pulse" target="_blank" rel="noopener">Customer Portal</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="pill" style="display:inline-block; margin-bottom: 1.5rem;">For Creditors &amp; Servicers</div>
+
+          <h1>Turn Your NDC Export <span>Into a Watch List.</span></h1>
+
+          <p style="margin-left: auto; margin-right: auto; line-height: 1.8; max-width: 65ch; margin-bottom: 2.5rem; font-size: 1.1rem; color: var(--text-muted); font-weight: 350;">
+            NDC tells you what happened. PVL tells you what it's worth, what you'll collect, and which cases need attention this week — without anyone touching a spreadsheet.
+          </p>
+
+          <div class="hero-cta-row">
+            <a href="#pilot" class="btn-primary">Send Us Your NDC Export</a>
+            <a href="#ndc" class="btn-outline">See the Before &amp; After</a>
+          </div>
+
+          <p style="font-size: 0.9rem; color: var(--text-dim);">
+            Buying claims rather than holding them?
+            <a href="index.html" style="color: var(--brand-glow); text-decoration: none; font-weight: 600;">PVL for Debt Buyers →</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(28,25,23,0.3); padding: 2rem 0;">
+    <div class="container trust-row">
+      <div class="trust-item"><div class="dot"></div> Works From Your Existing NDC Export</div>
+      <div class="trust-item"><div class="dot"></div> 5,000+ Simulations per Claim</div>
+      <div class="trust-item"><div class="dot"></div> District-Calibrated Recovery Models</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ THE NDC GAP (Before / After) ═══════════ -->
+  <section id="ndc" style="border-top: 1px solid rgba(168,162,158,0.1); background: rgba(28,25,23,0.2);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">The NDC Gap</div>
+        <h2>You Already Have the Data. It's Sitting in NDC.</h2>
+        <p class="subtitle">
+          NDC is the system of record — it answers "what happened on this case?", one case at a time, backward-looking. Every question that actually runs your business starts with someone exporting a CSV and building a spreadsheet. That gap is what PVL closes.
+        </p>
+      </div>
+
+      <div class="io-wrap fade-up">
+        <div class="io-grid">
+          <div class="io-col fade-left">
+            <div class="io-title-row">
+              <h3>Today: The CSV Wall</h3>
+              <span class="pill" style="border-color: rgba(168,162,158,0.25); background: rgba(168,162,158,0.08); color: var(--text-muted);">Record-Level</span>
+            </div>
+
+            <div class="mono" style="border: 1px solid rgba(168,162,158,0.14); border-radius: 8px; padding: 1rem 1.1rem; background: rgba(12,10,9,0.45); font-size: 0.72rem; line-height: 1.8; color: var(--text-dim); overflow-x: auto; white-space: nowrap;">
+              <span style="color: var(--text-muted); font-weight: 700;">ndc_export_2026-07-06.csv</span><br>
+              CaseNo,Ch,District,Trustee,ClaimAmt,PaidToDate,LastDisb,PlanBase,Status<br>
+              25-30114,13,TXN,POWERS,12480.00,1240.50,2026-06-14,54200,ACTIVE<br>
+              24-41772,13,GAN,SIMS,8912.33,0.00,,38900,ACTIVE<br>
+              25-10236,13,MIE,CARROLL,6733.90,1855.20,2026-04-30,41750,ACTIVE<br>
+              24-52901,13,CAC,DOCKERY,5310.00,0.00,,62300,ACTIVE<br>
+              &hellip;<br>
+              <span style="color: var(--text-muted);">1,937 rows &times; 42 columns</span>
+            </div>
+
+            <ul class="io-list" style="margin-top: 0.85rem;">
+              <li class="io-item">
+                <div class="desc">One case at a time — no portfolio view, no ranking, no forward look.</div>
+              </li>
+              <li class="io-item">
+                <div class="desc">Every "what will we collect?" or "which cases are in trouble?" means a paralegal reading dockets or an analyst building a spreadsheet.</div>
+              </li>
+              <li class="io-item">
+                <div class="desc">The confirmed plan says $12,000 — but roughly half of Chapter 13 plans fail, and the export can't tell you which half yours are in.</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="io-col fade-right">
+            <div class="io-title-row">
+              <h3>With PVL: The One-Page Answer</h3>
+              <span class="pill">Portfolio-Level</span>
+            </div>
+
+            <div class="memo-cards">
+              <a class="memo-card" href="valuation_memo.pdf?v=3" target="_blank" rel="noopener">
+                <div class="memo-card-icon">PDF</div>
+                <div class="memo-card-body">
+                  <div class="memo-card-title">Portfolio Memo</div>
+                  <div class="memo-card-desc">Expected collections, risk-banded case counts, top-10 watch list — one page, board-ready.</div>
+                </div>
+                <div class="memo-card-action">View a Sample <span aria-hidden="true">→</span></div>
+              </a>
+            </div>
+
+            <ul class="bullets" style="margin-top: 1.25rem;">
+              <li><span class="tick">✓</span> <span><strong>What you'll actually collect, and when</strong> — survival-weighted cash flow projections, not plan promises.</span></li>
+              <li><span class="tick">✓</span> <span><strong>Which cases need a human this week</strong> — a ranked exception list built from live docket signals.</span></li>
+              <li><span class="tick">✓</span> <span><strong>What the book is worth today</strong> — your expected recovery, and what a buyer's model would pay for it.</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="muted fade-up" style="text-align: center; font-size: 1.0rem; line-height: 1.7; max-width: 72ch; margin: 2.5rem auto 0;">
+        You're not replacing NDC — you already trust that data. PVL is the judgment layer that sits on top of it.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════ WATCH LIST ═══════════ -->
+  <section id="watchlist" style="border-top: 1px solid rgba(168,162,158,0.1);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">The Weekly Watch List</div>
+        <h2>Which of Your 5,000 Cases Need a Human This Week?</h2>
+        <p class="subtitle">
+          Know which cases are failing before the dismissal order arrives. PVL scans 40+ docket patterns — dismissal motions, vehicle surrender language, payment gaps, plan modifications — and converts your whole book into a ranked exception list with a plain-English reason on every flag.
+        </p>
+      </div>
+
+      <div class="deal-screen-wrap fade-up">
+        <div class="deal-screen-header">
+          <h3>This Week's Watch List</h3>
+          <span class="pill">Illustrative — live output ranks your actual book</span>
+        </div>
+        <div class="account-table-wrap">
+          <table class="account-table">
+            <thead>
+              <tr>
+                <th>Case</th>
+                <th>District</th>
+                <th>Signal Detected</th>
+                <th>Status</th>
+                <th>Expected Recovery</th>
+                <th>Recommended Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="account-id" style="white-space:nowrap;">25-30114</td>
+                <td>N.D. Tex.</td>
+                <td>Trustee motion to dismiss — payment default</td>
+                <td><span class="pvl-badge critical">Critical</span></td>
+                <td><span class="discrepancy negative">$11,400 → $3,100</span></td>
+                <td>Contact debtor counsel before the hearing</td>
+              </tr>
+              <tr>
+                <td class="account-id" style="white-space:nowrap;">24-41772</td>
+                <td>N.D. Ga.</td>
+                <td>Vehicle surrender language in amended plan</td>
+                <td><span class="pvl-badge critical">Critical</span></td>
+                <td><span class="discrepancy negative">$8,900 → $2,200</span></td>
+                <td>Reassess collateral, review objection window</td>
+              </tr>
+              <tr>
+                <td class="account-id" style="white-space:nowrap;">25-10236</td>
+                <td>E.D. Mich.</td>
+                <td>Two consecutive missed disbursements</td>
+                <td><span class="pvl-badge at-risk">At Risk</span></td>
+                <td><span class="discrepancy negative">$6,700 → $4,800</span></td>
+                <td>Flag for follow-up before month three</td>
+              </tr>
+              <tr>
+                <td class="account-id" style="white-space:nowrap;">24-52901</td>
+                <td>C.D. Cal.</td>
+                <td>Zero NPV — senior mortgage arrears absorb plan base</td>
+                <td><span class="pvl-badge at-risk">At Risk</span></td>
+                <td><span class="discrepancy negative">$5,300 → $0</span></td>
+                <td>Deprioritize — collection effort exceeds recovery</td>
+              </tr>
+              <tr>
+                <td class="account-id" style="white-space:nowrap;">25-20458</td>
+                <td>W.D. Wash.</td>
+                <td>Plan modification filed — payment reduced 18%</td>
+                <td><span class="pvl-badge at-risk">At Risk</span></td>
+                <td><span class="discrepancy negative">$9,200 → $7,500</span></td>
+                <td>Recalculate reserve against modified plan</td>
+              </tr>
+              <tr>
+                <td class="account-id" style="white-space:nowrap;">24-33810</td>
+                <td>D. Ariz.</td>
+                <td>Wage order active — 14 consecutive payments</td>
+                <td><span class="pvl-badge on-track">On Track</span></td>
+                <td><span class="discrepancy positive">$10,100 holding</span></td>
+                <td>No action needed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="chart-container full-width fade-up" style="margin-top: 2rem;">
+        <h3>What the Engine Flags Across a Live Book</h3>
+        <div class="chart-subtitle">Signals detected on a 1,937-claim portfolio — red demands attention, green confirms on-track</div>
+        <div class="chart-canvas-wrap">
+          <canvas id="riskSignalsChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ RESERVING / CFO ═══════════ -->
+  <section id="reserving" style="border-top: 1px solid rgba(168,162,158,0.1); background: rgba(28,25,23,0.2);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">For Finance Teams</div>
+        <h2>Reserve Against What Chapter 13 Portfolios Actually Pay</h2>
+        <p class="subtitle">
+          Confirmed plans promise full payment schedules. Roughly half of them fail. A flat haircut assumption hides which half — PVL's survival-weighted cash flows replace the haircut with a claim-by-claim forecast your auditors can examine.
+        </p>
+      </div>
+
+      <div class="chart-container full-width fade-up">
+        <h3>The Curve Your Reserves Should Follow</h3>
+        <div class="chart-subtitle">Only 49% of Ch. 13 plans completed in 2024 (BAPCPA) — reserve against the survival curve, not the plan schedule</div>
+        <div class="chart-canvas-wrap">
+          <canvas id="survivalChart"></canvas>
+        </div>
+      </div>
+
+      <div class="grid-3 stagger-children" style="margin-top: 2rem;">
+        <div class="card">
+          <h3>Survival-Weighted Cash Flows</h3>
+          <p>The plan says you'll receive $12,000. PVL says: expect $6,800, mostly in months 4–18. Monthly, per claim, discounted at your rate — the number your forecast should actually carry.</p>
+          <div class="tag-row">
+            <span class="tag accent">Monthly by Claim</span>
+            <span class="tag accent">P10 / P50 / P90</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>CECL-Ready Loss Estimates</h3>
+          <p>ASC 326 requires bankruptcy-exposed loans to be individually evaluated with probability-weighted expected cash flows. That is literally what the engine outputs — model-driven estimates you can put in front of OCC, FDIC, or NCUA examiners.</p>
+          <div class="tag-row">
+            <span class="tag accent">ASC 326</span>
+            <span class="tag accent">Examiner-Defensible</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>An Audit Trail, Not a Haircut</h3>
+          <p>Every projection comes with its assumptions: district completion rates, docket signals, macro overlay. When actuals arrive, variance reporting shows how the model performed — documentation, not judgment calls.</p>
+          <div class="tag-row">
+            <span class="tag accent">Variance Reports</span>
+            <span class="tag accent">District-Calibrated</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SELLING / HOLD-VS-SELL ═══════════ -->
+  <section id="selling" style="border-top: 1px solid rgba(168,162,158,0.1);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <div class="mono" style="color:var(--violet); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Hold or Sell</div>
+        <h2>Know What a Buyer's Model Says — Before You Take a Bid</h2>
+        <p class="subtitle">
+          The buy-side prices Chapter 13 paper with exactly this kind of engine. When a bid lands on your desk, you should already know your reservation price — and the buyer's math.
+        </p>
+      </div>
+
+      <div class="grid-3 stagger-children">
+        <div class="card">
+          <div class="mono" style="color: var(--brand-glow); font-size: 0.7rem; margin-bottom: 1rem;">[ 01 ]</div>
+          <h3>Expected Net Recovery</h3>
+          <p>What the book pays if you hold it: survival-weighted collections, discounted at your rate, net of servicing cost. Your mark for audit, your baseline for any negotiation.</p>
+        </div>
+        <div class="card">
+          <div class="mono" style="color: var(--violet); font-size: 0.7rem; margin-bottom: 1rem;">[ 02 ]</div>
+          <h3>Indicative Sale Value</h3>
+          <p>The same cash flows priced at a buyer's hurdle rate — what a rational buyer would pay you today. When the bid arrives, you'll know whether it's fair before the caller finishes the sentence.</p>
+        </div>
+        <div class="card">
+          <div class="mono" style="color: var(--check-green); font-size: 0.7rem; margin-bottom: 1rem;">[ 03 ]</div>
+          <h3>Hold vs. Sell, Case by Case</h3>
+          <p>Some claims are worth holding to completion; some are worth more to a buyer than to you. PVL ranks the book both ways, so a partial sale keeps the paper you should keep.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ I/O + DELIVERABLES ═══════════ -->
+  <section id="io" class="fade-up" style="border-top: 1px solid rgba(168,162,158,0.1); background: rgba(28,25,23,0.2);">
+    <div class="container">
+      <div class="section-header">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Data Pipeline</div>
+        <h2>Send the NDC Export. Get Back the Answers.</h2>
+        <p class="subtitle">
+          Same engine the buy-side uses to price acquisitions — with outputs named for the questions a holder actually asks.
+        </p>
+      </div>
+
+      <div class="io-wrap">
+        <div class="io-grid">
+          <div class="io-col fade-left">
+            <div class="io-title-row">
+              <h3>Ingestion</h3>
+              <span class="pill">Secure Upload</span>
+            </div>
+            <ul class="io-list">
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">NDC Export</div>
+                  <div class="type">CSV / XLSX</div>
+                </div>
+                <div class="desc">Upload it straight from the NDC portal, as-is. We handle the column mapping, messy formatting, and missing fields.</div>
+                <div class="fields">Required: CaseNumber &bull; Debtor Name (or ID) &bull; Optional: District</div>
+              </li>
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Servicing Assumptions</div>
+                  <div class="type">Parameters</div>
+                </div>
+                <div class="desc">Your discount rate, cost to service, and reserve policy. Sensible defaults if you just want the mark.</div>
+                <div class="fields">Discount rate &bull; Cost to service &bull; Legal fees &bull; Reserve policy &bull; Buyer hurdle rate (for Indicative Sale Value)</div>
+              </li>
+            </ul>
+          </div>
+
+          <div class="io-col fade-right">
+            <div class="io-title-row">
+              <h3>Deliverables</h3>
+              <span class="pill">Portfolio Intelligence</span>
+            </div>
+
+            <div class="memo-cards">
+              <a class="memo-card" href="valuation_memo.pdf?v=3" target="_blank" rel="noopener">
+                <div class="memo-card-icon">PDF</div>
+                <div class="memo-card-body">
+                  <div class="memo-card-title">Portfolio Memo</div>
+                  <div class="memo-card-desc">Expected collections, risk-banded case counts, top-10 watch list — one page.</div>
+                </div>
+                <div class="memo-card-action">View &amp; Download <span aria-hidden="true">→</span></div>
+              </a>
+              <a class="memo-card" href="economic_memo.pdf?v=2" target="_blank" rel="noopener">
+                <div class="memo-card-icon">PDF</div>
+                <div class="memo-card-body">
+                  <div class="memo-card-title">Economic Memo</div>
+                  <div class="memo-card-desc">Macro &amp; district-level economic overlay — the assumptions behind the model.</div>
+                </div>
+                <div class="memo-card-action">View &amp; Download <span aria-hidden="true">→</span></div>
+              </a>
+            </div>
+
+            <div class="io-section-divider">
+              <strong>Creditor-Skinned Outputs</strong>
+              <span class="pill">Same Engine</span>
+            </div>
+
+            <ul class="io-list" style="margin-top: 1rem;">
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Weekly Watch List</div>
+                  <div class="type">docket_profiles.csv</div>
+                </div>
+                <div class="desc">Ranked exception list with a plain-English reason on every flag — dismissal motions, surrender language, payment gaps.</div>
+              </li>
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Expected Net Recovery by Claim</div>
+                  <div class="type">npv_by_claim.csv</div>
+                </div>
+                <div class="desc">Survival-weighted recovery value on every claim, at your discount rate. The buy-side calls this a max bid; for you, it's the mark.</div>
+              </li>
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Reserve-Ready Cash Flows</div>
+                  <div class="type">cashflows_by_claim_monthly.csv</div>
+                </div>
+                <div class="desc">Monthly projected collections by claim and portfolio — the input your CECL model and cash forecast are missing.</div>
+              </li>
+              <li class="io-item">
+                <div class="top">
+                  <div class="name">Indicative Sale Value</div>
+                  <div class="type">npv_summary.csv</div>
+                </div>
+                <div class="desc">What a rational buyer would pay for the book today, at a buyer's hurdle rate — your reservation price before anyone names a number.</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PRICING ═══════════ -->
+  <section id="pricing" class="fade-up" style="border-top: 1px solid rgba(168,162,158,0.1);">
+    <div class="container">
+      <div class="section-header">
+        <div class="mono" style="color:var(--brand-glow); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">Priced for Holders</div>
+        <h2>One Mark, or a Book That's Watched Weekly</h2>
+        <p class="subtitle">Valuation is a quarterly need. Knowing which cases are deteriorating is a weekly one. Pricing follows the cadence.</p>
+      </div>
+
+      <div class="pricing-wrap stagger-children">
+        <div class="pricing-card">
+          <div class="pricing-title">Baseline Mark</div>
+          <div class="price nums"><span>$2,500</span> <span>/ portfolio</span></div>
+          <div class="valuation-count">One-time valuation</div>
+          <div class="per-val">Any book up to 10,000 claims</div>
+          <div class="pricing-sub">A defensible mark on the whole book — for audit, reserves, or a board question.</div>
+          <ul class="bullets">
+            <li><span class="tick">✓</span> Expected Net Recovery on Every Claim</li>
+            <li><span class="tick">✓</span> Reserve-Ready Monthly Cash Flows</li>
+            <li><span class="tick">✓</span> One-Page Portfolio Memo</li>
+          </ul>
+          <div class="cta-wide"><a href="#pilot" class="btn-outline" style="width:100%; justify-content:center;">Get a Baseline</a></div>
+        </div>
+
+        <div class="pricing-card featured">
+          <div class="pricing-title" style="color: var(--brand-glow);">Portfolio Monitoring</div>
+          <div class="price nums"><span>$2,500</span> <span>/mo</span></div>
+          <div class="valuation-count">Your book, watched weekly</div>
+          <div class="per-val">Includes quarterly re-marks</div>
+          <div class="pricing-sub">The recurring answer to "which cases need a human this week?"</div>
+          <ul class="bullets">
+            <li><span class="tick">✓</span> <strong>Weekly Watch List &amp; Docket Signal Alerts</strong></li>
+            <li><span class="tick">✓</span> Monthly Cash Flow Re-Forecast</li>
+            <li><span class="tick">✓</span> Quarterly Portfolio Memo &amp; Variance Report</li>
+          </ul>
+          <div class="cta-wide"><a href="#pilot" class="btn-primary" style="width:100%; justify-content:center;">Start Monitoring</a></div>
+        </div>
+
+        <div class="pricing-card" style="border-color: var(--violet); background: rgba(232, 168, 124, 0.05);">
+          <div class="pricing-title" style="color: var(--violet);">Sale Advisory</div>
+          <div class="price nums" style="font-size: 2.0rem;"><span>Contact Us</span> <span>/ transaction</span></div>
+          <div class="valuation-count">When you're ready to sell</div>
+          <div class="pricing-sub">Know your reservation price — and the buyer's math — before you take a bid.</div>
+          <ul class="bullets">
+            <li><span class="tick" style="color: var(--violet); border-color: var(--violet);">✓</span> Indicative Sale Value at Buyer Hurdle Rates</li>
+            <li><span class="tick" style="color: var(--violet); border-color: var(--violet);">✓</span> Hold-vs-Sell Ranking, Case by Case</li>
+            <li><span class="tick" style="color: var(--violet); border-color: var(--violet);">✓</span> Data-Room-Ready Valuation Package</li>
+          </ul>
+          <div class="cta-wide"><a href="#pilot" class="btn-outline" style="width:100%; justify-content:center; border-color: var(--violet); color: var(--violet);">Talk to Us</a></div>
+        </div>
+      </div>
+
+      <p class="dim fade-up" style="text-align: center; font-size: 0.85rem; margin-top: 2rem;">
+        Books over 10,000 claims are priced per portfolio — contact us. Buying claims instead? <a href="index.html#pricing" style="color: var(--brand-glow); text-decoration: none; font-weight: 600;">See underwriting pricing →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════ PILOT ═══════════ -->
+  <section id="pilot" class="fade-up">
+    <div class="container">
+      <div class="card pilot-card">
+        <div class="pill" style="display:inline-block; margin-bottom:1.5rem;">Try It</div>
+
+        <h2 class="pilot-title">See Your Own Book, Before and After</h2>
+
+        <div class="price nums pilot-price pulse-price">
+          $500 <span>/ flat rate</span>
+        </div>
+
+        <p style="max-width:70ch;margin:0 auto 2.5rem; font-size: 1.1rem; line-height: 1.7;" class="muted">
+          Send us your NDC export. We'll return the watch list, Expected Net Recovery on every claim, and the one-page portfolio memo — $500 flat, no commitment.
+        </p>
+
+        <div class="pilot-checklist">
+          <div class="pilot-check-item">
+            <span class="tick" style="margin-top:0;">✓</span> <strong>Ranked Watch List</strong>
+          </div>
+          <div class="pilot-check-item">
+            <span class="tick" style="margin-top:0;">✓</span> <strong>Expected Net Recovery on Every Claim</strong>
+          </div>
+          <div class="pilot-check-item">
+            <span class="tick" style="margin-top:0;">✓</span> <strong>One-Page Portfolio Memo</strong>
+          </div>
+        </div>
+
+        <div class="hero-cta-row" style="justify-content:center; margin-bottom:0;">
+          <a href="#" class="btn-primary" style="padding: 0.85rem 2.5rem; font-size: 1.05rem;">Start Your Pilot</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div style="display:flex; justify-content:center; align-items:center; gap:0.6rem; color:var(--brand-accent); font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:0.5rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--brand-accent);"><path d="M22 12a10.06 10.06 0 0 0-20 0Z"/><path d="M12 12v8a2 2 0 0 0 2 2H22"/><path d="M12 2v1"/></svg>
+        Portfolio Valuation Lab
+      </div>
+      <p style="margin-top:0.5rem; font-size:0.8rem;">
+        &copy; 2026. Portfolio intelligence for Chapter 13 creditors, servicers, and investors.
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="charts.js"></script>
+  <script src="weibull-hero.js"></script>
+</body>
+</html>
